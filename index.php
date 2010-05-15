@@ -23,11 +23,21 @@ define('APP',		SYS.	'/Application');
 define('PACKAGE',	SYS.	'/Packages');
 
 /**
- * Include Solidocs base, Solidocs application and -application class
+ * Include Solidocs Functions, Registry, Base and Application
  */
+include(PACKAGE.	'/Solidocs/Functions.php');
 include(PACKAGE.	'/Solidocs/Solidocs.php');
 include(PACKAGE.	'/Solidocs/Base.php');
 include(PACKAGE.	'/Solidocs/Application.php');
+
+/**
+ * Set up registry
+ */
+Solidocs::$registry = (object) array();
+
+/**
+ * Include Application class
+ */
 include(APP.		'/Application.php');
 
 /**

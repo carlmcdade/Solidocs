@@ -15,6 +15,20 @@ class Solidocs_Base
 	}
 	
 	/**
+	 * Get
+	 *
+	 * @param string
+	 * @return mixed
+	 */
+	public function __get($key){
+		if(isset(Solidocs::$registry->$key)){
+			return Solidocs::$registry->$key;
+		}
+		
+		return null;
+	}
+	
+	/**
 	 * Init
 	 */
 	public function init(){

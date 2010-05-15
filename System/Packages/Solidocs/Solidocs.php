@@ -2,6 +2,11 @@
 class Solidocs
 {
 	/**
+	 * Registry
+	 */
+	public static $registry;
+	 
+	/**
 	 * Apply config
 	 *
 	 * @param object
