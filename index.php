@@ -18,7 +18,7 @@ session_start();
  * Path constants
  */
 define('ROOT',		getcwd());
-define('SYS',		ROOT.	'/SYSTEM');
+define('SYS',		ROOT.	'/System');
 define('APP',		SYS.	'/Application');
 define('PACKAGE',	SYS.	'/Packages');
 
@@ -44,3 +44,5 @@ include(APP.		'/Application.php');
  * Application instance
  */
 $application = new Application_Application;
+
+Solidocs::$registry->load->model('User_Test');
