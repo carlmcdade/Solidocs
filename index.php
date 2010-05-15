@@ -25,9 +25,10 @@ define('PACKAGE',	SYS.	'/Packages');
 /**
  * Include Solidocs base, Solidocs application and -application class
  */
-include(PACKAGE.'/Solidocs/Base.php');
-include(PACKAGE.'/Solidocs/Application.php');
-include(APP.'/Application.php');
+include(PACKAGE.	'/Solidocs/Solidocs.php');
+include(PACKAGE.	'/Solidocs/Base.php');
+include(PACKAGE.	'/Solidocs/Application.php');
+include(APP.		'/Application.php');
 
 /**
  * Application instance
