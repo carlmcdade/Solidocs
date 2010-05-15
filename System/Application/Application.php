@@ -1,3 +1,3 @@
 <?php
-class Application_Application
+class Application_Application extends Solidocs_Application
 {}

@@ -17,14 +17,16 @@ session_start();
 /**
  * Path constants
  */
-define('ROOT',	getcwd());
-define('SYS',	ROOT.	'/SYSTEM');
-define('APP',	SYS.	'/Application');
-define('PACK',	SYS.	'/Packages');
+define('ROOT',		getcwd());
+define('SYS',		ROOT.	'/SYSTEM');
+define('APP',		SYS.	'/Application');
+define('PACKAGE',	SYS.	'/Packages');
 
 /**
- * Include application class
+ * Include Solidocs base, Solidocs application and -application class
  */
+include(PACKAGE.'/Solidocs/Base.php');
+include(PACKAGE.'/Solidocs/Application.php');
 include(APP.'/Application.php');
 
 /**
