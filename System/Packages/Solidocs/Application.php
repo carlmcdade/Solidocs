@@ -43,7 +43,9 @@ class Solidocs_Application extends Solidocs_Base
 	 * Execute
 	 */
 	public function execute(){
-	
+		$this->router->route();
+		
+		$this->dispatch($this->router->package,$this->router->controller,$this->router->action);
 	}
 	
 	/**
@@ -61,10 +63,10 @@ class Solidocs_Application extends Solidocs_Base
 	 * @param string	Optional.
 	 */
 	public function dispatch($package,$controller,$action = 'index'){
-		$search = $this->load->controller($controller,$package);
+		$class = $this->load->controller($controller,$package);
 		
-		if(is_array($search)){
-			$this->controller = new $search['class'];
+		if(!empty($class)){
+			$this->controller = new $class;
 			$this->controller->dispatch_action($action);
 		}
 	}

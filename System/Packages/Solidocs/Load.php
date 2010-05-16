@@ -31,9 +31,11 @@ class Solidocs_Load extends Solidocs_Base
 	 * Search
 	 *
 	 * @param string
+	 * @param string
 	 * @param string	Optional.
 	 */
-	public function search($class, $package = null){
+	public function search($class, $type, $package = null){
+		$class		= $type.'_'.$class;
 		$file		= implode('/', explode('_', $class)) . '.php';
 		$searchable	= $this->searchable;
 		
@@ -42,10 +44,11 @@ class Solidocs_Load extends Solidocs_Base
 		}
 		
 		foreach($searchable as $prefix=>$path){
-			if(file_exists($path.$file)){
+			if(file_exists($path.'/'.$file)){
 				return array(
 					'prefix'	=> $prefix,
-					'path'		=> $path,
+					'path'		=> $path.'/'.$file,
+					'class'		=> $prefix.'_'.$class,
 					'slug'		=> strtolower(str_replace($prefix, '', $class))
 				);
 			}
@@ -84,10 +87,10 @@ class Solidocs_Load extends Solidocs_Base
 	 * @param string	Optional.
 	 */
 	public function model($class, $package = null){
-		$search = $this->search($class, $package);
+		$search = $this->search($class, 'Model', $package);
 		
 		if(is_array($search)){
-			$class = $search['prefix'] . '_' . $class;
+			$class = $search['class'];
 			Solidocs::$model->$search['slug'] = new $class;
 		}
 	}
@@ -99,7 +102,12 @@ class Solidocs_Load extends Solidocs_Base
 	 * @param string	Optional.
 	 */
 	public function controller($class, $package = null){
+		$search = $this->search($class, 'Controller', $package);
 		
+		if(is_array($search)){
+			include($search['path']);
+			return $search['class'];
+		}
 	}
 	
 	/**
@@ -110,6 +118,10 @@ class Solidocs_Load extends Solidocs_Base
 	 * @param string	Optional.
 	 */
 	public function view($view, $params = null, $package = null){
-	
+		$search = $this->search($view, 'View', $package);
+		
+		if(is_array($search)){
+			include($search['path']);
+		}
 	}
 }
