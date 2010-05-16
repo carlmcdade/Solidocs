@@ -29,12 +29,22 @@ class Solidocs_Db
 	/**
 	 * Driver
 	 */
-	public $driver = 'Mysql';
-	
+	public $driver = 'Solidocs_Db_Mysql';
+		
 	/**
 	 * Instance
 	 */
 	public $instance;
+	
+	/**
+	 * Call magic method
+	 *
+	 * @param string
+	 * @param array
+	 */
+	public function __call($method, $params){
+		return call_user_func_array(array($this, $method), $params);
+	}
 	
 	/**
 	 * Connect
@@ -57,8 +67,7 @@ class Solidocs_Db
 		}
 		
 		if(!is_object($this->instance)){
-			$driver_class = 'Solidocs_Db_' . $this->driver;
-			$this->instance = new $driver_class;
+			$this->instance = new $this->driver;
 		}
 		
 		if(!$this->instance->connect($this->server, $this->user, $this->password)){
