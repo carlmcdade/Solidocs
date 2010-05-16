@@ -7,6 +7,11 @@ class Solidocs_Load extends Solidocs_Base
 	public $searchable;
 	
 	/**
+	 * View handler
+	 */
+	public $view_handler;
+	
+	/**
 	 * Init
 	 */
 	public function init(){
@@ -16,6 +21,15 @@ class Solidocs_Load extends Solidocs_Base
 			'Solidocs'		=> PACKAGE . '/Solidocs',
 			'Application'	=> APP
 		);
+	}
+	
+	/**
+	 * Set view handler
+	 *
+	 * @param array
+	 */
+	public function set_view_handler($view_handler){
+		$this->view_handler = $view_handler;
 	}
 	
 	/**
@@ -121,7 +135,15 @@ class Solidocs_Load extends Solidocs_Base
 		$search = $this->search($view, 'View', $package);
 		
 		if(is_array($search)){
-			include($search['path']);
+			if(isset($this->view_handler)){
+				call_user_func_array($this->view_handler,array(
+					$search['path'],
+					$params
+				));
+			}
+			else{
+				include($search['path']);
+			}
 		}
 	}
 }

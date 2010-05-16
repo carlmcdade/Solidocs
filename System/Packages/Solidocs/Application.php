@@ -22,8 +22,6 @@ class Solidocs_Application extends Solidocs_Base
 		// Include classes
 		include(PACKAGE . '/Solidocs/Config.php');
 		include(PACKAGE . '/Solidocs/Load.php');
-		include(PACKAGE . '/Solidocs/Router.php');
-		include(PACKAGE . '/Solidocs/I18n.php');
 		
 		// Setup core
 		Solidocs::$registry->config	= new Solidocs_Config(APP . '/Config/Application.ini');
@@ -32,11 +30,17 @@ class Solidocs_Application extends Solidocs_Base
 		// Setup other classes
 		$this->load->library('Solidocs',array(
 			'Router',
-			'I18n'
+			'I18n',
+			'Output'
 		));
 		
 		// Set routes
 		$this->router->set_routes($this->config->load_file(APP . '/Config/Routes.ini', true));
+		
+		// Set view handler
+		$this->load->set_view_handler(array(
+			$this->output,'add_view'
+		));
 	}
 	
 	/**
@@ -44,7 +48,6 @@ class Solidocs_Application extends Solidocs_Base
 	 */
 	public function execute(){
 		$this->router->route();
-		
 		$this->dispatch($this->router->package,$this->router->controller,$this->router->action);
 	}
 	
@@ -52,7 +55,7 @@ class Solidocs_Application extends Solidocs_Base
 	 * Render
 	 */
 	public function render(){
-	
+		$this->output->render();
 	}
 	
 	/**
