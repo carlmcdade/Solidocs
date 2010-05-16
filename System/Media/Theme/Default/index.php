@@ -12,6 +12,11 @@
 	<div id="header">
 		<div>
 			<h1><a href="/">Solidocs</a></h1>
+			
+			<ul id="navigation">
+				<li><a href="/">Home</a></li>
+				<li><a href="/about/">About</a></li>
+			</ul>
 		</div>
 	</div>
 	
