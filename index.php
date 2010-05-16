@@ -25,7 +25,7 @@ define('PACKAGE',	SYS.	'/Packages');
 /**
  * Include Solidocs
  */
-include(PACKAGE.'/Solidocs/Solidocs.php');
+include(PACKAGE . '/Solidocs/Solidocs.php');
 
 /**
  * Start Solidocs

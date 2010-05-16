@@ -13,7 +13,7 @@ class Solidocs_Load extends Solidocs_Base
 		spl_autoload_register(array($this, 'autoload'));
 		
 		$this->searchable = array(
-			'Solidocs'		=> PACKAGE.'/Solidocs',
+			'Solidocs'		=> PACKAGE . '/Solidocs',
 			'Application'	=> APP
 		);
 	}
@@ -24,9 +24,7 @@ class Solidocs_Load extends Solidocs_Base
 	 * @param string
 	 */
 	public function autoload($class){
-		$path = PACKAGE . '/' . implode('/', explode('_', $class)).'.php';
-		
-		include($path);
+		include(PACKAGE . '/' . implode('/', explode('_', $class)).'.php');
 	}
 	
 	/**
@@ -40,7 +38,7 @@ class Solidocs_Load extends Solidocs_Base
 		$searchable	= $this->searchable;
 		
 		if(!is_null($package)){
-			$searchable = $searchable[$package];
+			$searchable = array($package => $searchable[$package]);
 		}
 		
 		foreach($searchable as $prefix=>$path){
@@ -68,7 +66,7 @@ class Solidocs_Load extends Solidocs_Base
 		}
 		
 		foreach($libraries as $library){
-			$class	= $package.'_'.$library;
+			$class	= $package . '_' . $library;
 			$config	= null;
 			
 			if(is_object($this->config)){
@@ -89,7 +87,7 @@ class Solidocs_Load extends Solidocs_Base
 		$search = $this->search($class, $package);
 		
 		if(is_array($search)){
-			$class = $search['prefix'].'_'.$class;
+			$class = $search['prefix'] . '_' . $class;
 			Solidocs::$model->$search['slug'] = new $class;
 		}
 	}

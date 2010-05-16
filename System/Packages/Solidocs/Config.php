@@ -7,11 +7,6 @@ class Solidocs_Config
 	public $config = array();
 	
 	/**
-	 * Test key
-	 */
-	public $test_key = 'Hej';
-	
-	/**
 	 * Constructor
 	 *
 	 * @param string
@@ -49,7 +44,7 @@ class Solidocs_Config
 	 */
 	public function load_file($file){
 		$ext = explode('.', $file);
-		$ext = $ext[count($ext)-1];
+		$ext = $ext[count($ext) - 1];
 		
 		switch($ext){
 			case 'ini':
@@ -71,7 +66,7 @@ class Solidocs_Config
 		include($file);
 		
 		if(isset($config)){
-			$this->config = array_merge($this->config,$config);
+			$this->config = array_merge($this->config, $config);
 		}
 	}
 	
@@ -81,6 +76,6 @@ class Solidocs_Config
 	 * @param string
 	 */
 	public function load_ini($file){
-		$this->config = array_merge($this->config,parse_ini_file($file,true));
+		$this->config = array_merge($this->config, parse_ini_file($file, true));
 	}
 }
