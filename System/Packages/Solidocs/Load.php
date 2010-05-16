@@ -48,8 +48,11 @@ class Solidocs_Load extends Solidocs_Base
 	 * @param string
 	 * @param string	Optional.
 	 */
-	public function search($class, $type, $package = null){
-		$class		= $type.'_'.$class;
+	public function search($class, $type = '', $package = null){
+		if(!empty($type)){
+			$class = $type . '_' . $class;
+		}
+		
 		$file		= implode('/', explode('_', $class)) . '.php';
 		$searchable	= $this->searchable;
 		
@@ -109,8 +112,12 @@ class Solidocs_Load extends Solidocs_Base
 		$search = $this->search($class, 'Model', $package);
 		
 		if(is_array($search)){
+			include($search['path']);
 			$class = $search['class'];
-			Solidocs::$model->$search['slug'] = new $class;
+			Solidocs::$registry->model->$search['slug'] = new $class;
+		}
+		else{
+			trigger_error('Model "'.$class.'" could not be loaded');
 		}
 	}
 	
@@ -126,6 +133,9 @@ class Solidocs_Load extends Solidocs_Base
 		if(is_array($search)){
 			include($search['path']);
 			return $search['class'];
+		}
+		else{
+			trigger_error('Controller "'.$class.'" could not be loaded');
 		}
 	}
 	
@@ -149,6 +159,9 @@ class Solidocs_Load extends Solidocs_Base
 			else{
 				include($search['path']);
 			}
+		}
+		else{
+			trigger_error('View "'.$view.'" could not be loaded');
 		}
 	}
 }
