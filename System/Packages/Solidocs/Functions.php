@@ -62,3 +62,17 @@ function apply_filter($key, $data){
 	
 	return $data;
 }
+
+/**
+ * Microtime since
+ *
+ * @param double
+ * @return float
+ */
+function microtime_since($start)
+{
+	$start	= explode(' ',$start);
+	$stop	= explode(' ',microtime());
+	
+	return round(($stop[0] + $stop[1]) - ($start[1] + $start[0]), 6);
+}

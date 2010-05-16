@@ -15,6 +15,11 @@ ini_set('display_errors', 1);
 session_start();
 
 /**
+ * Starttime
+ */
+define('STARTTIME', microtime());
+
+/**
  * Path constants
  */
 define('ROOT',		getcwd());

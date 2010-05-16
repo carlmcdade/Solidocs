@@ -22,13 +22,13 @@ p
  * Layout
  */
 #header
-{height: 80px; background: #444; border-bottom: 10px solid #eee;}
+{height: 80px; background: #444; border-bottom: 1px solid #eee;}
 
 #header > div
 {width: 960px; margin: auto;}
 
 #wrapper
-{width: 960px; margin: auto; padding: 10px 0;}
+{width: 960px; margin: auto; padding: 20px 0;}
 
 #navigation
 {float: right;}
@@ -41,3 +41,6 @@ p
 
 #navigation li a:hover
 {background: #999;}
+
+#footer
+{border-top: 1px solid #eee; padding: 10px; color: #666; font-size: 1.1em; text-align: center}

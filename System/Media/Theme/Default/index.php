@@ -24,5 +24,9 @@
 		<?php echo $views;?>
 	</div>
 	
+	<div id="footer">
+		Generated in <?php echo microtime_since(STARTTIME);?>s		
+	</div>
+	
 </body>
 </html>
