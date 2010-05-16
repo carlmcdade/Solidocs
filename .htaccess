@@ -1,0 +1,6 @@
+RewriteEngine on
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteRule !\.(app|css|dmg|exe|gif|ico|jpg|jpeg|js|m4v|mp|mp4|mov|pdf|rar|swf|tar.gz|wmv|zip)$ index.php/$1 [L,QSA]
