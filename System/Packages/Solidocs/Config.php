@@ -44,6 +44,11 @@ class Solidocs_Config
 	 * @param bool		Optional.
 	 */
 	public function load_file($file,$return = false){
+		if(!file_exists($file)){
+			trigger_error('Config file "'.$file.'" could not be loaded');
+			return false;
+		}
+		
 		$ext = explode('.', $file);
 		$ext = $ext[count($ext) - 1];
 		
@@ -83,7 +88,27 @@ class Solidocs_Config
 	 * @param bool		Optional.
 	 */
 	public function load_ini($file,$return = false){
-		$config =  parse_ini_file($file, true);
+		$config = array();
+		
+		foreach(parse_ini_file($file, true) as $section=>$keys){
+			foreach($keys as $key=>$val){
+				$key = explode('.', $key);
+				
+				switch(count($key)){
+					case 1:
+						$config[$section][$key[0]] = $val;
+					break;
+					
+					case 2:
+						$config[$section][$key[0]][$key[1]] = $val;
+					break;
+					
+					case 3:
+						$config[$section][$key[0]][$key[1]][$key[2]] = $val;
+					break;
+				}
+			}
+		}
 		
 		if($return){
 			return $config;

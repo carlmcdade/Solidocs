@@ -84,13 +84,18 @@ class Solidocs_Load extends Solidocs_Base
 		
 		foreach($libraries as $library){
 			$class	= $package . '_' . $library;
+			$slug	= strtolower($library);
 			$config	= null;
 			
 			if(is_object($this->config)){
 				$config	= $this->config->get($class);
 			}
 			
-			Solidocs::$registry->{strtolower($library)} = new $class($config);
+			Solidocs::$registry->$slug = new $class($config);
+			
+			if(is_array($config)){
+				Solidocs::apply_config(Solidocs::$registry->$slug, $config);
+			}
 		}
 	}
 	

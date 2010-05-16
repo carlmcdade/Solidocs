@@ -23,6 +23,7 @@ class Solidocs
 				
 		// Setup registry
 		Solidocs::$registry = (object) array(
+			'locale'	=> 'en_GB',
 			'model'		=> (object) array(),
 			'helper'	=> (object) array(),
 			'hook'		=> (object) array()

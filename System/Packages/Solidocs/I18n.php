@@ -1,5 +1,5 @@
 <?php
-class Solidocs_I18n
+class Solidocs_I18n extends Solidocs_Base
 {
 	/**
 	 * Date format
@@ -10,6 +10,29 @@ class Solidocs_I18n
 	 * Time format
 	 */
 	public $time_format = 'H:i:is';
+	
+	/**
+	 * Accepted locales
+	 */
+	public $accepted_locales = array('en_GB');
+	
+	/**
+	 * Locales
+	 */
+	public $locales;
+	
+	/**
+	 * Init
+	 */
+	public function init(){
+		if(!is_array($this->accepted_locales)){
+			$this->accepted_locales = explode(',', $this->accepted_locales);
+		}
+		
+		if(isset($this->locales[$this->locale])){
+			Solidocs::apply_config($this, $this->locales[$this->locale]);
+		}
+	}
 	
 	/**
 	 * Date
