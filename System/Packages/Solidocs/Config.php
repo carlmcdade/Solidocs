@@ -41,18 +41,19 @@ class Solidocs_Config
 	 * Load file
 	 *
 	 * @param string
+	 * @param bool		Optional.
 	 */
-	public function load_file($file){
+	public function load_file($file,$return = false){
 		$ext = explode('.', $file);
 		$ext = $ext[count($ext) - 1];
 		
 		switch($ext){
 			case 'ini':
-				$this->load_ini($file);
+				return $this->load_ini($file,$return);
 				break;
 			
 			case 'php':
-				$this->load_php($file);
+				return $this->load_php($file,$return);
 				break;
 		}
 	}
@@ -61,11 +62,16 @@ class Solidocs_Config
 	 * Load php
 	 *
 	 * @param string
+	 * @param bool		Optional.
 	 */
-	public function load_php($file){
+	public function load_php($file,$return = false){
 		include($file);
 		
 		if(isset($config)){
+			if($return){
+				return $config;
+			}
+			
 			$this->config = array_merge($this->config, $config);
 		}
 	}
@@ -74,8 +80,15 @@ class Solidocs_Config
 	 * Ini
 	 *
 	 * @param string
+	 * @param bool		Optional.
 	 */
-	public function load_ini($file){
-		$this->config = array_merge($this->config, parse_ini_file($file, true));
+	public function load_ini($file,$return = false){
+		$config =  parse_ini_file($file, true);
+		
+		if($return){
+			return $config;
+		}
+		
+		$this->config = array_merge($this->config, $config);
 	}
 }

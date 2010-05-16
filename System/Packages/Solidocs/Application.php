@@ -34,6 +34,9 @@ class Solidocs_Application extends Solidocs_Base
 			'Router',
 			'I18n'
 		));
+		
+		// Set routes
+		$this->router->set_routes($this->config->load_file(APP . '/Config/Routes.ini', true));
 	}
 	
 	/**
