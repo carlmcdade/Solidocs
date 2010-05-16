@@ -21,6 +21,7 @@ define('ROOT',		getcwd());
 define('SYS',		ROOT.	'/System');
 define('APP',		SYS.	'/Application');
 define('PACKAGE',	SYS.	'/Packages');
+define('MEDIA',		SYS.	'/Media');
 
 /**
  * Include Solidocs

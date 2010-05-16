@@ -7,6 +7,21 @@ class Solidocs_Output extends Solidocs_Base
 	public $view = array();
 	
 	/**
+	 * Use theme
+	 */
+	public $use_theme = true;
+	
+	/**
+	 * Theme
+	 */
+	public $theme = 'Default';
+	
+	/**
+	 * Theme file
+	 */
+	public $theme_file = 'index.php';
+	
+	/**
 	 * Add view
 	 *
 	 * @param string
@@ -52,8 +67,17 @@ class Solidocs_Output extends Solidocs_Base
 	 * Render
 	 */
 	public function render(){
+		$views = '';
+		
 		foreach($this->view as $view){
-			echo $view;
+			$views .= $view;
+		}
+		
+		if($this->use_theme){
+			define('THEME', MEDIA . '/Theme/' . $this->theme);
+			define('THEME_WWW', str_replace(ROOT, '', THEME));
+			
+			include(THEME . '/' . $this->theme_file);
 		}
 	}
 }
