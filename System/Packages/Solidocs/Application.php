@@ -31,7 +31,8 @@ class Solidocs_Application extends Solidocs_Base
 		$this->load->library('Solidocs',array(
 			'Router',
 			'I18n',
-			'Output'
+			'Output',
+			'Db'
 		));
 		
 		// Set routes
@@ -41,6 +42,10 @@ class Solidocs_Application extends Solidocs_Base
 		$this->load->set_view_handler(array(
 			$this->output,'add_view'
 		));
+		
+		// Database
+		$this->db->connect();
+		$this->db->select_db();
 	}
 	
 	/**
