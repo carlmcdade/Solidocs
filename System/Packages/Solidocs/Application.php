@@ -24,7 +24,7 @@ class Solidocs_Application extends Solidocs_Base
 		include(PACKAGE . '/Solidocs/Load.php');
 		
 		// Setup core
-		Solidocs::$registry->config	= new Solidocs_Config(APP . '/Config/Application.ini');
+		Solidocs::$registry->config	= new Solidocs_Config(APP . '/Config/Application');
 		Solidocs::$registry->load	= new Solidocs_Load($this->config->get('Solidocs_Load'));
 		
 		// Setup other classes
@@ -35,7 +35,7 @@ class Solidocs_Application extends Solidocs_Base
 		));
 		
 		// Set routes
-		$this->router->set_routes($this->config->load_file(APP . '/Config/Routes.ini', true));
+		$this->router->set_routes($this->config->load_file(APP . '/Config/Routes', true));
 		
 		// Set view handler
 		$this->load->set_view_handler(array(

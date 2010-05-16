@@ -7,6 +7,11 @@ class Solidocs_Config
 	public $config = array();
 	
 	/**
+	 * Autoload
+	 */
+	public $autoload;
+	
+	/**
 	 * Constructor
 	 *
 	 * @param string
@@ -15,12 +20,18 @@ class Solidocs_Config
 		if(is_array($config)){
 			$this->config = $conifg;
 		}
-		elseif(file_exists($config)){
+		elseif(!empty($config)){
 			$this->load_file($config);
 		}
 		
 		if(isset($this->config['Solidocs_Config'])){
 			Solidocs::apply_config($this,$this->get('Solidocs_Config'));
+		}
+		
+		if(is_array($this->autoload)){
+			foreach($this->autoload as $file){
+				$this->load_file($file);
+			}
 		}
 	}
 	
@@ -43,24 +54,15 @@ class Solidocs_Config
 	 * @param string
 	 * @param bool		Optional.
 	 */
-	public function load_file($file,$return = false){
-		if(!file_exists($file)){
-			trigger_error('Config file "'.$file.'" could not be loaded');
-			return false;
+	public function load_file($file, $return = false){
+		if(file_exists($file . '.php')){
+			return $this->load_php($file . '.php', $return);
+		}
+		elseif(file_exists($file . '.ini')){
+			return $this->load_ini($file . '.ini', $return);
 		}
 		
-		$ext = explode('.', $file);
-		$ext = $ext[count($ext) - 1];
-		
-		switch($ext){
-			case 'ini':
-				return $this->load_ini($file,$return);
-				break;
-			
-			case 'php':
-				return $this->load_php($file,$return);
-				break;
-		}
+		trigger_error('Config file "'.$file.'" could not be loaded');
 	}
 	
 	/**
@@ -69,7 +71,7 @@ class Solidocs_Config
 	 * @param string
 	 * @param bool		Optional.
 	 */
-	public function load_php($file,$return = false){
+	public function load_php($file, $return = false){
 		include($file);
 		
 		if(isset($config)){
@@ -87,11 +89,11 @@ class Solidocs_Config
 	 * @param string
 	 * @param bool		Optional.
 	 */
-	public function load_ini($file,$return = false){
+	public function load_ini($file, $return = false){
 		$config = array();
 		
-		foreach(parse_ini_file($file, true) as $section=>$keys){
-			foreach($keys as $key=>$val){
+		foreach(parse_ini_file($file, true) as $section => $keys){
+			foreach($keys as $key => $val){
 				$key = explode('.', $key);
 				
 				switch(count($key)){
