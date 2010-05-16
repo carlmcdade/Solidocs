@@ -19,12 +19,12 @@ class Solidocs_Router
 	/**
 	 * Controller
 	 */
-	public $controller;
+	public $controller = 'Index';
 	
 	/**
 	 * Action
 	 */
-	public $action;
+	public $action = '404';
 	
 	/**
 	 * Constructor
