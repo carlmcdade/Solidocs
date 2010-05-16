@@ -14,9 +14,11 @@ class Solidocs_Application extends Solidocs_Base
 	 * Setup
 	 */
 	public function setup(){
+		include(PACKAGE.'/Solidocs/Config.php');
 		include(PACKAGE.'/Solidocs/Load.php');
 		
-		Solidocs::$registry->load = new Solidocs_Load;
+		Solidocs::$registry->config	= new Solidocs_Config(APP.'/Config/Application.ini');
+		Solidocs::$registry->load	= new Solidocs_Load;
 	}
 	
 	/**

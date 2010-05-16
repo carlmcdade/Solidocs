@@ -22,7 +22,11 @@ class Solidocs
 		include(APP.		'/Application.php');
 				
 		// Setup registry
-		Solidocs::$registry = (object) array();
+		Solidocs::$registry = (object) array(
+			'model'		=> (object) array(),
+			'helper'	=> (object) array(),
+			'hook'		=> (object) array()
+		);
 		
 		// Application instance
 		self::$application = new Application_Application;
