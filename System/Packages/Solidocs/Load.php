@@ -34,10 +34,10 @@ class Solidocs_Load extends Solidocs_Base
 	 * @param string	Optional.
 	 */
 	public function search($class, $package = null){
-		$file		= implode('/', explode('_', $class)).'.php';
+		$file		= implode('/', explode('_', $class)) . '.php';
 		$searchable	= $this->searchable;
 		
-		if(!is_null($package)){
+		if(!is_null($package) AND isset($searchable[$package])){
 			$searchable = array($package => $searchable[$package]);
 		}
 		
