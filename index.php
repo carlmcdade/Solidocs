@@ -23,26 +23,11 @@ define('APP',		SYS.	'/Application');
 define('PACKAGE',	SYS.	'/Packages');
 
 /**
- * Include Solidocs Functions, Registry, Base and Application
+ * Include Solidocs
  */
-include(PACKAGE.	'/Solidocs/Functions.php');
-include(PACKAGE.	'/Solidocs/Solidocs.php');
-include(PACKAGE.	'/Solidocs/Base.php');
-include(PACKAGE.	'/Solidocs/Application.php');
+include(PACKAGE.'/Solidocs/Solidocs.php');
 
 /**
- * Set up registry
+ * Start Solidocs
  */
-Solidocs::$registry = (object) array();
-
-/**
- * Include Application class
- */
-include(APP.		'/Application.php');
-
-/**
- * Application instance
- */
-$application = new Application_Application;
-
-Solidocs::$registry->load->model('User_Test');
+Solidocs::start();
