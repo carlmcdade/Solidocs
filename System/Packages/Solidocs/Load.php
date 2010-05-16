@@ -6,6 +6,8 @@ class Solidocs_Load extends Solidocs_Base
 	 */
 	public $searchable;
 	
+	public $test;
+	
 	/**
 	 * Init
 	 */
@@ -48,6 +50,29 @@ class Solidocs_Load extends Solidocs_Base
 		}
 		
 		return false;
+	}
+	
+	/**
+	 * Library
+	 *
+	 * @param string
+	 * @param string|array
+	 */
+	public function library($package, $libraries){
+		if(!is_array($libraries)){
+			$libraries = explode(',', $libraries);
+		}
+		
+		foreach($libraries as $library){
+			$class	= $package.'_'.$library;
+			$config	= null;
+			
+			if(is_object($this->config)){
+				$config	= $this->config->get($class);
+			}
+			
+			Solidocs::$registry->{strtolower($library)} = new $class($config);
+		}
 	}
 	
 	/**

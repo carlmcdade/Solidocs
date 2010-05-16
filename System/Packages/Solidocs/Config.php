@@ -7,6 +7,11 @@ class Solidocs_Config
 	public $config = array();
 	
 	/**
+	 * Test key
+	 */
+	public $test_key = 'Hej';
+	
+	/**
 	 * Constructor
 	 *
 	 * @param string
@@ -17,6 +22,10 @@ class Solidocs_Config
 		}
 		elseif(file_exists($config)){
 			$this->load_file($config);
+		}
+		
+		if(isset($this->config['Solidocs_Config'])){
+			Solidocs::apply_config($this,$this->get('Solidocs_Config'));
 		}
 	}
 	

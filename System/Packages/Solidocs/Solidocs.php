@@ -39,6 +39,10 @@ class Solidocs
 	 * @param array
 	 */
 	public static function apply_config($obj,$config){
+		if(!is_array($config)){
+			return false;
+		}
+		
 		foreach($config as $key=>$val){
 			$obj->$key = $val;
 		}
