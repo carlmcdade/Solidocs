@@ -80,4 +80,13 @@ class Solidocs_Output extends Solidocs_Base
 			include(THEME . '/' . $this->theme_file);
 		}
 	}
+	
+	/**
+	 * Theme part
+	 *
+	 * @param string
+	 */
+	public function theme_part($part){
+		include(THEME . '/' . $part . '.php');
+	}
 }
