@@ -22,6 +22,11 @@ class Solidocs_Output extends Solidocs_Base
 	public $theme_file = 'index.php';
 	
 	/**
+	 * Theme layout
+	 */
+	public $theme_layout;
+	
+	/**
 	 * Add view
 	 *
 	 * @param string
@@ -67,18 +72,45 @@ class Solidocs_Output extends Solidocs_Base
 	 * Render
 	 */
 	public function render(){
-		$views = '';
-		
-		foreach($this->view as $view){
-			$views .= $view;
-		}
-		
 		if($this->use_theme){
 			define('THEME', MEDIA . '/Theme/' . $this->theme);
 			define('THEME_WWW', str_replace(ROOT, '', THEME));
 			
 			include(THEME . '/' . $this->theme_file);
 		}
+		else{
+			$this->render_content(false);
+		}
+	}
+	
+	/**
+	 * Render content
+	 *
+	 * @param bool	Optional.
+	 */
+	public function render_content($layout = true){
+		$views = '';
+		
+		foreach($this->view as $view){
+			$views .= $view;
+		}
+		
+		if($layout AND !empty($this->layout)){
+			$this->theme_layout($this->layout, $views);
+		}
+		else{
+			echo $views;
+		}
+	}
+	
+	/**
+	 * Theme layout
+	 *
+	 * @param string
+	 * @param string
+	 */
+	public function theme_layout($layout, $views){
+		include(THEME . '/' . $layout . '.layout.php');
 	}
 	
 	/**

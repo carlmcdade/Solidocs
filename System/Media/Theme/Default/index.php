@@ -1,7 +1,7 @@
 <?php $this->theme_part('header');?>
 	
 	<div id="wrapper">
-		<?php echo $views;?>
+		<?php $this->render_content();?>
 	</div>
 
 <?php $this->theme_part('footer');?>
