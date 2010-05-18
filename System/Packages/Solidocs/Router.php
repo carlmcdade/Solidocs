@@ -63,6 +63,10 @@ class Solidocs_Router
 				'package' => 'Application'
 			),$route);
 			
+			if($route['uri'] == '/*'){
+				return $this->set_route($route);
+			}
+			
 			$route_segment = explode('/', trim($route['uri'], '/'));
 			
 			if(count($route_segment) == count($this->segment)){
@@ -75,8 +79,7 @@ class Solidocs_Router
 				}
 				
 				if($match){
-					$this->set_route($route);
-					return false;
+					return $this->set_route($route);
 				}
 			}
 		}

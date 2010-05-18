@@ -4,7 +4,7 @@ class Solidocs_Load extends Solidocs_Base
 	/**
 	 * Searchable
 	 */
-	public $searchable;
+	public $searchable = array();
 	
 	/**
 	 * View handler
@@ -16,11 +16,6 @@ class Solidocs_Load extends Solidocs_Base
 	 */
 	public function init(){
 		spl_autoload_register(array($this, 'autoload'));
-		
-		$this->searchable = array(
-			'Solidocs'		=> PACKAGE . '/Solidocs',
-			'Application'	=> APP
-		);
 	}
 	
 	/**
@@ -54,23 +49,39 @@ class Solidocs_Load extends Solidocs_Base
 		}
 		
 		$file		= implode('/', explode('_', $class)) . '.php';
-		$searchable	= $this->searchable;
+		$searchable	= array_merge($this->searchable, array(
+			'Solidocs',
+			'Application'
+		));
 		
-		if(!is_null($package) AND isset($searchable[$package])){
-			$searchable = array($package => $searchable[$package]);
+		if(in_array($package, $searchable)){
+			$searchable = array($package);
 		}
 		
-		foreach($searchable as $prefix=>$path){
+		foreach($searchable as $package){
+			$path = PACKAGE . '/' . $package;
+			
+			if($package == 'Application'){
+				$path = APP;
+			}
+			
 			if(file_exists($path.'/'.$file)){
+				$slug = str_replace($package . '_' , '', $class);
+				
+				if(!empty($type)){
+					$slug = str_replace($type . '_' , '', $slug);
+				}
+				
 				return array(
-					'prefix'	=> $prefix,
+					'prefix'	=> $package,
 					'path'		=> $path.'/'.$file,
-					'class'		=> $prefix.'_'.$class,
-					'slug'		=> strtolower(str_replace($prefix, '', $class))
+					'class'		=> $package.'_'.$class,
+					'slug'		=> strtolower($slug)
 				);
 			}
 		}
 		
+		trigger_error('Could not load "' . $class . '"');
 		return false;
 	}
 	
