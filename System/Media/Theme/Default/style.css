@@ -7,13 +7,13 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
  * Basic
  */
 body
-{font: 62.5% "Lucida Grande", Verdana, Arial, sans-serif;}
+{font: 62.5% "Lucida Grande", Verdana, Arial, sans-serif; background: #eee;}
 
 h1 a
 {display: block; height: 80px; width: 200px; background: url(images/logo_web.png); text-indent: -10000px; float: left;}
 
 h2
-{font-size: 2.2em; font-family: Georgia; font-weight: normal;}
+{font-size: 2.2em; font-family: Georgia; font-weight: normal; color: #023d63;}
 
 p
 {font-size: 1.2em; line-height: 1.5; padding-top: 5px;}
@@ -22,7 +22,7 @@ p
  * Layout
  */
 #header
-{height: 80px; background: #444; border-bottom: 1px solid #eee;}
+{height: 80px; background: #fff; border-bottom: 1px solid #ddd;}
 
 #header > div
 {width: 960px; margin: auto;}
@@ -34,13 +34,13 @@ p
 {float: right;}
 
 #navigation li
-{display: inline;}
+{display: inline; display: block; float: left; height: 80px; line-height: 80px; padding: 0 10px;}
 
 #navigation li a
-{display: block; float: left; height: 80px; line-height: 80px; padding: 0 20px; margin-right: 5px; background: #666; color: #fff; text-decoration: none; font-size: 1.2em;}
+{background: #023d63; padding: 8px 10px; color: #fff; text-decoration: none; font-size: 1.2em;}
 
 #navigation li a:hover
-{background: #999;}
+{background: #2578ad;}
 
 #footer
-{border-top: 1px solid #eee; padding: 10px; color: #666; font-size: 1.1em; text-align: center}
+{border-top: 1px solid #ddd; padding: 10px; color: #666; font-size: 1.1em; text-align: center}
