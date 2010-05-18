@@ -16,10 +16,10 @@ class Solidocs
 	 */
 	public static function start(){
 		// Include Solidocs Functions, Base and Application classes
-		include(PACKAGE.	'/Solidocs/Functions.php');
-		include(PACKAGE.	'/Solidocs/Base.php');
-		include(PACKAGE.	'/Solidocs/Application.php');
-		include(APP.		'/Application.php');
+		include(PACKAGE . '/Solidocs/Functions.php');
+		include(PACKAGE . '/Solidocs/Base.php');
+		include(PACKAGE . '/Solidocs/Application.php');
+		include(APP		. '/Application.php');
 				
 		// Setup registry
 		Solidocs::$registry = (object) array(

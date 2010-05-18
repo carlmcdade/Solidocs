@@ -19,15 +19,19 @@ class Solidocs_Application extends Solidocs_Base
 	 * Setup
 	 */
 	public function setup(){
-		// Include classes
+		// Include core
+		include(PACKAGE . '/Solidocs/Error.php');
 		include(PACKAGE . '/Solidocs/Config.php');
 		include(PACKAGE . '/Solidocs/Load.php');
 		
 		// Setup core
 		Solidocs::$registry->config	= new Solidocs_Config(APP . '/Config/Application');
-		Solidocs::$registry->load	= new Solidocs_Load($this->config->get('Solidocs_Load'));
+		Solidocs::$registry->error	= new Solidocs_Error;
+		Solidocs::$registry->load	= new Solidocs_Load;
+		Solidocs::apply_config($this->error, $this->config->get('Solidocs_Error'));
+		Solidocs::apply_config($this->load, $this->config->get('Solidocs_Load'));
 		
-		// Setup other classes
+		// Setup classes
 		$this->load->library('Solidocs',array(
 			'Router',
 			'I18n',
@@ -35,15 +39,13 @@ class Solidocs_Application extends Solidocs_Base
 			'Db'
 		));
 		
-		// Set routes
+		// Set routes and view handler
 		$this->router->set_routes($this->config->load_file(APP . '/Config/Routes', true));
-		
-		// Set view handler
 		$this->load->set_view_handler(array(
 			$this->output,'add_view'
 		));
 		
-		// Database
+		// Database connection
 		$this->db->connect();
 		$this->db->select_db();
 	}

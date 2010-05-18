@@ -27,6 +27,13 @@ class Solidocs_Output extends Solidocs_Base
 	public $theme_layout;
 	
 	/**
+	 * Headers
+	 */
+	public $headers = array(
+		'Content-type: text/html; charset=utf-8'
+	);
+	
+	/**
 	 * Add view
 	 *
 	 * @param string
@@ -72,6 +79,10 @@ class Solidocs_Output extends Solidocs_Base
 	 * Render
 	 */
 	public function render(){
+		foreach($this->headers as $header){
+			header($header);
+		}
+		
 		if($this->use_theme){
 			define('THEME', MEDIA . '/Theme/' . $this->theme);
 			define('THEME_WWW', str_replace(ROOT, '', THEME));
@@ -88,14 +99,14 @@ class Solidocs_Output extends Solidocs_Base
 	 *
 	 * @param bool	Optional.
 	 */
-	public function render_content($layout = true){
+	public function render_content($render_layout = true){
 		$views = '';
 		
 		foreach($this->view as $view){
 			$views .= $view;
 		}
 		
-		if($layout AND !empty($this->layout)){
+		if($render_layout AND !empty($this->layout)){
 			$this->theme_layout($this->layout, $views);
 		}
 		else{
