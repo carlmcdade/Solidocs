@@ -33,7 +33,19 @@ class Solidocs_Load extends Solidocs_Base
 	 * @param string
 	 */
 	public function autoload($class){
-		include(PACKAGE . '/' . implode('/', explode('_', $class)).'.php');
+		$class		= ltrim($class, '\\');
+		$file		= '';
+		$namespace	= '';
+		
+		if($last_ns_pos = strripos($class, '\\')){
+			$namespace	= substr($class, 0, $last_ns_pos);
+			$class		= substr($class, $last_ns_pos + 1);
+			$file		= str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
+		}
+		
+		$file .= str_replace('_', DIRECTORY_SEPARATOR, $class) . '.php';
+		
+		include_once(PACKAGE . DIRECTORY_SEPARATOR . $file);
 	}
 	
 	/**
