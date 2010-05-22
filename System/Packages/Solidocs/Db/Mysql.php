@@ -32,6 +32,7 @@ class Solidocs_Db_Mysql
 	 * @param string
 	 * @param string
 	 * @param string
+	 * @return bool
 	 */
 	public function connect($server, $user, $password){
 		return ($this->link = mysql_connect($server, $user, $password));
@@ -41,6 +42,7 @@ class Solidocs_Db_Mysql
 	 * Select db
 	 *
 	 * @param string
+	 * @return bool
 	 */
 	public function select_db($database){
 		return (mysql_select_db($database, $this->link));
@@ -50,6 +52,7 @@ class Solidocs_Db_Mysql
 	 * Query
 	 *
 	 * @param string	$query
+	 * @return bool
 	 */
 	public function query($query){
 		if(!$this->result = mysql_query($query)){
@@ -62,6 +65,8 @@ class Solidocs_Db_Mysql
 	
 	/**
 	 * Run
+	 *
+	 * @return object
 	 */
 	public function run(){
 		$success				= $this->query($this->query);
@@ -84,6 +89,8 @@ class Solidocs_Db_Mysql
 	
 	/**
 	 * Fetch assoc
+	 *
+	 * @return array
 	 */
 	public function fetch_assoc(){
 		return mysql_fetch_assoc($this->result);
@@ -91,6 +98,8 @@ class Solidocs_Db_Mysql
 	
 	/**
 	 * Fetch row
+	 *
+	 * @return array
 	 */
 	public function fetch_row(){
 		return mysql_fetch_row($this->result);
@@ -98,6 +107,8 @@ class Solidocs_Db_Mysql
 	
 	/**
 	 * One
+	 *
+	 * @return mixed
 	 */
 	public function one(){
 		$row = $this->fetch_row();
@@ -109,6 +120,7 @@ class Solidocs_Db_Mysql
 	 *
 	 * @param string
 	 * @param bool		Optional.
+	 * @return array
 	 */
 	public function arr($key = '', $unset = false){
 		$arr = array();
@@ -151,6 +163,7 @@ class Solidocs_Db_Mysql
 	 * Sql
 	 *
 	 * @param string
+	 * @return object
 	 */
 	public function sql($sql){
 		$this->query .= $sql . ' ';
@@ -162,6 +175,7 @@ class Solidocs_Db_Mysql
 	 * Select
 	 *
 	 * @param string	Optional.
+	 * @return object
 	 */
 	public function select($fields = '*'){
 		$this->query .= 'SELECT ' . $fields . ' ';
@@ -171,6 +185,8 @@ class Solidocs_Db_Mysql
 	
 	/**
 	 * Delete
+	 *
+	 * @return object
 	 */
 	public function delete(){
 		$this->query .= 'DELETE ';
@@ -180,6 +196,7 @@ class Solidocs_Db_Mysql
 	 * From
 	 *
 	 * @param string
+	 * @return object
 	 */
 	public function from($table){
 		$this->query .= 'FROM ' . $table . ' ';
@@ -192,6 +209,7 @@ class Solidocs_Db_Mysql
 	 *
 	 * @param string
 	 * @param array
+	 * @return object
 	 */
 	public function insert_into($table,$data){
 		$this->query .= 'INSERT INTO ' . $table . ' (' . implode(',', array_keys($data)) . ') VALUES("' . implode('","', $data) . '")';
@@ -204,6 +222,7 @@ class Solidocs_Db_Mysql
 	 *
 	 * @param string
 	 * @param array
+	 * @return object
 	 */
 	public function update_set($table,$data){
 		$this->query .= 'UPDATE ' . $table . ' SET ';
@@ -223,6 +242,7 @@ class Solidocs_Db_Mysql
 	 * @param string
 	 * @param string
 	 * @param string
+	 * @return object
 	 */
 	public function join($table, $on1, $on2){
 		$this->query .= 'JOIN ' . $table . ' ON(' . $on1 . ' = ' . $on2 . ') ';
@@ -235,6 +255,7 @@ class Solidocs_Db_Mysql
 	 *
 	 * @param string
 	 * @param string	Optional.
+	 * @return object
 	 */
 	public function order($order_by, $order = 'ASC'){
 		$this->query .= 'ORDER BY ' . $order_by . ' ' . $order . ' ';
@@ -244,6 +265,9 @@ class Solidocs_Db_Mysql
 	
 	/**
 	 * Limit
+	 *
+	 * @param integer
+	 * @return object
 	 */
 	public function limit($limit){
 		$this->query .= 'LIMIT ' . $limit;
@@ -255,6 +279,7 @@ class Solidocs_Db_Mysql
 	 * Where
 	 *
 	 * @param array
+	 * @return object
 	 */
 	public function where($args){
 		$this->query .= 'WHERE ';
@@ -264,6 +289,19 @@ class Solidocs_Db_Mysql
 		}
 		
 		$this->query = trim($this->query, ' AND ') . ' ';
+		
+		return $this;
+	}
+	
+	/**
+	 * Where in
+	 *
+	 * @param string
+	 * @param array
+	 * @return object
+	 */
+	public function where_in($field, $args){
+		$this->query .= 'WHERE IN(' . implode(',', $args) . ') ';
 		
 		return $this;
 	}

@@ -34,6 +34,29 @@ class Solidocs_Output extends Solidocs_Base
 	);
 	
 	/**
+	 * Call magic method
+	 *
+	 * @param string
+	 * @param array
+	 */
+	public function __call($called, $params){
+		$called = explode('_', $called);
+		$method = $called[count($called) - 1];
+		
+		unset($called[count($called) - 1]);
+		
+		$helper = implode('_', $called);
+		
+		if(!isset($this->helper->$helper)){
+			$this->load->helper($helper);
+		}
+		
+		if(isset($this->helper->$helper)){
+			return call_user_func_array(array($this->helper->$helper, $method), $params);
+		}
+	}
+	
+	/**
 	 * Add view
 	 *
 	 * @param string

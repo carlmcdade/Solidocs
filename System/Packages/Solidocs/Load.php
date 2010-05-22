@@ -145,6 +145,25 @@ class Solidocs_Load extends Solidocs_Base
 	}
 	
 	/**
+	 * Helper
+	 *
+	 * @param string
+	 * @param string	Optional.
+	 */
+	public function helper($class, $package = null){
+		$search = $this->search($class, 'Helper', $package);
+		
+		if(is_array($search)){
+			include($search['path']);
+			$class = $search['class'];
+			Solidocs::$registry->helper->$search['slug'] = new $class;
+		}
+		else{
+			trigger_error('Helper "'.$class.'" could not be loaded');
+		}
+	}
+	
+	/**
 	 * Controller
 	 *
 	 * @param string
