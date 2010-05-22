@@ -27,6 +27,11 @@ class Solidocs_Db_Mysql
 	public $queries = array();
 	
 	/**
+	 * First where
+	 */
+	public $first_where = true;
+	
+	/**
 	 * Connect
 	 *
 	 * @param string
@@ -71,6 +76,7 @@ class Solidocs_Db_Mysql
 	public function run(){
 		$success				= $this->query($this->query);
 		$this->affected_rows	= mysql_affected_rows($this->link);
+		$this->first_where		= true;
 		
 		if($this->affected_rows < 0){
 			$this->affected_rows = 0;
@@ -276,13 +282,29 @@ class Solidocs_Db_Mysql
 	}
 	
 	/**
+	 * First where
+	 *
+	 * @param string
+	 */
+	public function first_where($separator = 'AND'){
+		if($this->first_where){	
+			$this->query .= 'WHERE ';
+		}
+		else{
+			$this->query .= $separator . ' ';
+		}
+		
+		$this->first_where = false;
+	}
+	
+	/**
 	 * Where
 	 *
 	 * @param array
 	 * @return object
 	 */
 	public function where($args){
-		$this->query .= 'WHERE ';
+		$this->first_where();
 		
 		foreach($args as $key => $val){
 			$this->query .= $key . ' = "' . $val . '" AND ';
@@ -301,7 +323,9 @@ class Solidocs_Db_Mysql
 	 * @return object
 	 */
 	public function where_in($field, $args){
-		$this->query .= 'WHERE IN(' . implode(',', $args) . ') ';
+		$this->first_where();
+	
+		$this->query .= ' IN(' . implode(',', $args) . ') ';
 		
 		return $this;
 	}
