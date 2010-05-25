@@ -10,12 +10,22 @@
 <body>
 	
 	<div id="header">
+	
 		<div>
+		
 			<h1><a href="/">Solidocs</a></h1>
 			
-			<ul id="navigation">
-				<li><a href="/"><?php echo $this->i18n->translate('Home');?></a></li>
-				<li><a href="/about/"><?php echo $this->i18n->translate('About');?></a></li>
-			</ul>
 		</div>
+		
+	</div>
+	
+	<div id="navigation">
+		
+		<ul>
+			<li><a href="/"><?php echo $this->i18n->translate('Home');?></a></li>
+			<li><a href="/about/"><?php echo $this->i18n->translate('About');?></a></li>
+		</ul>
+		
+		<div class="clear"></div>
+		
 	</div>
