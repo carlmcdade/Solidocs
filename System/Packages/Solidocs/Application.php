@@ -36,7 +36,8 @@ class Solidocs_Application extends Solidocs_Base
 			'Router',
 			'I18n',
 			'Output',
-			'Db'
+			'Theme',
+			'Db',
 		));
 		
 		// Set routes and view handler

@@ -3,7 +3,7 @@
 <head>
 
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title>PHP Framework | Solidocs</title>
+	<title><?php echo $this->title('Solidocs', 'PHP Framework', ' | ', true);?></title>
 	<link rel="stylesheet" type="text/css" href="<?php echo THEME_WWW;?>/style.css" />
 	
 </head>

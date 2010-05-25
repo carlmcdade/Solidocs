@@ -5,27 +5,7 @@ class Solidocs_Output extends Solidocs_Base
 	 * View
 	 */
 	public $view = array();
-	
-	/**
-	 * Use theme
-	 */
-	public $use_theme = true;
-	
-	/**
-	 * Theme
-	 */
-	public $theme = 'Default';
-	
-	/**
-	 * Theme file
-	 */
-	public $theme_file = 'index.php';
-	
-	/**
-	 * Theme layout
-	 */
-	public $theme_layout;
-	
+
 	/**
 	 * Headers
 	 */
@@ -106,11 +86,8 @@ class Solidocs_Output extends Solidocs_Base
 			header($header);
 		}
 		
-		if($this->use_theme){
-			define('THEME', MEDIA . '/Theme/' . $this->theme);
-			define('THEME_WWW', str_replace(ROOT, '', THEME));
-			
-			include(THEME . '/' . $this->theme_file);
+		if(is_object($this->theme) AND $this->theme->use_theme){
+			$this->theme->render();
 		}
 		else{
 			$this->render_content(false);
@@ -135,24 +112,5 @@ class Solidocs_Output extends Solidocs_Base
 		else{
 			echo $views;
 		}
-	}
-	
-	/**
-	 * Theme layout
-	 *
-	 * @param string
-	 * @param string
-	 */
-	public function theme_layout($layout, $views){
-		include(THEME . '/' . $layout . '.layout.php');
-	}
-	
-	/**
-	 * Theme part
-	 *
-	 * @param string
-	 */
-	public function theme_part($part){
-		include(THEME . '/' . $part . '.php');
 	}
 }
