@@ -12,6 +12,11 @@ class Solidocs_Load extends Solidocs_Base
 	public $view_handler;
 	
 	/**
+	 * L10n view
+	 */
+	public $localized_view = true;
+	
+	/**
 	 * Init
 	 */
 	public function init(){
@@ -93,7 +98,6 @@ class Solidocs_Load extends Solidocs_Base
 			}
 		}
 		
-		trigger_error('Could not load "' . $class . '"');
 		return false;
 	}
 	
@@ -189,7 +193,13 @@ class Solidocs_Load extends Solidocs_Base
 	 * @param string	Optional.
 	 */
 	public function view($view, $params = null, $package = null){
-		$search = $this->search($view, 'View', $package);
+		if($this->localized_view == true){
+			$search = $this->search($view . '.' . str_replace('_', '-', strtolower($this->locale)), 'View', $package);
+		}
+		
+		if(!isset($search) OR !is_array($search)){
+			$search = $this->search($view, 'View', $package);
+		}
 		
 		if(is_array($search)){
 			if(isset($this->view_handler)){

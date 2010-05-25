@@ -31,7 +31,7 @@ class Solidocs_Application extends Solidocs_Base
 		Solidocs::apply_config($this->error, $this->config->get('Solidocs_Error'));
 		Solidocs::apply_config($this->load, $this->config->get('Solidocs_Load'));
 		
-		// Setup classes
+		// Load libraries
 		$this->load->library('Solidocs',array(
 			'Router',
 			'I18n',

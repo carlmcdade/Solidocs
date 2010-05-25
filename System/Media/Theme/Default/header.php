@@ -14,8 +14,8 @@
 			<h1><a href="/">Solidocs</a></h1>
 			
 			<ul id="navigation">
-				<li><a href="/">Home</a></li>
-				<li><a href="/about/">About</a></li>
+				<li><a href="/"><?php echo $this->i18n->translate('Home');?></a></li>
+				<li><a href="/about/"><?php echo $this->i18n->translate('About');?></a></li>
 			</ul>
 		</div>
 	</div>

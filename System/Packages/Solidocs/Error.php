@@ -12,6 +12,11 @@ class Solidocs_Error
 	public $errors = array();
 	
 	/**
+	 * View
+	 */
+	public $view = false;
+	
+	/**
 	 * Constructor
 	 */
 	public function __construct(){
@@ -32,7 +37,17 @@ class Solidocs_Error
 		$errfile	= str_replace(ROOT, '', $errfile);
 		
 		if($this->display){
-			echo '<div style="padding: 10px; margin: 10px; border:1px solid red;"><b>' . $errno . ':</b> ' . $errstr . ' in <b>' . $errfile . '</b> on line <b> ' . $errline . '</b></div>';
+			if($this->view !== false){
+				Solidocs::$registry->load->view($this->view, array(
+					'errno'		=> $errno,
+					'errstr'	=> $errstr,
+					'errfile'	=> $errfile,
+					'errline'	=> $errline
+				));
+			}
+			else{
+				echo '<div style="padding: 10px; margin: 10px; border:1px solid red;"><b>' . $errno . ':</b> ' . $errstr . ' in <b>' . $errfile . '</b> on line <b> ' . $errline . '</b></div>';
+			}
 		}
 		
 		$this->errors[] = array(

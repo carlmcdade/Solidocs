@@ -32,6 +32,16 @@ class Solidocs_I18n extends Solidocs_Base
 	public $auto_localize = true;
 	
 	/**
+	 * Strings
+	 */
+	public $strings = array();
+	
+	/**
+	 * Autoload strings
+	 */
+	public $autoload_strings = true;
+	
+	/**
 	 * Init
 	 */
 	public function init(){
@@ -64,6 +74,10 @@ class Solidocs_I18n extends Solidocs_Base
 		
 		putenv('LANG=' . $this->locale . '.utf8');
 		putenv('LANGUAGE=' . $this->locale . '.utf8');
+		
+		if($this->autoload_strings AND $this->locale !== $this->default_locale){
+			$this->load_strings(APP . '/I18n');
+		}
 	}
 	
 	/**
@@ -94,5 +108,51 @@ class Solidocs_I18n extends Solidocs_Base
 	 */
 	public function date_time($time){
 		return $this->date($time) . ' ' . $this->time($time);
+	}
+	
+	/**
+	 * Load strings
+	 *
+	 * @param string	$file
+	 * @param string	$locale	Optional.
+	 */
+	public function load_strings($file, $locale = null){
+		if($locale == null){
+			$locale = $this->locale;
+		}
+		
+		$file .= '/' . $locale . '.txt';
+		
+		if(!file_exists($file)){
+			trigger_error('Could not load language file "' . $file . '"');
+			return false;
+		}
+		
+		$contents = file_get_contents($file);
+		
+		foreach(explode("\n", trim(file_get_contents($file))) as $line){
+			if(!isset($line[0]) OR !isset($line[1])){
+				trigger_error('The language file "' . $file . '" is not correctly formated');
+				return false;
+			}
+			
+			$line = explode(' = ', $line);
+			$this->strings[urlencode($line[0])] = $line[1];
+		}
+	}
+	
+	/**
+	 * Translate
+	 *
+	 * @param string	$str
+	 * @param array		$args	Optional.
+	 */
+	public function translate($str, $args = array()){
+		if(isset($this->strings[urlencode($str)])){
+			$str = $this->strings[urlencode($str)];
+		}
+		
+		array_unshift($args, $str);
+		return call_user_func_array('sprintf', $args);
 	}
 }
