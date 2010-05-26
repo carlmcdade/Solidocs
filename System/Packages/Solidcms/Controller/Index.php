@@ -23,7 +23,7 @@ class Solidcms_Controller_Index extends Solidocs_Controller_Action
 		else{
 			$this->theme->title_parts[] = $content['title'];
 						
-			$this->load->view($content['view'], $this->model->cms->process_view_data($content));
+			$this->load->view($content['view'], $content);
 		}
 	}
 }

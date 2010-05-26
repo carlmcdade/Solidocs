@@ -21,6 +21,7 @@ class Solidcms_Model_Cms extends Solidocs_Base
 			
 			if(!empty($item['data'])){
 				$content[$i]['data'] = unserialize($item['data']);
+				$content[$i] = array_merge($content[$i], $content[$i]['data']);
 			}
 		}
 		
@@ -82,24 +83,6 @@ class Solidcms_Model_Cms extends Solidocs_Base
 		}
 		
 		return $this->db->arr();
-	}
-	
-	/**
-	 * Process view data
-	 *
-	 * @param array
-	 */
-	public function process_view_data($content){
-		$view_data = array(
-			'title'		=> $content['title'],
-			'content'	=> $content['content']
-		);
-		
-		if(is_array($content['data'])){
-			$view_data = array_merge($view_data, $content['data']);
-		}
-		
-		return $view_data;
 	}
 	
 	/**
