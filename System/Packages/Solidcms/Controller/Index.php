@@ -12,8 +12,14 @@ class Solidcms_Controller_Index extends Solidocs_Controller_Action
 	 * Reciever
 	 */
 	public function do_index(){
+		$uri = '/' . trim($this->router->request_uri, '/') . '/';
+		
+		if($uri == '//'){
+			$uri = '/';
+		}
+		
 		$content = $this->model->cms->get_content(array(
-			'uri'		=> trim($this->router->request_uri, '/'),
+			'uri'		=> $uri,
 			'locale'	=> $this->locale
 		));
 		

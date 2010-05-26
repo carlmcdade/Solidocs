@@ -22,8 +22,7 @@
 	<div id="navigation">
 		
 		<ul>
-			<li><a href="/"><?php echo $this->i18n->translate('Home');?></a></li>
-			<li><a href="/about/"><?php echo $this->i18n->translate('About');?></a></li>
+			<?php $this->list_feed('main_navigation');?>
 		</ul>
 		
 		<div class="clear"></div>
