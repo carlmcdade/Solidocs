@@ -62,6 +62,16 @@ class Solidocs_Theme extends Solidocs_Base
 	public $style = array();
 	
 	/**
+	 * Call magic method
+	 *
+	 * @param string
+	 * @param array
+	 */
+	public function __call($called, $params){
+		return $this->output->__call($called, $params);
+	}
+	
+	/**
 	 * Render
 	 */
 	public function render(){
