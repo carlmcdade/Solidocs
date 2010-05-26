@@ -82,3 +82,21 @@ function microtime_since($start)
 	
 	return round(($stop[0] + $stop[1]) - ($start[1] + $start[0]), 6);
 }
+
+/**
+ * Is Serialized
+ * Check if data is serialized or not 
+ * 
+ * @param mixed $data    variable to check 
+ * @return boolean 
+ */
+function is_serialized($string)
+{
+	$string = trim($string);
+	
+	if(!is_array($string) AND !empty($string) AND preg_match('/^(i|s|a|o|d)(.*);/si', $string)){
+		return true;
+	}
+	
+	return false;
+}

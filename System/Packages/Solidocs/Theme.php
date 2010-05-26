@@ -106,11 +106,11 @@ class Solidocs_Theme extends Solidocs_Base
 			}
 		}
 		
-		if($this->title_separator !== null){
+		if($this->title_separator == null){
 			$title_separator = $this->title_separator;
 		}		
 		
-		if($this->title_base_after == false){
+		if($this->title_base_after == false AND $title_base_after == false){
 			array_unshift($title_parts, $title_base);
 		}
 		else{

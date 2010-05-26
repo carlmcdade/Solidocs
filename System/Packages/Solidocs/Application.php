@@ -43,7 +43,7 @@ class Solidocs_Application extends Solidocs_Base
 		// Set routes and view handler
 		$this->router->set_routes($this->config->load_file(APP . '/Config/Routes', true));
 		$this->load->set_view_handler(array(
-			$this->output,'add_view'
+			$this->output, 'add_view'
 		));
 		
 		// Database connection

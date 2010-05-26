@@ -27,6 +27,11 @@ class Solidocs_Db_Mysql
 	public $queries = array();
 	
 	/**
+	 * First order
+	 */
+	public $first_order = true;
+	
+	/**
 	 * First where
 	 */
 	public $first_where = true;
@@ -76,6 +81,7 @@ class Solidocs_Db_Mysql
 	public function run(){
 		$success				= $this->query($this->query);
 		$this->affected_rows	= mysql_affected_rows($this->link);
+		$this->first_order		= true;
 		$this->first_where		= true;
 		
 		if($this->affected_rows < 0){
@@ -264,7 +270,9 @@ class Solidocs_Db_Mysql
 	 * @return object
 	 */
 	public function order($order_by, $order = 'ASC'){
-		$this->query .= 'ORDER BY ' . $order_by . ' ' . $order . ' ';
+		$this->first_order();
+		
+		$this->query .= $order_by . ' ' . $order . ' ';
 		
 		return $this;
 	}
@@ -276,9 +284,23 @@ class Solidocs_Db_Mysql
 	 * @return object
 	 */
 	public function limit($limit){
-		$this->query .= 'LIMIT ' . $limit;
+		$this->query .= 'LIMIT ' . $limit . ' ';
 		
 		return $this;
+	}
+	
+	/**
+	 * First order
+	 */
+	public function first_order(){
+		if($this->first_order){
+			$this->query .= 'ORDER BY ';
+		}
+		else{
+			$this->query = trim($this->query) . ', ';
+		}
+		
+		$this->first_order = false;
 	}
 	
 	/**
