@@ -26,6 +26,7 @@ class Solidcms_Helper_List extends Solidocs_Helper
 				'solidcms_feed_item.feed' => $feed
 			))
 			->order('weight', 'DESC')
+			->limit($args['limit'])
 			->run();
 		
 		foreach($this->db->arr() as $item){
@@ -33,14 +34,18 @@ class Solidcms_Helper_List extends Solidocs_Helper
 				$item['title'] = $item['feed_title'];
 			}
 			
-			if($args['link']){
-				$before_item = $args['before_item'];
-				if($this->router->request_uri == $item['uri']){
-					$before_item = str_replace('>' , ' class="active">', $args['before_item']);
-				}
-				
-				echo $before_item . '<a href="' . $item['uri'] . '">' . $item['title'] . '</a>' . $args['after_item'];
+			$before_item = $args['before_item'];
+			if($this->router->request_uri == $item['uri']){
+				$before_item = str_replace('>' , ' class="active">', $args['before_item']);
 			}
+			
+			$the_item = $item['title'];
+			
+			if($args['link']){
+				$the_item = '<a href="' . $item['uri'] . '">' . $item['title'] . '</a>';
+			}
+			
+			echo $before_item . $the_item . $args['after_item'];
 		}
 	}
 }
