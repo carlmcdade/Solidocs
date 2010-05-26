@@ -1,0 +1,18 @@
+README
+======
+
+What is Solidocs?
+----------------
+
+Solidocs is a PHP MVC framework. Solidocs is a very light and works right out
+of the box. The word "Solidocs" is a combination of Solid + Docs (documents).
+
+Requirements
+------------
+
+Solidocs is supposed to work with PHP 5.2 and up but PHP 5.3 is recommended.
+
+Documentation
+-------------
+
+There is not yet any documentation available for Solidocs.
