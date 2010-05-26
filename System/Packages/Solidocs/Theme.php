@@ -42,6 +42,26 @@ class Solidocs_Theme extends Solidocs_Base
 	public $title_base_after = false;
 	
 	/**
+	 * Meta
+	 */
+	public $meta = array();
+	
+	/**
+	 * js
+	 */
+	public $js = array();
+	
+	/**
+	 * CSS
+	 */
+	public $css = array();
+	
+	/**
+	 * Style
+	 */
+	public $style = array();
+	
+	/**
 	 * Render
 	 */
 	public function render(){
@@ -118,5 +138,106 @@ class Solidocs_Theme extends Solidocs_Base
 		}
 		
 		return implode($title_separator, $title_parts);		
+	}
+	
+	/**
+	 * Add meta
+	 *
+	 * @param string
+	 * @param string
+	 */
+	public function add_meta($name, $content){
+		$this->meta[$name] = $content;
+	}
+	
+	/**
+	 * Add js
+	 *
+	 * @param string
+	 */
+	public function add_js($src){
+		$this->js[] = $src;
+	}
+	
+	/**
+	 * Add css
+	 *
+	 * @param string
+	 */
+	public function add_css($href){
+		$this->css[] = $href;
+	}
+	
+	/**
+	 * Add style
+	 *
+	 * @param string
+	 */
+	public function add_style($style){
+		$this->style[] = $style;
+	}
+	
+	/**
+	 * Head
+	 *
+	 * @param array		Optional.
+	 * @param bool		Optional.
+	 * @return string
+	 */
+	public function head($args = array(), $return = false){
+		$defaults = array(
+			'title'		=> true,
+			'meta'		=> true,
+			'js'		=> true,
+			'script'	=> true,
+			'css'		=> true,
+			'style'		=> true
+		);
+		
+		$args	= array_merge($defaults, $args);
+		$output	= '';
+		
+		foreach($args as $item => $flag){
+			if($flag == true){
+				if($item == 'title'){
+					$output .= $this->title();
+					continue;
+				}
+				
+				if(count($this->$item) == 0){
+					continue;
+				}
+				
+				foreach($this->$item as $key => $val){
+					switch($item){
+						case 'meta':
+							$output .= '<meta name="' . $key . '" content="' . $val . '" />' . "\n";
+						break;
+						
+						case 'js':
+							$output .= '<script type="text/javascript" src="' . $val . '" />' . "\n";
+						break;
+						
+						case 'css':
+							$output .= '<link rel="stylesheet" type="text/css" href="' . $val . '" />' . "\n";
+						break;
+						
+						case 'script':
+							$output .= '<script type="text/javascript">' . $val . '</script>' . "\n";
+						break;
+						
+						case 'style':
+							$output .= '<style type="text/css">'. $val . '</style>' . "\n";
+						break;
+					}
+				}
+			}
+		}
+		
+		if($return){
+			return $output;
+		}
+		
+		echo $output;
 	}
 }

@@ -60,8 +60,13 @@ class Solidocs_Router
 	public function route(){
 		foreach($this->routes as $route){
 			$route = array_merge(array(
-				'package' => 'Application'
+				'package'	=> 'Application',
+				'locale'	=> Solidocs::$registry->locale
 			),$route);
+			
+			if($route['locale'] !== Solidocs::$registry->locale){
+				continue;
+			}
 			
 			if($route['uri'] == '/*'){
 				return $this->set_route($route);

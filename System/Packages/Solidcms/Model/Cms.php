@@ -17,6 +17,10 @@ class Solidcms_Model_Cms extends Solidocs_Base
 			if(empty($item['view'])){
 				$content[$i]['view'] = $item['default_view'];
 			}
+			
+			if(empty($item['layout']) AND !empty($item['default_layout'])){
+				$content[$i]['layout'] = $item['default_layout'];
+			}
 		}
 		
 		if(!isset($content[0])){
