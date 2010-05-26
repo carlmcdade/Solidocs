@@ -4,14 +4,11 @@ class Solidcms_Model_Cms extends Solidocs_Base
 	/**
 	 * Get raw content
 	 *
-	 * @param array|string
-	 * @param integer		Optional.
-	 * @param string		Optional.
-	 * @param string		Optional.
+	 * @param array		Optional.
 	 * @return array
 	 */
-	public function get_content($args, $limit = 1, $order_by = 'time', $order = 'ASC'){
-		$content = $this->get_raw_content($args, $limit, $order_by, $order, true);
+	public function get_content($args = array()){
+		$content = $this->get_raw_content($args, true);
 		
 		foreach($content as $i => $item){
 			if(empty($item['view'])){
@@ -21,13 +18,17 @@ class Solidcms_Model_Cms extends Solidocs_Base
 			if(empty($item['layout']) AND !empty($item['default_layout'])){
 				$content[$i]['layout'] = $item['default_layout'];
 			}
+			
+			if(!empty($item['data'])){
+				$content[$i]['data'] = unserialize($item['data']);
+			}
 		}
 		
 		if(!isset($content[0])){
 			return array();
 		}
 		
-		if($limit == 1){
+		if(!isset($args['limit'])){
 			return $content[0];	
 		}
 		
@@ -37,37 +38,46 @@ class Solidcms_Model_Cms extends Solidocs_Base
 	/**
 	 * Get raw content
 	 *
-	 * @param array|string
-	 * @param integer		Optional.
-	 * @param string		Optional.
-	 * @param string		Optional.
-	 * @param bool			Optional.
+	 * @param array		Optional.
+	 * @param bool		Optional.
 	 * @return array
 	 */
-	public function get_raw_content($args, $limit = 1, $order_by = 'time', $order = 'ASC', $always_arr = false){
+	public function get_raw_content($args = array(), $always_arr = false){
+		$defaults = array(
+			'limit'		=> 1,
+			'order_by'	=> 'time',
+			'order'		=> 'ASC'
+		);
+		
+		$args = array_merge($defaults, $args);
+		
 		$this->db
 			->select('solidcms_content.*, solidcms_content_type.default_layout, solidcms_content_type.default_view')
 			->from('solidcms_content')
 			->join('solidcms_content_type', 'solidcms_content_type.content_type', 'solidcms_content.content_type');
 		
-		if(is_array($args)){
-			foreach($args as $key => $val){
-				if(is_array($val)){
-					$this->db->where_in($key, array(
-						$val
-					));
-				}
-				else{
-					$this->db->where(array(
-						$key => $val
-					));
-				}
+		$properties = array('limit', 'order_by', 'order');
+		
+		foreach($args as $key => $val){
+			if(in_array($key, $properties)){
+				continue;
+			}
+			
+			if(is_array($val)){
+				$this->db->where_in($key, array(
+					$val
+				));
+			}
+			else{
+				$this->db->where(array(
+					$key => $val
+				));
 			}
 		}
 		
-		$this->db->order($order_by, $order)->limit($limit)->run();
+		$this->db->order($args['order_by'], $args['order'])->limit($args['limit'])->run();
 		
-		if($limit == 1 AND $always_arr == false){
+		if($args['limit'] == 1 AND $always_arr == false){
 			return $this->db->fetch_assoc();
 		}
 		
@@ -85,8 +95,8 @@ class Solidcms_Model_Cms extends Solidocs_Base
 			'content'	=> $content['content']
 		);
 		
-		if(is_serialized($content['data'])){
-			$view_data = array_merge($view_data, unserialize($content['data']));
+		if(is_array($content['data'])){
+			$view_data = array_merge($view_data, $content['data']);
 		}
 		
 		return $view_data;

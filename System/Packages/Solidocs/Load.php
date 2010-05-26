@@ -139,9 +139,12 @@ class Solidocs_Load extends Solidocs_Base
 		$search = $this->search($class, 'Model', $package);
 		
 		if(is_array($search)){
+			if(isset(Solidocs::$registry->model->$search['slug'])){
+				return true;
+			}
+			
 			include($search['path']);
-			$class = $search['class'];
-			Solidocs::$registry->model->$search['slug'] = new $class;
+			Solidocs::$registry->model->$search['slug'] = new $search['class'];
 		}
 		else{
 			trigger_error('Model "'.$class.'" could not be loaded');
@@ -158,9 +161,12 @@ class Solidocs_Load extends Solidocs_Base
 		$search = $this->search($class, 'Helper', $package);
 		
 		if(is_array($search)){
+			if(isset(Solidocs::$registry->helper->$search['slug'])){
+				return true;
+			}
+			
 			include($search['path']);
-			$class = $search['class'];
-			Solidocs::$registry->helper->$search['slug'] = new $class;
+			Solidocs::$registry->helper->$search['slug'] = new $search['class'];
 		}
 		else{
 			trigger_error('Helper "'.$class.'" could not be loaded');
