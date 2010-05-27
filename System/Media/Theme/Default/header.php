@@ -15,16 +15,29 @@
 		
 			<h1><a href="/">Solidocs</a></h1>
 			
+			<div id="navigation">
+				
+				<ul>
+					<?php $this->list_channel('main_navigation');?>
+				</ul>
+				
+			</div>
+			
 		</div>
 		
 	</div>
 	
-	<div id="navigation">
+	<div id="wrapper">
 		
-		<ul>
-			<?php $this->list_channel('main_navigation');?>
-		</ul>
+		<div id="sub_navigation">
+				
+			<ul>
+				<?php $this->list_channel('main_navigation');?>
+			</ul>
+			
+			<div class="clear"></div>
+			
+		</div>
+		<div id="content_wrapper">
 		
-		<div class="clear"></div>
-		
-	</div>
+			<div id="content">
