@@ -2,15 +2,18 @@
 class Solidcms_Helper_List extends Solidocs_Helper
 {
 	/**
-	 * Feed
+	 * List
 	 *
 	 * @param string
-	 * @param array		Optional.
+	 * @param string
+	 * @param array
 	 */
-	public function feed($feed, $args = array()){
+	public function generate($type, $key, $args = array()){
 		$defaults = array(
 			'locale'		=> $this->locale,
 			'limit'			=> 20,
+			'order_by'		=> 'weight',
+			'order'			=> 'DESC',
 			'link'			=> true,
 			'before_item'	=> '<li>',
 			'after_item'	=> '</li>'
@@ -18,20 +21,35 @@ class Solidcms_Helper_List extends Solidocs_Helper
 		
 		$args = array_merge($defaults, $args);
 		
-		$this->db
-			->select('solidcms_content.uri,solidcms_content.title,solidcms_content.feed_title')
-			->from('solidcms_feed_item')
-			->join('solidcms_content','solidcms_feed_item.content_id','solidcms_content.content_id')
-			->where(array(
-				'solidcms_feed_item.feed' => $feed
-			))
-			->order('weight', 'DESC')
-			->limit($args['limit'])
-			->run();
+		switch($type){
+			case 'feed':
+			
+				$this->db
+					->select('solidcms_content.uri,solidcms_content.title,solidcms_content.list_title')
+					->from('solidcms_feed_item')
+					->join('solidcms_content','solidcms_feed_item.content_id','solidcms_content.content_id')
+					->where(array(
+						'solidcms_feed_item.feed' => $key
+					));
+			
+			break;
+			case 'type':
+				
+				$this->db
+					->select('solidcms_content.uri,solidcms_content.title,solidcms_content.list_title')
+					->from('solidcms_content')
+					->where(array(
+						'content_type' => $key
+					));
+				
+			break;
+		}
+		
+		$this->db->order($args['order_by'], $args['order'])->limit($args['limit'])->run();
 		
 		foreach($this->db->arr() as $item){
-			if(!empty($item['feed_title'])){
-				$item['title'] = $item['feed_title'];
+			if(!empty($item['list_title'])){
+				$item['title'] = $item['list_title'];
 			}
 			
 			$before_item = $args['before_item'];
@@ -47,5 +65,25 @@ class Solidcms_Helper_List extends Solidocs_Helper
 			
 			echo $before_item . $the_item . $args['after_item'];
 		}
+	}
+	
+	/**
+	 * Feed
+	 *
+	 * @param string
+	 * @param array		Optional.
+	 */
+	public function feed($feed, $args = array()){
+		$this->generate('feed', $feed, $args);
+	}
+	
+	/**
+	 * Type
+	 *
+	 * @param string
+	 * @param array		Optional.
+	 */
+	public function type($type, $args = array()){
+		$this->generate('type', $type, $args);
 	}
 }

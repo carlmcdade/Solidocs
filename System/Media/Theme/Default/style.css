@@ -52,7 +52,7 @@ a:hover
 {background: #fff; text-decoration: none; border: 1px solid #ddd;}
 
 #navigation ul .active a
-{font-weight: bold; border-color: #ddd; background: #eee;}
+{font-weight: bold; border-color: #ddd; background: #f4f4f4;}
 
 #footer
 {border-top: 1px solid #eee; width: 1000px; margin: auto; padding: 10px; color: #666; font-size: 1.1em; text-align: center}
