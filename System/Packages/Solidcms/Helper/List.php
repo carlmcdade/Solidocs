@@ -13,7 +13,7 @@ class Solidcms_Helper_List extends Solidocs_Helper
 			'locale'		=> $this->locale,
 			'limit'			=> 20,
 			'order_by'		=> 'weight',
-			'order'			=> 'DESC',
+			'order'			=> 'ASC',
 			'link'			=> true,
 			'before_item'	=> '<li>',
 			'after_item'	=> '</li>'
@@ -22,14 +22,14 @@ class Solidcms_Helper_List extends Solidocs_Helper
 		$args = array_merge($defaults, $args);
 		
 		switch($type){
-			case 'feed':
+			case 'channel':
 			
 				$this->db
 					->select('solidcms_content.uri,solidcms_content.title,solidcms_content.list_title')
-					->from('solidcms_feed_item')
-					->join('solidcms_content','solidcms_feed_item.content_id','solidcms_content.content_id')
+					->from('solidcms_channel_item')
+					->join('solidcms_content','solidcms_channel_item.content_id','solidcms_content.content_id')
 					->where(array(
-						'solidcms_feed_item.feed' => $key
+						'solidcms_channel_item.channel' => $key
 					));
 			
 			break;
@@ -68,13 +68,13 @@ class Solidcms_Helper_List extends Solidocs_Helper
 	}
 	
 	/**
-	 * Feed
+	 * channel
 	 *
 	 * @param string
 	 * @param array		Optional.
 	 */
-	public function feed($feed, $args = array()){
-		$this->generate('feed', $feed, $args);
+	public function channel($channel, $args = array()){
+		$this->generate('channel', $channel, $args);
 	}
 	
 	/**

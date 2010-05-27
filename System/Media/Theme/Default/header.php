@@ -22,7 +22,7 @@
 	<div id="navigation">
 		
 		<ul>
-			<?php $this->list_feed('main_navigation');?>
+			<?php $this->list_channel('main_navigation');?>
 		</ul>
 		
 		<div class="clear"></div>
