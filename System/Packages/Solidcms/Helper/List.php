@@ -6,10 +6,10 @@ class Solidcms_Helper_List extends Solidocs_Helper
 	 *
 	 * @param string
 	 * @param string
-	 * @param array
+	 * @param array|string	Optional.
 	 */
 	public function generate($type, $key, $args = array()){
-		$defaults = array(
+		$args = parse_args(array(
 			'locale'		=> $this->locale,
 			'limit'			=> 20,
 			'order_by'		=> 'weight',
@@ -19,9 +19,7 @@ class Solidcms_Helper_List extends Solidocs_Helper
 			'parent_id'		=> 0,
 			'before_item'	=> '<li>',
 			'after_item'	=> '</li>'
-		);
-		
-		$args = array_merge($defaults, $args);
+		), $args);
 		
 		switch($type){
 			case 'channel':

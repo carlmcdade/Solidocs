@@ -70,6 +70,21 @@ function apply_filter($key, $data){
 }
 
 /**
+ * Parse args
+ *
+ * @param array
+ * @param array|string
+ * @return array
+ */
+function parse_args($defaults, $args){
+	if(!is_array($args)){
+		parse_str($args, $args);
+	}
+	
+	return array_merge($defaults, $args);
+}
+
+/**
  * Microtime since
  *
  * @param double
