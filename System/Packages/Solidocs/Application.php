@@ -55,15 +55,23 @@ class Solidocs_Application extends Solidocs_Base
 	 * Execute
 	 */
 	public function execute(){
+		Solidocs::do_action('pre_execute');
+		
 		$this->router->route();
 		$this->dispatch($this->router->package,$this->router->controller,$this->router->action);
+	
+		Solidocs::do_action('post_execute');
 	}
 	
 	/**
 	 * Render
 	 */
 	public function render(){
+		Solidocs::do_action('pre_render');
+		
 		$this->output->render();
+		
+		Solidocs::do_action('post_render');
 	}
 	
 	/**

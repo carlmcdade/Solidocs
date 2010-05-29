@@ -26,7 +26,7 @@ class Solidocs
 			'locale'	=> 'en_GB',
 			'model'		=> (object) array(),
 			'helper'	=> (object) array(),
-			'hook'		=> (object) array()
+			'hook'		=> array()
 		);
 		
 		// Application instance
@@ -47,5 +47,69 @@ class Solidocs
 		foreach($config as $key=>$val){
 			$obj->$key = $val;
 		}
+	}
+	
+	/**
+	 * Add action
+	 *
+	 * @param string
+	 * @param array
+	 */
+	public static function add_action($key, $hook){
+		foreach(explode(',', $key) as $key){
+			self::$registry->hook[$key][] = $hook;
+		}
+	}
+	
+	/**
+	 * Do action
+	 *
+	 * @param string
+	 * @param array		Optional.
+	 */
+	public static function do_action($key, $data = null){
+		if(!isset(self::$registry->hook[$key])){
+			return false;
+		}
+		
+		if(!is_array($data)){
+			$data = array($data);
+		}
+		
+		foreach(self::$registry->hook[$key] as $hook){
+			call_user_func_array($hook, $data);
+		}
+	}
+	
+	/**
+	 * Add filter
+	 *
+	 * @param string
+	 * @param array
+	 */
+	public static function add_filter($key, $hook){
+		$this->add_action($key, $hook);
+	}
+	
+	/**
+	 * Apply filter
+	 *
+	 * @param string
+	 * @param mixed
+	 */
+	public static function apply_filter($key, $data){
+		if(!isset(self::$registry->hook[$key])){
+			return false;
+		}
+		
+		if(!is_array($data)){
+			$data = array($data);
+		}
+		
+		foreach(self::$registry->hook[$key] as $hook){
+			$data = call_user_func_array($hook, $data);
+		}
+		
+		return $data;
 	}
 }

@@ -16,60 +16,6 @@ function debug($var, $label = null, $return = false){
 }
 
 /**
- * Add action
- *
- * @param string
- * @param array
- */
-function add_action($key, $hook){
-	Solidocs::$registry->hook[$key][] = $hook;
-}
-
-/**
- * Do action
- *
- * @param string
- * @param array		Optional.
- */
-function do_action($key, $data = null){
-	if(!is_array($data)){
-		$data = array($data);
-	}
-	
-	foreach(Solidocs::$registry->hook[$key] as $hook){
-		call_user_func_array($hook, $data);
-	}
-}
-
-/**
- * Add filter
- *
- * @param string
- * @param array
- */
-function add_filter($key, $hook){
-	$this->add_action($key, $hook);
-}
-
-/**
- * Apply filter
- *
- * @param string
- * @param mixed
- */
-function apply_filter($key, $data){
-	if(!is_array($data)){
-		$data = array($data);
-	}
-	
-	foreach(Solidocs::$registry->hook[$key] as $hook){
-		$data = call_user_func_array($hook, $data);
-	}
-	
-	return $data;
-}
-
-/**
  * Parse args
  *
  * @param array
