@@ -100,3 +100,21 @@ function is_serialized($string)
 	
 	return false;
 }
+
+/**
+ * Excerpt
+ *
+ * @param string
+ * @param integer
+ * @return string
+ */
+function excerpt($text, $maxchars) {
+	$text		= substr($text, 0, $maxchars);
+	$position	= strrpos($text, ' ');
+	
+	if($position > 0){
+		$text = substr($text, 0, $position);
+	}
+	
+    return $text;
+}

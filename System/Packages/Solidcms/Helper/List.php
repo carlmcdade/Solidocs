@@ -15,6 +15,8 @@ class Solidcms_Helper_List extends Solidocs_Helper
 			'order_by'		=> 'weight',
 			'order'			=> 'ASC',
 			'link'			=> true,
+			'depth'			=> 0,
+			'parent_id'		=> 0,
 			'before_item'	=> '<li>',
 			'after_item'	=> '</li>'
 		);
@@ -45,7 +47,10 @@ class Solidcms_Helper_List extends Solidocs_Helper
 			break;
 		}
 		
-		$this->db->order($args['order_by'], $args['order'])->limit($args['limit'])->run();
+		$this->db->where(array(
+			'depth'		=> $args['depth'],
+			'parent_id'	=> $args['parent_id']
+		))->order($args['order_by'], $args['order'])->limit($args['limit'])->run();
 		
 		foreach($this->db->arr() as $item){
 			if(!empty($item['list_title'])){

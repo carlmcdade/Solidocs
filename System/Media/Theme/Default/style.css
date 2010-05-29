@@ -37,7 +37,7 @@ a:hover
 {background: url(images/wrapper_bg.png) top left repeat-x; padding-top: 40px;}
 
 #content_wrapper
-{width: 960px; margin: auto; background: #fff;}
+{width: 958px; margin: auto; background: #fff; border: 1px solid #003260; border-top: 0;}
 
 #content
 {padding: 10px;}
@@ -61,7 +61,7 @@ a:hover
 {color: #2c98e7;}
 
 #sub_navigation
-{width: 960px; margin: auto; background: #003260; padding: 3px 0; border-bottom: 1px solid #ddd; -moz-border-radius-topleft: 5px; -moz-border-radius-topright: 5px; -webkit-border-top-right-radius: 5px; -webkit-border-top-left-radius: 5px;}
+{width: 960px; margin: auto; background: #003260; padding: 3px 0; -moz-border-radius-topleft: 5px; -moz-border-radius-topright: 5px; -webkit-border-top-right-radius: 5px; -webkit-border-top-left-radius: 5px;}
 
 #sub_navigation ul
 {width: 960px; margin: auto; clear: both;}
@@ -70,7 +70,7 @@ a:hover
 {display: inline;}
 
 #sub_navigation ul li a
-{display: block; float: left; padding: 6px 10px; font-size: 1.1em; margin-left: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; color: #fff;}
+{display: block; float: left; padding: 6px 10px; font-size: 1.1em; margin-left: 3px; -moz-border-radius: 5px; -webkit-border-radius: 5px; color: #fff;}
 
 #sub_navigation ul li a:hover
 {background: #fff; text-decoration: none; color: #023d63;}
