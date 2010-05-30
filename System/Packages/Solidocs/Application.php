@@ -34,10 +34,12 @@ class Solidocs_Application extends Solidocs_Base
 		// Load libraries
 		$this->load->library('Solidocs',array(
 			'Router',
+			'Session',
+			'Input',
 			'I18n',
 			'Output',
 			'Theme',
-			'Db',
+			'Db'
 		));
 		
 		// Set routes and view handler

@@ -71,7 +71,7 @@ class Solidcms_Helper_List extends Solidocs_Helper
 	}
 	
 	/**
-	 * channel
+	 * Channel
 	 *
 	 * @param string
 	 * @param array		Optional.
