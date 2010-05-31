@@ -281,6 +281,7 @@ class Solidocs_Db_Mysql
 	 * Limit
 	 *
 	 * @param integer
+	 * @param integer	Optional.
 	 * @return object
 	 */
 	public function limit($limit, $page = 1){
