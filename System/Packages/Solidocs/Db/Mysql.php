@@ -283,8 +283,8 @@ class Solidocs_Db_Mysql
 	 * @param integer
 	 * @return object
 	 */
-	public function limit($limit){
-		$this->query .= 'LIMIT ' . $limit . ' ';
+	public function limit($limit, $page = 1){
+		$this->query .= 'LIMIT ' . $page . ',' . $limit . ' ';
 		
 		return $this;
 	}
