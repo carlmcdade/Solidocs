@@ -25,7 +25,7 @@ class Solidocs_Application extends Solidocs_Base
 		include(PACKAGE . '/Solidocs/Load.php');
 		
 		// Setup core
-		Solidocs::$registry->config	= new Solidocs_Config(APP . '/Config/Application');
+		Solidocs::$registry->config	= new Solidocs_Config(array(APP . '/Config/Application', APP . '/Config/Libraries'));
 		Solidocs::$registry->error	= new Solidocs_Error;
 		Solidocs::$registry->load	= new Solidocs_Load;
 		Solidocs::apply_config($this->error, $this->config->get('Solidocs_Error'));

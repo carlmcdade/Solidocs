@@ -7,31 +7,21 @@ class Solidocs_Config
 	public $config = array();
 	
 	/**
-	 * Autoload
-	 */
-	public $autoload;
-	
-	/**
 	 * Constructor
 	 *
 	 * @param string
 	 */
-	public function __construct($config){
-		if(is_array($config)){
-			$this->config = $conifg;
-		}
-		elseif(!empty($config)){
-			$this->load_file($config);
+	public function __construct($files = false){
+		if($files == false){
+			return false;
 		}
 		
-		if(isset($this->config['Solidocs_Config'])){
-			Solidocs::apply_config($this,$this->get('Solidocs_Config'));
+		if(!is_array($files)){
+			$files = array($files);
 		}
 		
-		if(is_array($this->autoload)){
-			foreach($this->autoload as $file){
-				$this->load_file($file);
-			}
+		foreach($files as $file){
+			$this->load_file($file);
 		}
 	}
 	
@@ -70,6 +60,7 @@ class Solidocs_Config
 	 *
 	 * @param string
 	 * @param bool		Optional.
+	 * @return array
 	 */
 	public function load_php($file, $return = false){
 		include($file);
@@ -88,6 +79,7 @@ class Solidocs_Config
 	 *
 	 * @param string
 	 * @param bool		Optional.
+	 * @return array
 	 */
 	public function load_ini($file, $return = false){
 		$config = array();

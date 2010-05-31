@@ -14,7 +14,7 @@ class Solidocs_I18n extends Solidocs_Base
 	/**
 	 * Timezone
 	 */
-	public $timezone = 'London/Europe';
+	public $timezone = 'Europe/London';
 	
 	/**
 	 * Accepted locales
@@ -83,6 +83,8 @@ class Solidocs_I18n extends Solidocs_Base
 		if(isset($this->locales[$this->locale])){
 			Solidocs::apply_config($this, $this->locales[$this->locale]);
 		}
+		
+		date_default_timezone_set($this->timezone);
 		
 		if($this->autoload_strings AND $this->locale !== $this->default_locale){
 			$this->load_strings(APP . '/I18n');
