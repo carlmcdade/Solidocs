@@ -29,13 +29,15 @@ class Solidocs_Config
 	 * Get
 	 *
 	 * @param string
+	 * @param mixed		Optional.
+	 * @return mixed
 	 */
-	public function get($section){
+	public function get($section, $default = false){
 		if(isset($this->config[$section])){
 			return $this->config[$section];
 		}
 		
-		return false;
+		return $default;
 	}
 	
 	/**
@@ -85,6 +87,11 @@ class Solidocs_Config
 		$config = array();
 		
 		foreach(parse_ini_file($file, true) as $section => $keys){
+			if(!is_array($keys)){
+				$config[$section] = $keys;
+				continue;
+			}
+			
 			foreach($keys as $key => $val){
 				$key = explode('.', $key);
 				
