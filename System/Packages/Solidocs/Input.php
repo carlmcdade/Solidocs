@@ -77,6 +77,21 @@ class Solidocs_Input
 	}
 	
 	/**
+	 * Uri segment
+	 *
+	 * @param string
+	 * @param string|integer	Optional.
+	 * @return string|integer
+	 */
+	public function uri_segment($key, $default = null){
+		if(isset(Solidocs::$registry->router->segment[$key])){
+			return Solidocs::$registry->router->segment[$key];
+		}
+		
+		return $default;
+	}
+	
+	/**
 	 * Set cookie
 	 *
 	 * @param string

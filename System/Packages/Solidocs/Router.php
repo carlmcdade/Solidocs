@@ -27,6 +27,11 @@ class Solidocs_Router
 	public $action = '404';
 	
 	/**
+	 * Segment
+	 */
+	public $segment = array();
+	
+	/**
 	 * Constructor
 	 */
 	public function __construct(){
