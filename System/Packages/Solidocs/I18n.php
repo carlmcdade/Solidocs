@@ -12,6 +12,11 @@ class Solidocs_I18n extends Solidocs_Base
 	public $time_format = 'H:i:is';
 	
 	/**
+	 * Timezone
+	 */
+	public $timezone = 'London/Europe';
+	
+	/**
 	 * Accepted locales
 	 */
 	public $accepted_locales = array('en_GB');
@@ -78,11 +83,6 @@ class Solidocs_I18n extends Solidocs_Base
 		if(isset($this->locales[$this->locale])){
 			Solidocs::apply_config($this, $this->locales[$this->locale]);
 		}
-		
-		setlocale(LC_MESSAGES , $this->locale);
-		
-		putenv('LANG=' . $this->locale . '.utf8');
-		putenv('LANGUAGE=' . $this->locale . '.utf8');
 		
 		if($this->autoload_strings AND $this->locale !== $this->default_locale){
 			$this->load_strings(APP . '/I18n');

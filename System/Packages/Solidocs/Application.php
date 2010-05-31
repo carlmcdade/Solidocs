@@ -60,7 +60,7 @@ class Solidocs_Application extends Solidocs_Base
 		Solidocs::do_action('pre_execute');
 		
 		$this->router->route();
-		$this->dispatch($this->router->package,$this->router->controller,$this->router->action);
+		$this->dispatch($this->router->package, $this->router->controller, $this->router->action);
 	
 		Solidocs::do_action('post_execute');
 	}
@@ -83,8 +83,8 @@ class Solidocs_Application extends Solidocs_Base
 	 * @param string
 	 * @param string	Optional.
 	 */
-	public function dispatch($package,$controller,$action = 'index'){
-		$class = $this->load->controller($controller,$package);
+	public function dispatch($package, $controller, $action = 'index'){
+		$class = $this->load->controller($controller, $package);
 		
 		if(!empty($class)){
 			$this->controller = new $class;
