@@ -71,7 +71,7 @@ class Solidocs_Config
 	 */
 	public function add_array($array){
 		$config = array();
-		
+				
 		foreach($array as $key=>$val){
 			$this->add(&$config, $key, $val);
 		}

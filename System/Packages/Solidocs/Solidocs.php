@@ -68,27 +68,29 @@ class Solidocs
 	 * @param string
 	 * @param array		Optional.
 	 */
-	public static function do_action($key, $data = null){
-		if(!isset(self::$registry->hook[$key])){
-			return false;
-		}
-		
-		if(!is_array($data)){
-			$data = array($data);
-		}
-		
-		foreach(self::$registry->hook[$key] as $hook){
-			if(is_array($hook)){
-				if(!is_object($hook[0])){
-					$hook[0] = self::$registry->load->plugin($hook[0]);
-				}
-				
-				if(!is_object($hook[0])){
-					return false;
-				}
+	public static function do_action($keys, $data = null){
+		foreach(explode(',', $keys) as $key){
+			if(!isset(self::$registry->hook[$key])){
+				return false;
 			}
 			
-			call_user_func_array($hook, $data);
+			if(!is_array($data)){
+				$data = array($data);
+			}
+			
+			foreach(self::$registry->hook[$key] as $hook){
+				if(is_array($hook)){
+					if(!is_object($hook[0])){
+						$hook[0] = self::$registry->load->plugin($hook[0]);
+					}
+					
+					if(!is_object($hook[0])){
+						return false;
+					}
+				}
+				
+				call_user_func_array($hook, $data);
+			}
 		}
 	}
 	
