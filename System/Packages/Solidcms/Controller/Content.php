@@ -1,5 +1,5 @@
 <?php
-class Solidcms_Controller_Index extends Solidocs_Controller_Action
+class Solidcms_Controller_Content extends Solidocs_Controller_Action
 {
 	/**
 	 * Init
