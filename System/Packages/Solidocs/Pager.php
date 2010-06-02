@@ -1,5 +1,5 @@
 <?php
-class Solidocs_Pagination
+class Solidocs_Pager
 {
 	/**
 	 * Num items

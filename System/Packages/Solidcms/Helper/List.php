@@ -49,7 +49,7 @@ class Solidcms_Helper_List extends Solidocs_Helper
 			'depth'		=> $args['depth'],
 			'parent_id'	=> $args['parent_id']
 		))->order($args['order_by'], $args['order'])->limit($args['limit'])->run();
-		
+				
 		foreach($this->db->arr() as $item){
 			if(!empty($item['list_title'])){
 				$item['title'] = $item['list_title'];
