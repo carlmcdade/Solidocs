@@ -67,11 +67,12 @@ class Solidocs_Application extends Solidocs_Base
 		
 		Solidocs::do_action('post_libraries');
 		
-		// Set routes and view handler
+		// Set routes, set view handler and load user model
 		$this->router->set_routes($this->config->load_file(APP . '/Config/Routes', true));
 		$this->load->set_view_handler(array(
 			$this->output, 'add_view'
 		));
+		$this->load->model('User');
 	}
 	
 	/**

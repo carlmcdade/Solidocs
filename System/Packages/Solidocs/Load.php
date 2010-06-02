@@ -77,14 +77,17 @@ class Solidocs_Load extends Solidocs_Base
 		}
 		
 		$file = implode('/', explode('_', $class)) . '.php';
-			
+		
+		$searchable = array(
+			'Application' => APP
+		);
+		
 		foreach($this->searchable as $key){
 			$searchable[$key] = PACKAGE . '/' . $key;
 		}
 		
-		$searchable['Solidocs']		= PACKAGE . '/Solidocs';
-		$searchable['Application']	= APP;
-		$searchable['Package']		= PACKAGE;
+		$searchable['Solidocs']	= PACKAGE . '/Solidocs';
+		$searchable['Package']	= PACKAGE;
 				
 		if($package !== null){
 			$searchable = array($package => $searchable[$package]);
