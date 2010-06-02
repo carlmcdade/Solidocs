@@ -84,6 +84,10 @@ class Solidocs_Application extends Solidocs_Base
 	 * @param string	Optional.
 	 */
 	public function dispatch($package, $controller, $action = 'index'){
+		if(strtolower($package) !== 'application'){
+			$this->load->package($package);
+		}
+		
 		$class = $this->load->controller($controller, $package);
 		
 		if(!empty($class)){

@@ -54,6 +54,17 @@ class Solidocs_Load extends Solidocs_Base
 	}
 	
 	/**
+	 * Package
+	 *
+	 * @param string
+	 */
+	public function package($package){
+		if(!in_array($package, $this->searchable)){
+			$this->searchable[] = $package;
+		}
+	}
+	
+	/**
 	 * Search
 	 *
 	 * @param string
