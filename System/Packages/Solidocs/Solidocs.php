@@ -79,6 +79,14 @@ class Solidocs
 			}
 			
 			foreach(self::$registry->hook[$key] as $hook){
+				if(is_string($hook)){
+					$hook = explode('::', $hook);
+					
+					if(!isset($hook[1])){
+						$hook = $hook[0];
+					}
+				}
+				
 				if(is_array($hook)){
 					if(!is_object($hook[0])){
 						$hook[0] = self::$registry->load->plugin($hook[0]);
