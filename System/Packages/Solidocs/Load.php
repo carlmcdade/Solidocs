@@ -12,7 +12,7 @@ class Solidocs_Load extends Solidocs_Base
 	public $view_handler;
 	
 	/**
-	 * L10n view
+	 * Localized view
 	 */
 	public $localized_view = true;
 	
@@ -160,7 +160,10 @@ class Solidocs_Load extends Solidocs_Base
 				return true;
 			}
 			
-			include($search['path']);
+			if(!class_exists($search['class'])){
+				include($search['path']);
+			}
+			
 			Solidocs::$registry->plugin->$search['slug'] = new $search['class'];
 			
 			return Solidocs::$registry->plugin->$search['slug'];

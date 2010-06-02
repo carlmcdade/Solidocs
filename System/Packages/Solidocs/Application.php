@@ -44,8 +44,10 @@ class Solidocs_Application extends Solidocs_Base
 		
 		// Hooks
 		if($this->config->get('Hooks') !== false){
-			foreach($this->config->get('Hooks') as $key => $callback){
-				Solidocs::add_action($key, explode('::', $callback[0]));
+			foreach($this->config->get('Hooks') as $key => $val){
+				foreach($val as $callback){
+					Solidocs::add_action($key, explode('::', $callback));	
+				}
 			}
 		}
 		
