@@ -42,6 +42,13 @@ class Solidocs_Application extends Solidocs_Base
 			'Db'
 		));
 		
+		// Hooks
+		if($this->config->get('Hooks') !== false){
+			foreach($this->config->get('Hooks') as $key => $callback){
+				Solidocs::add_action($key, explode('::', $callback[0]));
+			}
+		}
+		
 		// Set routes and view handler
 		$this->router->set_routes($this->config->load_file(APP . '/Config/Routes', true));
 		$this->load->set_view_handler(array(

@@ -76,34 +76,40 @@ class Solidocs_Load extends Solidocs_Base
 			$class = $type . '_' . $class;
 		}
 		
-		$file		= implode('/', explode('_', $class)) . '.php';
-		$searchable	= array_merge($this->searchable, array(
-			'Solidocs',
-			'Application'
-		));
-		
-		if(in_array($package, $searchable)){
-			$searchable = array($package);
+		$file = implode('/', explode('_', $class)) . '.php';
+			
+		foreach($this->searchable as $key){
+			$searchable[$key] = PACKAGE . '/' . $key;
 		}
 		
-		foreach($searchable as $package){
-			$path = PACKAGE . '/' . $package;
-			
-			if($package == 'Application'){
-				$path = APP;
-			}
-			
-			if(file_exists($path.'/'.$file)){
-				$slug = str_replace($package . '_' , '', $class);
+		$searchable['Solidocs']		= PACKAGE . '/Solidocs';
+		$searchable['Application']	= APP;
+		$searchable['Package']		= PACKAGE;
+				
+		if($package !== null){
+			$searchable = array($package => $searchable[$package]);
+		}
+						
+		foreach($searchable as $package => $path){
+			if(file_exists($path . '/' . $file)){
+				$prefix	= $package;
+				$slug	= str_replace($package . '_' , '', $class);
+				
+				if($package == 'Package'){
+					$prefix = '';
+				}
+				else{
+					$class = $package . '_' . $class;
+				}
 				
 				if(!empty($type)){
 					$slug = str_replace($type . '_' , '', $slug);
 				}
 				
 				return array(
-					'prefix'	=> $package,
-					'path'		=> $path.'/'.$file,
-					'class'		=> $package.'_'.$class,
+					'prefix'	=> $prefix,
+					'path'		=> $path . '/' . $file,
+					'class'		=> $class,
 					'slug'		=> strtolower($slug)
 				);
 			}
@@ -137,6 +143,30 @@ class Solidocs_Load extends Solidocs_Base
 			if(is_array($config)){
 				Solidocs::apply_config(Solidocs::$registry->$slug, $config);
 			}
+		}
+	}
+	
+	/**
+	 * Plugin
+	 *
+	 * @param string
+	 * @return object
+	 */
+	public function plugin($class){
+		$search = $this->search($class);
+		
+		if(is_array($search)){
+			if(isset(Solidocs::$registry->plugin->$search['slug'])){
+				return true;
+			}
+			
+			include($search['path']);
+			Solidocs::$registry->plugin->$search['slug'] = new $search['class'];
+			
+			return Solidocs::$registry->plugin->$search['slug'];
+		}
+		else{
+			trigger_error('Plugin "'.$class.'" could not be loaded');
 		}
 	}
 	

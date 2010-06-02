@@ -26,6 +26,7 @@ class Solidocs
 			'locale'	=> 'en_GB',
 			'model'		=> (object) array(),
 			'helper'	=> (object) array(),
+			'plugin'	=> (object) array(),
 			'hook'		=> array()
 		);
 		
@@ -77,6 +78,16 @@ class Solidocs
 		}
 		
 		foreach(self::$registry->hook[$key] as $hook){
+			if(is_array($hook)){
+				if(!is_object($hook[0])){
+					$hook[0] = self::$registry->load->plugin($hook[0]);
+				}
+				
+				if(!is_object($hook[0])){
+					return false;
+				}
+			}
+			
 			call_user_func_array($hook, $data);
 		}
 	}
