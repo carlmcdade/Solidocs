@@ -41,6 +41,45 @@ class Solidocs_Config
 	}
 	
 	/**
+	 * Add
+	 *
+	 * @param string
+	 * @param string|integer
+	 */
+	public function add(&$config, $key, $val){
+		$key = explode('.', $key);
+		
+		switch(count($key)){
+		    case 1:
+		    	$config[$key[0]] = $val;
+		    break;
+		    
+		    case 2:
+		    	$config[$key[0]][$key[1]] = $val;
+		    break;
+		    
+		    case 3:
+		    	$config[$key[0]][$key[1]][$key[2]] = $val;
+		    break;
+		}
+	}
+	
+	/**
+	 * Add array
+	 *
+	 * @param array
+	 */
+	public function add_array($array){
+		$config = array();
+		
+		foreach($array as $key=>$val){
+			$this->add(&$config, $key, $val);
+		}
+		
+		$this->config = array_merge($this->config, $config);
+	}
+	
+	/**
 	 * Load file
 	 *
 	 * @param string
@@ -93,21 +132,7 @@ class Solidocs_Config
 			}
 			
 			foreach($keys as $key => $val){
-				$key = explode('.', $key);
-				
-				switch(count($key)){
-					case 1:
-						$config[$section][$key[0]] = $val;
-					break;
-					
-					case 2:
-						$config[$section][$key[0]][$key[1]] = $val;
-					break;
-					
-					case 3:
-						$config[$section][$key[0]][$key[1]][$key[2]] = $val;
-					break;
-				}
+				$this->add(&$config[$section], $key, $val);
 			}
 		}
 		
