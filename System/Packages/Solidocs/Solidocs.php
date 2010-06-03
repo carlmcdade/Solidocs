@@ -67,15 +67,17 @@ class Solidocs
 	 *
 	 * @param string
 	 * @param array		Optional.
+	 * @param bool		Optional.
+	 * @return array
 	 */
-	public static function do_action($keys, $data = null){
+	public static function do_action($keys, $data = null, $is_filter = false){
+		if(!is_array($data)){
+			$data = array($data);
+		}
+			
 		foreach(explode(',', $keys) as $key){
 			if(!isset(self::$registry->hook[$key])){
 				return false;
-			}
-			
-			if(!is_array($data)){
-				$data = array($data);
 			}
 			
 			foreach(self::$registry->hook[$key] as $hook){
@@ -97,8 +99,17 @@ class Solidocs
 					}
 				}
 				
-				call_user_func_array($hook, $data);
+				if($is_filter){
+					$data = call_user_func_array($hook, $data);
+				}
+				else{
+					call_user_func_array($hook, $data);
+				}
 			}
+		}
+		
+		if($is_filter){
+			return $data;
 		}
 	}
 	
@@ -119,18 +130,6 @@ class Solidocs
 	 * @param mixed
 	 */
 	public static function apply_filter($key, $data){
-		if(!isset(self::$registry->hook[$key])){
-			return false;
-		}
-		
-		if(!is_array($data)){
-			$data = array($data);
-		}
-		
-		foreach(self::$registry->hook[$key] as $hook){
-			$data = call_user_func_array($hook, $data);
-		}
-		
-		return $data;
+		return do_action($key, $data, true);
 	}
 }
