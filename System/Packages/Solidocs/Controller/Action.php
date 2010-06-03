@@ -29,11 +29,11 @@ class Solidocs_Controller_Action extends Solidocs_Controller
 		$action = strtolower($action);
 		
 		if(isset($this->model->user) AND isset($this->acl[$action]) AND !$this->model->user->has_access($this->acl[$action]['level'])){
-			if($this->acl[$action]['do'] !== false){
-				$this->forward($this->acl[$action]['do']);
+			if($this->acl[$action]['do'] == false){
+				return false;
 			}
 			
-			return false;
+			$action = $this->acl[$action]['do'];
 		}
 		
 		if(method_exists($this, 'do_' . $action)){
