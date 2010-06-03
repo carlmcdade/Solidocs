@@ -25,6 +25,30 @@ class Solidocs_Model_User extends Solidocs_Base
 	}
 	
 	/**
+	 * Auth
+	 *
+	 * @param string
+	 * @param string
+	 */
+	public function auth($user, $password){
+		$this->db->select()->from('user')->where_or(array(
+			array(
+				'email'		=> $user,
+				'password'	=> $password
+			),
+			array(
+				'username'	=> $user,
+				'password'	=> $password
+			)
+		))->limit(1)->run();
+		
+		if($this->db->affected_rows() !== 0){
+			$this->session->user	= $this->db->fetch_assoc();
+			$this->user				= &$this->session->user;
+		}
+	}
+	
+	/**
 	 * Has access
 	 *
 	 * @param integer

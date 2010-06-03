@@ -20,12 +20,7 @@ class Solidocs_Db_Mysql
 	 * Affected rows
 	 */
 	public $affected_rows = 0;
-	
-	/**
-	 * Queries
-	 */
-	public $queries = array();
-	
+
 	/**
 	 * First order
 	 */
@@ -35,6 +30,16 @@ class Solidocs_Db_Mysql
 	 * First where
 	 */
 	public $first_where = true;
+	
+	/**
+	 * Queries
+	 */
+	public $queries = array();
+	
+	/**
+	 * Last query
+	 */
+	public $last_query;
 	
 	/**
 	 * Connect
@@ -83,6 +88,7 @@ class Solidocs_Db_Mysql
 		$this->affected_rows	= mysql_affected_rows($this->link);
 		$this->first_order		= true;
 		$this->first_where		= true;
+		$this->last_query		= $this->query;
 		
 		if($this->affected_rows < 0){
 			$this->affected_rows = 0;
@@ -324,18 +330,42 @@ class Solidocs_Db_Mysql
 	 * Where
 	 *
 	 * @param array
+	 * @param string	Optional.
+	 * @param string	Optional.
 	 * @return object
 	 */
-	public function where($args){
-		$this->first_where();
+	public function where($args, $separator = 'AND', $block_separator = 'AND'){
+		$this->first_where($separator);
 		
 		foreach($args as $key => $val){
-			$this->query .= $key . ' = "' . $val . '" AND ';
+			if(is_array($val)){
+				$this->query .= '(';
+				
+				foreach($val as $key => $val){
+					$this->query .= $key . ' = "' . $val . '" ' . $block_separator . ' ';
+				}
+				
+				$this->query = trim($this->query,' ' . $block_separator . ' ') . ') ' . $separator . ' ';
+			}
+			else{
+				$this->query .= $key . ' = "' . $val . '" ' . $separator . ' ';
+			}
 		}
 		
-		$this->query = trim($this->query, ' AND ') . ' ';
+		$this->query = trim($this->query, ' ' . $separator . ' ') . ' ';
 		
 		return $this;
+	}
+	
+	/**
+	 * Where or
+	 *
+	 * @param array
+	 * @param string	Optional.
+	 * @return object
+	 */
+	public function where_or($args, $block_separator = 'AND'){
+		return $this->where($args, 'OR', $block_separator);
 	}
 	
 	/**
