@@ -120,7 +120,7 @@ class Solidocs
 	 * @param array
 	 */
 	public static function add_filter($key, $hook){
-		$this->add_action($key, $hook);
+		self::add_action($key, $hook);
 	}
 	
 	/**
@@ -130,6 +130,6 @@ class Solidocs
 	 * @param mixed
 	 */
 	public static function apply_filter($key, $data){
-		return do_action($key, $data, true);
+		return self::do_action($key, $data, true);
 	}
 }
