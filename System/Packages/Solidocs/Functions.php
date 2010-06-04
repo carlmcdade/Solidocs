@@ -79,3 +79,19 @@ function excerpt($text, $maxchars) {
 	
     return $text;
 }
+
+/**
+ * HTML Properties
+ *
+ * @param array
+ * @return string
+ */
+function html_properties($array){
+	$properties = '';
+	
+	foreach($array as $key => $val){
+		$properties .= $key . '="' . $val . '" ';
+	}
+	
+	return trim($properties);
+}
