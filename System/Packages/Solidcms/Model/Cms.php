@@ -53,8 +53,7 @@ class Solidcms_Model_Cms extends Solidocs_Base
 		$args = array_merge($defaults, $args);
 		
 		$this->db
-			->select('solidcms_content.*, solidcms_content_type.default_layout, solidcms_content_type.default_view')
-			->from('solidcms_content')
+			->select_from('solidcms_content', 'solidcms_content.*, solidcms_content_type.default_layout, solidcms_content_type.default_view')
 			->join('solidcms_content_type', 'solidcms_content_type.content_type', 'solidcms_content.content_type');
 		
 		$properties = array('limit', 'order_by', 'order');

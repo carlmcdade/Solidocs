@@ -195,8 +195,8 @@ class Solidocs_Db_Mysql
 	 * @param string	Optional.
 	 * @return object
 	 */
-	public function select($fields = '*'){
-		$this->query .= 'SELECT ' . $fields . ' ';
+	public function select_from($table, $fields = '*'){
+		$this->query .= 'SELECT ' . $fields . ' FROM ' . $table . ' ';
 		
 		return $this;
 	}
@@ -206,18 +206,8 @@ class Solidocs_Db_Mysql
 	 *
 	 * @return object
 	 */
-	public function delete(){
-		$this->query .= 'DELETE ';
-	}
-	
-	/**
-	 * From
-	 *
-	 * @param string
-	 * @return object
-	 */
-	public function from($table){
-		$this->query .= 'FROM ' . $table . ' ';
+	public function delete_from($table){
+		$this->query .= 'DELETE FROM ' . $table . ' ';
 		
 		return $this;
 	}
@@ -229,7 +219,7 @@ class Solidocs_Db_Mysql
 	 * @param array
 	 * @return object
 	 */
-	public function insert_into($table,$data){
+	public function insert_into($table, $data){
 		$this->query .= 'INSERT INTO ' . $table . ' (' . implode(',', array_keys($data)) . ') VALUES("' . implode('","', $data) . '")';
 		
 		return $this;
@@ -242,7 +232,7 @@ class Solidocs_Db_Mysql
 	 * @param array
 	 * @return object
 	 */
-	public function update_set($table,$data){
+	public function update_set($table, $data){
 		$this->query .= 'UPDATE ' . $table . ' SET ';
 		
 		foreach($data as $key=>$val){

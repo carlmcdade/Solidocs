@@ -25,8 +25,7 @@ class Solidcms_Helper_List extends Solidocs_Helper
 			case 'channel':
 			
 				$this->db
-					->select('solidcms_content.uri,solidcms_content.title,solidcms_content.list_title')
-					->from('solidcms_channel_item')
+					->select_from('solidcms_channel_item', 'solidcms_content.uri,solidcms_content.title,solidcms_content.list_title')
 					->join('solidcms_content','solidcms_channel_item.content_id','solidcms_content.content_id')
 					->where(array(
 						'solidcms_channel_item.channel' => $key
@@ -36,8 +35,7 @@ class Solidcms_Helper_List extends Solidocs_Helper
 			case 'type':
 				
 				$this->db
-					->select('solidcms_content.uri,solidcms_content.title,solidcms_content.list_title')
-					->from('solidcms_content')
+					->select_from('solidcms_content', 'solidcms_content.uri,solidcms_content.title,solidcms_content.list_title')
 					->where(array(
 						'content_type' => $key
 					));
