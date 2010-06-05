@@ -72,6 +72,15 @@ class Solidocs_Theme extends Solidocs_Base
 	}
 	
 	/**
+	 * Set theme
+	 *
+	 * @param string
+	 */
+	public function set_theme($theme){
+		$this->theme = $theme;
+	}
+	
+	/**
 	 * Render
 	 */
 	public function render(){
