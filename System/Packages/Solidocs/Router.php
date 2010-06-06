@@ -79,11 +79,25 @@ class Solidocs_Router
 			
 			$route_segment = explode('/', trim($route['uri'], '/'));
 			
-			if(count($route_segment) == count($this->segment)){
+			if(count($route_segment) == count($this->segment) OR isset($route['default'])){
 				$match = true;
 				
 				foreach($route_segment as $i => $segment){
-					if($segment !== $this->segment[$i] AND substr($segment, 0, 1) !== ':'){
+					if(isset($route['default'])){
+						if(isset($route['default'][trim($segment, ':')])){
+							$this->segment[trim($segment, ':')] = $route['default'][trim($segment, ':')];
+						}
+						elseif(!isset($this->segment[$i])){
+							$match = false;
+						}
+						else{
+							$this->segment[trim($segment, ':')] = $this->segment[$i];
+						}
+					}
+					elseif(substr($segment, 0, 1) == ':'){
+						$this->segment[trim($segment, ':')] = $this->segment[$i];
+					}
+					elseif($segment !== $this->segment[$i]){
 						$match = false;
 					}
 				}
