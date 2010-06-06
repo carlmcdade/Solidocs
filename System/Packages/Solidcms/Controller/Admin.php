@@ -2,7 +2,7 @@
 class Solidcms_Controller_Admin extends Solidocs_Controller_Action
 {
 	public function init(){
-		$this->acl->set_access($this, 'index', 3, '404');
+		$this->acl->set_access($this, 'index', 0, '404');
 	}
 	
 	public function do_index(){

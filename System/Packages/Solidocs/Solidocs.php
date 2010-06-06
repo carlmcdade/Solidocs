@@ -98,7 +98,7 @@ class Solidocs
 						continue;
 					}
 				}
-				elseif(is_object(self::$registry->load->search($hook))){
+				elseif(is_object(self::$registry->load->search($hook))	){
 					continue;
 				}
 				elseif(!function_exists($hook)){

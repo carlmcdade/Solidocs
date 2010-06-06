@@ -9,17 +9,25 @@
 </head>
 <body>
 
-	<div id="header">
-		
-	</div>
-	
 	<div id="wrapper">
 		
+		<div id="header">
+			
+			<h1><a href="#">Solidocs Admin</a></h1>
+			
+		</div>
+			
 		<div id="sidebar">
 			
 			<ul>
 				<li><a href="#">Dashboard</a></li>
-				<li><a href="#">Packages</a></li>
+				<li>
+					<a href="#">Packages</a>
+					<ul>
+						<li><a href="#">Plugins</a></li>
+						<li><a href="#">Install</a></li>
+					</ul>
+				</li>
 			</ul>
 			
 		</div>
