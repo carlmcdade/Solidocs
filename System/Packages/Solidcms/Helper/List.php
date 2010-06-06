@@ -25,8 +25,7 @@ class Solidcms_Helper_List extends Solidocs_Helper
 			case 'channel':
 			
 				$this->db
-					->select_from('solidcms_channel_item', 'solidcms_content.uri,solidcms_content.title,solidcms_content.list_title')
-					->join('solidcms_content','solidcms_channel_item.content_id','solidcms_content.content_id')
+					->select_from('solidcms_channel_item')
 					->where(array(
 						'solidcms_channel_item.channel' => $key
 					));
@@ -47,21 +46,21 @@ class Solidcms_Helper_List extends Solidocs_Helper
 			'depth'		=> $args['depth'],
 			'parent_id'	=> $args['parent_id']
 		))->order($args['order_by'], $args['order'])->limit($args['limit'])->run();
-				
+		
 		foreach($this->db->arr() as $item){
-			if(!empty($item['list_title'])){
-				$item['title'] = $item['list_title'];
+			if(!isset($item['url'])){
+				$item['url'] = $item['uri'];
 			}
 			
 			$before_item = $args['before_item'];
-			if($this->router->request_uri == $item['uri']){
+			if($this->router->request_uri == $item['url']){
 				$before_item = str_replace('>' , ' class="active">', $args['before_item']);
 			}
 			
 			$the_item = $item['title'];
 			
 			if($args['link']){
-				$the_item = '<a href="' . $item['uri'] . '">' . $item['title'] . '</a>';
+				$the_item = '<a href="' . $item['url'] . '">' . $item['title'] . '</a>';
 			}
 			
 			echo $before_item . $the_item . $args['after_item'];
