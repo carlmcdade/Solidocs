@@ -7,7 +7,7 @@
 	<link rel="stylesheet" type="text/css" href="<?php echo THEME_WWW;?>/style.css" />
 	
 </head>
-<body>
+<body<?php $this->body_class();?>>
 	
 	<div id="header">
 	

@@ -18,7 +18,7 @@
 		</div>
 			
 		<div id="sidebar">
-			
+		
 			<ul>
 				<li><a href="#">Dashboard</a></li>
 				<li>
@@ -29,6 +29,8 @@
 					</ul>
 				</li>
 			</ul>
+			
+			<b><?php echo $this->session->user->username;?></b>, <a href="/logout">logout?</a>
 			
 		</div>
 		

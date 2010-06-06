@@ -33,12 +33,18 @@ a:hover
 #sidebar
 {width: 169px; margin: 10px 20px 10px 0; padding: 10px 5px; float: left; border-right: 1px solid #aaa;}
 
+#sidebar b
+{padding: 0 5px;}
+
 #main
 {width: 800px; float: left; padding: 10px 0;}
 
 /**
  * Sidebar menu
  */
+#sidebar > ul
+{margin-bottom: 10px;}
+
 #sidebar ul li
 {border: 1px solid #bbb; margin-top: -1px; background: #ddd;}
 

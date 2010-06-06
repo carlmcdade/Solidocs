@@ -45,7 +45,11 @@ class Solidocs_Model_User extends Solidocs_Base
 		if($this->db->affected_rows() !== 0){
 			$this->session->user	= $this->db->fetch_assoc();
 			$this->user				= &$this->session->user;
+			
+			return true;
 		}
+		
+		return false;
 	}
 	
 	/**

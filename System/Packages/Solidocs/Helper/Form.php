@@ -38,6 +38,19 @@ class Solidocs_Helper_Form extends Solidocs_Helper
 	}
 	
 	/**
+	 * Button
+	 *
+	 * @param array|string
+	 */
+	public function button($button, $args = false){
+		$args = parse_args(array(
+			'type'	=> 'submit'
+		), $args);
+		
+		echo '<button ' . html_properties($args) . '>' . $button . '</button>';
+	}
+	
+	/**
 	 * Textarea
 	 *
 	 * @param array|string

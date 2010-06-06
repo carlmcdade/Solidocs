@@ -26,4 +26,11 @@ class Solidocs_Session
 			$_SESSION[$key] = $val;
 		}
 	}
+	
+	/**
+	 * Destroy
+	 */
+	public function destroy(){
+		session_destroy();
+	}
 }

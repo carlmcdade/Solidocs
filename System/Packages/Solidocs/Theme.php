@@ -62,6 +62,11 @@ class Solidocs_Theme extends Solidocs_Base
 	public $style = array();
 	
 	/**
+	 * Body class
+	 */
+	public $body_class = '';
+	
+	/**
 	 * Call magic method
 	 *
 	 * @param string
@@ -258,5 +263,16 @@ class Solidocs_Theme extends Solidocs_Base
 		}
 		
 		echo $output;
+	}
+	
+	/**
+	 * Body class
+	 *
+	 * @return string
+	 */
+	public function body_class(){
+		if(!empty($this->body_class)){
+			echo ' class="' . $this->body_class . '"';
+		}
 	}
 }

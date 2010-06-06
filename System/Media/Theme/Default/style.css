@@ -13,7 +13,7 @@ h1 a
 {display: block; height: 80px; width: 200px; background: url(images/logo_web.png); text-indent: -10000px; float: left;}
 
 h2
-{font-size: 2.2em; font-family: Georgia; font-weight: normal; color: #023d63;}
+{font-size: 2.2em; font-family: Georgia; font-weight: normal; color: #023d63; border-bottom: 1px solid #ccc; padding: 0 0 10px 0;}
 
 p
 {font-size: 1.2em; line-height: 1.5; padding-top: 5px;}
@@ -41,6 +41,15 @@ a:hover
 
 #content
 {padding: 10px;}
+
+/**
+ * Body classes
+ */
+body.login #sub_navigation
+{display: none;}
+
+body.login #content_wrapper
+{width: 400px; border-top: 1px solid #003260;}
 
 /**
  * Navigation
@@ -80,6 +89,24 @@ a:hover
 
 #footer
 {border-top: 1px solid #ddd; padding: 10px; color: #666; font-size: 1.1em; text-align: center}
+
+/**
+ * Login form
+ */
+#login_form
+{padding: 10px;}
+
+#login_form label
+{display: block; font-size: 1.4em; padding: 5px;}
+
+#login_form input
+{width: 338px; border: 0; border: 1px solid; border-top-color: #ccc; border-left-color: #999; border-right-color: #999; border-bottom-color: #888; font-size: 1.2em; padding: 10px;}
+
+#login_form input:focus
+{border-color: #5a88af; background: #e6f0fc;}
+
+#login_form button
+{display: block; margin: 5px;}
 
 /**
  * Classes
