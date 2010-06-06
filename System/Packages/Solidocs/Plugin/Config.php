@@ -14,7 +14,7 @@ class Solidocs_Plugin_Config extends Solidocs_Plugin
 	/**
 	 * Config
 	 */
-	public function config(){
+	public function init(){
 		$this->db->select_from('config')->run();
 		
 		if($this->db->affected_rows() !== 0){

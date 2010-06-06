@@ -2,25 +2,6 @@
 class Solidocs_Controller_Action extends Solidocs_Controller
 {
 	/**
-	 * Acl
-	 */
-	public $acl;
-	
-	/**
-	 * Set access
-	 *
-	 * @param string
-	 * @param integer
-	 * @param string|bool
-	 */
-	public function set_access($action, $level, $do = false){
-		$this->acl[$action] = array(
-			'level'	=> $level,
-			'do'	=> '404'
-		);
-	}
-	
-	/**
 	 * Dispatch action
 	 *
 	 * @param string
@@ -28,12 +9,12 @@ class Solidocs_Controller_Action extends Solidocs_Controller
 	public function dispatch_action($action){
 		$action = strtolower($action);
 		
-		if(isset($this->model->user) AND isset($this->acl[$action]) AND !$this->model->user->has_access($this->acl[$action]['level'])){
-			if($this->acl[$action]['do'] == false){
+		if(isset($this->model->user) AND is_object($this->acl) AND !$this->acl->has_access($this, $action)){
+			$action = $this->acl->action($this, $action);
+			
+			if($action == false){
 				return false;
 			}
-			
-			$action = $this->acl[$action]['do'];
 		}
 		
 		if(method_exists($this, 'do_' . $action)){

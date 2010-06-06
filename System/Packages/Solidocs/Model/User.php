@@ -55,6 +55,10 @@ class Solidocs_Model_User extends Solidocs_Base
 	 * @return bool
 	 */
 	public function has_access($level, $exact = false){
+		if($level == 0){
+			return true;
+		}
+		
 		if(!isset($this->user->access_level)){
 			return false;
 		}

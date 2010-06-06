@@ -62,7 +62,8 @@ class Solidocs_Application extends Solidocs_Base
 			'Input',
 			'I18n',
 			'Output',
-			'Theme'
+			'Theme',
+			'Acl'
 		));
 		
 		Solidocs::do_action('post_libraries');

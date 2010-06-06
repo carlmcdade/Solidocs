@@ -8,3 +8,20 @@
 	
 </head>
 <body>
+
+	<div id="header">
+		
+	</div>
+	
+	<div id="wrapper">
+		
+		<div id="sidebar">
+			
+			<ul>
+				<li><a href="#">Dashboard</a></li>
+				<li><a href="#">Packages</a></li>
+			</ul>
+			
+		</div>
+		
+		<div id="main">
