@@ -12,9 +12,9 @@ class Solidocs_Theme extends Solidocs_Base
 	public $theme = 'Default';
 	
 	/**
-	 * Theme file
+	 * Theme files
 	 */
-	public $theme_file = 'index.php';
+	public $theme_files = array('index');
 	
 	/**
 	 * Theme layout
@@ -86,13 +86,46 @@ class Solidocs_Theme extends Solidocs_Base
 	}
 	
 	/**
+	 * Add file
+	 *
+	 * @param string
+	 */
+	public function add_theme_file($file){
+		array_unshift($this->theme_files, $file);
+	}
+	
+	/**
+	 * Add title part
+	 *
+	 * @param string
+	 */
+	public function add_title_part($part){
+		$this->title_parts[] = $part;
+	}
+	
+	/**
 	 * Render
 	 */
 	public function render(){
 		define('THEME', MEDIA . '/Theme/' . $this->theme);
 		define('THEME_WWW', str_replace(ROOT, '', THEME));
 		
-		include(THEME . '/' . $this->theme_file);
+		foreach($this->theme_files as $file){
+			if(isset($theme_file)){
+				continue;
+			}
+			
+			if(file_exists(THEME . '/' . $file . '.php')){
+				$theme_file = THEME . '/' . $file . '.php';
+			}
+		}
+		
+		if(!isset($theme_file)){
+			trigger_error('No theme file could be found in "' . THEME . '".');
+			return false;
+		}
+		
+		include($theme_file);
 	}
 	
 	/**

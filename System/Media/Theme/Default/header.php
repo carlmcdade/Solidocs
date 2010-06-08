@@ -28,19 +28,3 @@
 	</div>
 	
 	<div id="wrapper">
-		
-		<div id="sub_navigation">
-				
-			<ul>
-				<?php $this->list_channel('main_navigation',array(
-					'depth' 	=> 1,
-					'parent_id'	=> 1
-				));?>
-			</ul>
-			
-			<div class="clear"></div>
-			
-		</div>
-		<div id="content_wrapper">
-		
-			<div id="content">

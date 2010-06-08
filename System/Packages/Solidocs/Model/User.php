@@ -29,6 +29,7 @@ class Solidocs_Model_User extends Solidocs_Base
 	 *
 	 * @param string
 	 * @param string
+	 * @return bool
 	 */
 	public function auth($user, $password){
 		$this->db->select_from('user')->where_or(array(

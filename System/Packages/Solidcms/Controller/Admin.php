@@ -18,6 +18,8 @@ class Solidcms_Controller_Admin extends Solidocs_Controller_Action
 			}
 		}
 		
+		$this->theme->add_title_part('Login');
+		$this->theme->add_theme_file('login');
 		$this->load->view('Login');
 	}
 	

@@ -1,4 +1,3 @@
-<?php $this->theme->body_class = 'login';?>
 <h2>Please sign in to access this page</h2>
 
 <div id="login_form">

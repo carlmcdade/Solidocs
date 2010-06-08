@@ -13,10 +13,10 @@ h1 a
 {display: block; height: 80px; width: 200px; background: url(images/logo_web.png); text-indent: -10000px; float: left;}
 
 h2
-{font-size: 2.2em; font-family: Georgia; font-weight: normal; color: #023d63; border-bottom: 1px solid #ccc; padding: 0 0 10px 0;}
+{font-size: 2.2em; font-family: Georgia; font-weight: normal; color: #023d63; border-bottom: 1px solid #ccc; padding: 5px 5px 10px 5px;}
 
 p
-{font-size: 1.2em; line-height: 1.5; padding-top: 5px;}
+{font-size: 1.2em; line-height: 1.5; padding-top: 10px;}
 
 a
 {text-decoration: none; color: #0262a0;}
@@ -36,20 +36,14 @@ a:hover
 #wrapper
 {background: url(images/wrapper_bg.png) top left repeat-x; padding-top: 40px;}
 
-#content_wrapper
-{width: 958px; margin: auto; background: #fff; border: 1px solid #003260; border-top: 0;}
-
 #content
-{padding: 10px;}
+{width: 958px; padding: 10px; margin: auto; background: #fff; border: 1px solid #003260;}
 
-/**
- * Body classes
- */
-body.login #sub_navigation
-{display: none;}
+#content.small
+{width: 400px;}
 
-body.login #content_wrapper
-{width: 400px; border-top: 1px solid #003260;}
+#footer
+{border-top: 1px solid #ddd; padding: 10px 10px 0 10px; margin-top: 10px; color: #666; font-size: 1.1em; text-align: center;}
 
 /**
  * Navigation
@@ -68,27 +62,6 @@ body.login #content_wrapper
 
 #navigation ul .active a
 {color: #2c98e7;}
-
-#sub_navigation
-{width: 960px; margin: auto; background: #003260; padding: 3px 0; -moz-border-radius-topleft: 5px; -moz-border-radius-topright: 5px; -webkit-border-top-right-radius: 5px; -webkit-border-top-left-radius: 5px;}
-
-#sub_navigation ul
-{width: 960px; margin: auto; clear: both;}
-
-#sub_navigation ul li
-{display: inline;}
-
-#sub_navigation ul li a
-{display: block; float: left; padding: 6px 10px; font-size: 1.1em; margin-left: 3px; -moz-border-radius: 5px; -webkit-border-radius: 5px; color: #fff;}
-
-#sub_navigation ul li a:hover
-{background: #fff; text-decoration: none; color: #023d63;}
-
-#sub_navigation ul .active a
-{font-weight: bold; border-color: #ddd; background: #1f6bb5; color: #fff;}
-
-#footer
-{border-top: 1px solid #ddd; padding: 10px; color: #666; font-size: 1.1em; text-align: center}
 
 /**
  * Login form
