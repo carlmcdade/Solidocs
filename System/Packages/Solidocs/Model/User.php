@@ -44,8 +44,9 @@ class Solidocs_Model_User extends Solidocs_Base
 		))->limit(1)->run();
 		
 		if($this->db->affected_rows() !== 0){
-			$this->session->user	= $this->db->fetch_assoc();
-			$this->user				= &$this->session->user;
+			$this->session->user			= $this->db->fetch_assoc();
+			$this->session->user['group']	= explode(',', $this->session->user['group']);
+			$this->user						= &$this->session->user;
 			
 			return true;
 		}
@@ -54,24 +55,16 @@ class Solidocs_Model_User extends Solidocs_Base
 	}
 	
 	/**
-	 * Has access
+	 * In group
 	 *
 	 * @param integer
 	 * @return bool
 	 */
-	public function has_access($level, $exact = false){
-		if($level == 0){
-			return true;
-		}
-		
-		if(!isset($this->user->access_level)){
+	public function in_group($group){
+		if(is_null($this->user)){
 			return false;
 		}
 		
-		if($exact){
-			return ($this->user->access_level == $level);
-		}
-		
-		return ($this->user->access_level >= $level);
+		return in_array($group, $this->user->group);
 	}
 }

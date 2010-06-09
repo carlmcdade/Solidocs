@@ -5,7 +5,7 @@ class Solidcms_Controller_Admin extends Solidocs_Controller_Action
 	 * Init
 	 */
 	public function init(){
-		$this->acl->set_access($this, 'index', 3, 'login');
+		$this->acl->set_access($this, 'index', 'admin', 'login');
 	}
 	
 	/**

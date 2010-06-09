@@ -10,8 +10,8 @@ class Solidocs_Controller_Action extends Solidocs_Controller
 		$action = strtolower($action);
 		
 		if(isset($this->model->user) AND is_object($this->acl) AND !$this->acl->has_access($this, $action)){
-			$action = $this->acl->action($this, $action);
-						
+			$action = $this->acl->get_action($this, $action);
+			
 			if($action == false){
 				return false;
 			}

@@ -7,21 +7,51 @@ class Solidocs_Acl extends Solidocs_Base
 	public $list = array();
 	
 	/**
+	 * Groups
+	 */
+	public $groups = array('user', 'admin');
+	
+	/**
+	 * Autoload db
+	 */
+	public $autoload_db = true;
+	
+	/**
+	 * Init
+	 */
+	public function init(){
+		if($this->autoload_db){
+			$this->db->select_from('acl')->run();
+			
+			if($this->db->affected_rows()){
+				while($item = $this->db->fetch_assoc()){
+					$this->list[$item['category'] . '::' . $item['key']] = array(
+						'group'		=> $item['group'],
+						'action'	=> $item['action']
+					);
+				}
+			}
+		}
+	}
+	
+	/**
 	 * Set access
 	 *
 	 * @param object|string
 	 * @param string
-	 * @param integer
+	 * @param string
 	 * @param string|bool
 	 */
-	public function set_access($class, $action, $level, $do = false){
-		if(is_object($class)){
-			$class = get_class($class);
+	public function set_access($category, $key, $group, $action = false){
+		if(is_object($category)){
+			$category = get_class($category);
 		}
 		
-		$this->list[$class][$action] = array(
-			'level'		=> $level,
-			'action'	=> $do
+		$key = $category . '::' . $key;
+		
+		$this->list[$key] = array(
+			'group'		=> $group,
+			'action'	=> $action
 		);
 	}
 	
@@ -32,13 +62,15 @@ class Solidocs_Acl extends Solidocs_Base
 	 * @param string
 	 * @return bool
 	 */
-	public function has_access($class, $action){
-		if(is_object($class)){
-			$class = get_class($class);
+	public function has_access($category, $key){
+		if(is_object($category)){
+			$category = get_class($category);
 		}
 		
-		if(isset($this->list[$class][$action])){
-			if(!$this->model->user->has_access($this->list[$class][$action]['level'])){
+		$key = $category . '::' . $key;
+		
+		if(isset($this->list[$key])){
+			if(!$this->model->user->in_group($this->list[$key]['group'])){
 				return false;
 			}
 		}
@@ -47,17 +79,19 @@ class Solidocs_Acl extends Solidocs_Base
 	}
 	
 	/**
-	 * Action
+	 * Get action
 	 *
 	 * @param object|string
 	 * @param string
 	 * @return string|bool
 	 */
-	public function action($class, $action){
-		if(is_object($class)){
-			$class = get_class($class);
+	public function get_action($category, $key){
+		if(is_object($category)){
+			$category = get_class($category);
 		}
 		
-		return $this->list[$class][$action]['action'];
+		$key = $category . '::' . $key;
+		
+		return $this->list[$key]['action'];
 	}
 }
