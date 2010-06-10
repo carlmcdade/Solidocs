@@ -31,6 +31,11 @@ class Solidocs_Db_Mysql
 	 */
 	public $first_where = true;
 	
+	/** 
+	 * First having
+	 */
+	public $first_having = true;
+	
 	/**
 	 * Queries
 	 */
@@ -293,7 +298,19 @@ class Solidocs_Db_Mysql
 	 * @return object
 	 */
 	public function offset($offset){
-		$this->query .= 'OFFSET ' . $offset;
+		$this->query .= 'OFFSET ' . $offset . ' ';
+		
+		return $this;
+	}
+	
+	/**
+	 * Group by
+	 *
+	 * @param string
+	 * @return object
+	 */
+	public function group_by($field){
+		$this->query .= 'GROUP BY ' . $field . ' ';
 		
 		return $this;
 	}
@@ -329,15 +346,37 @@ class Solidocs_Db_Mysql
 	}
 	
 	/**
+	 * First having
+	 *
+	 * @param string
+	 */
+	public function first_having($separator = 'AND'){
+		if($this->first_having){
+			$this->query .= 'HAVING ';
+		}
+		else{
+			$this->query .= $separator . ' ';
+		}
+		
+		$this->first_where = false;
+	}
+	
+	/**
 	 * Where
 	 *
 	 * @param array
 	 * @param string	Optional.
 	 * @param string	Optional.
+	 * @param bool		Optional.
 	 * @return object
 	 */
-	public function where($args, $separator = 'AND', $block_separator = 'AND'){
-		$this->first_where($separator);
+	public function where($args, $separator = 'AND', $block_separator = 'AND', $having = false){
+		if($having){
+			$this->first_having($separator);
+		}
+		else{
+			$this->first_where($separator);
+		}
 		
 		foreach($args as $key => $val){
 			$comparison = '=';
@@ -390,7 +429,12 @@ class Solidocs_Db_Mysql
 	 * @return object
 	 */
 	public function where_in($field, $args, $in = 'IN'){
-		$this->first_where();
+		if($having){
+			$this->first_having($separator);
+		}
+		else{
+			$this->first_where($separator);
+		}
 	
 		$this->query .= ' ' . $in . '(' . implode(',', $args) . ') ';
 		
@@ -406,5 +450,17 @@ class Solidocs_Db_Mysql
 	 */
 	public function where_not_in($field, $args){
 		return $this->where_in($field, $args, 'NOT IN');
+	}
+	
+	/**
+	 * Having
+	 *
+	 * @param array
+	 * @param string	Optional.
+	 * @param string	Optional.
+	 * @return object
+	 */
+	public function having($args, $separator = 'AND', $block_separator = 'AND'){
+		return $this->where($args, $separator, $block_separator, true);
 	}
 }
