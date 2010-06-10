@@ -25,7 +25,7 @@ class Solidocs_Acl extends Solidocs_Base
 			
 			if($this->db->affected_rows()){
 				while($item = $this->db->fetch_assoc()){
-					$this->list[$item['category'] . '::' . $item['key']] = array(
+					$this->list[$this->_key($item['category'], $item['key'])] = array(
 						'group'		=> $item['group'],
 						'action'	=> $item['action']
 					);

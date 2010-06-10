@@ -382,15 +382,15 @@ class Solidocs_Db_Mysql
 			$comparison = '=';
 			
 			if(is_array($val)){
-				if(substr($val, 0, 5) == 'LIKE '){
-					$comparison = 'LIKE';
-					$val		= substr($val, 5);
-				}
-				
 				$this->query .= '(';
 				
 				foreach($val as $key => $val){
-					$this->query .= $key . ' = "' . $val . '" ' . $block_separator . ' ';
+					if(substr($val, 0, 5) == 'LIKE '){
+						$comparison = 'LIKE';
+						$val		= substr($val, 5);
+					}
+					
+					$this->query .= $key . ' ' . $comparison . ' "' . $val . '" ' . $block_separator . ' ';
 				}
 				
 				$this->query = trim($this->query,' ' . $block_separator . ' ') . ') ' . $separator . ' ';
@@ -401,7 +401,7 @@ class Solidocs_Db_Mysql
 					$val		= substr($val, 5);
 				}
 				
-				$this->query .= $key . ' = "' . $val . '" ' . $separator . ' ';
+				$this->query .= $key . ' ' . $comparison . ' "' . $val . '" ' . $separator . ' ';
 			}
 		}
 		
