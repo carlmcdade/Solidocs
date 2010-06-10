@@ -280,8 +280,20 @@ class Solidocs_Db_Mysql
 	 * @param integer	Optional.
 	 * @return object
 	 */
-	public function limit($limit, $page = 0){
-		$this->query .= 'LIMIT ' . $page . ',' . $limit . ' ';
+	public function limit($limit, $offset = 0){
+		$this->query .= 'LIMIT ' . $offset . ',' . $limit . ' ';
+		
+		return $this;
+	}
+	
+	/**
+	 * Offset
+	 *
+	 * @param integer
+	 * @return object
+	 */
+	public function offset($offset){
+		$this->query .= 'OFFSET ' . $offset;
 		
 		return $this;
 	}
@@ -328,7 +340,14 @@ class Solidocs_Db_Mysql
 		$this->first_where($separator);
 		
 		foreach($args as $key => $val){
+			$comparison = '=';
+			
 			if(is_array($val)){
+				if(substr($val, 0, 5) == 'LIKE '){
+					$comparison = 'LIKE';
+					$val		= substr($val, 5);
+				}
+				
 				$this->query .= '(';
 				
 				foreach($val as $key => $val){
@@ -338,6 +357,11 @@ class Solidocs_Db_Mysql
 				$this->query = trim($this->query,' ' . $block_separator . ' ') . ') ' . $separator . ' ';
 			}
 			else{
+				if(substr($val, 0, 5) == 'LIKE '){
+					$comparison = 'LIKE';
+					$val		= substr($val, 5);
+				}
+				
 				$this->query .= $key . ' = "' . $val . '" ' . $separator . ' ';
 			}
 		}
@@ -365,11 +389,22 @@ class Solidocs_Db_Mysql
 	 * @param array
 	 * @return object
 	 */
-	public function where_in($field, $args){
+	public function where_in($field, $args, $in = 'IN'){
 		$this->first_where();
 	
-		$this->query .= ' IN(' . implode(',', $args) . ') ';
+		$this->query .= ' ' . $in . '(' . implode(',', $args) . ') ';
 		
 		return $this;
+	}
+	
+	/**
+	 * Where not in
+	 *
+	 * @param string
+	 * @param array
+	 * @return object
+	 */
+	public function where_not_in($field, $args){
+		return $this->where_in($field, $args, 'NOT IN');
 	}
 }

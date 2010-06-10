@@ -43,7 +43,7 @@ a:hover
 {width: 400px;}
 
 #footer
-{border-top: 1px solid #ddd; padding: 10px 10px 0 10px; margin-top: 10px; color: #666; font-size: 1.1em; text-align: center;}
+{padding: 10px 10px 0 10px; color: #fff; text-shadow: 1px 1px 2px #444; font-size: 1.1em; text-align: center;}
 
 /**
  * Navigation

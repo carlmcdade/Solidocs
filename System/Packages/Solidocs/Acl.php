@@ -35,6 +35,21 @@ class Solidocs_Acl extends Solidocs_Base
 	}
 	
 	/**
+	 * Key
+	 *
+	 * @param string
+	 * @param string
+	 * @return string
+	 */
+	public function _key($category, $key){
+		if(is_object($category)){
+			$category = get_class($category);
+		}
+		
+		return $category . '::' . $key;
+	}
+	
+	/**
 	 * Set access
 	 *
 	 * @param object|string
@@ -43,13 +58,7 @@ class Solidocs_Acl extends Solidocs_Base
 	 * @param string|bool
 	 */
 	public function set_access($category, $key, $group, $action = false){
-		if(is_object($category)){
-			$category = get_class($category);
-		}
-		
-		$key = $category . '::' . $key;
-		
-		$this->list[$key] = array(
+		$this->list[$this->_key($category, $key)] = array(
 			'group'		=> $group,
 			'action'	=> $action
 		);
@@ -63,11 +72,7 @@ class Solidocs_Acl extends Solidocs_Base
 	 * @return bool
 	 */
 	public function has_access($category, $key){
-		if(is_object($category)){
-			$category = get_class($category);
-		}
-		
-		$key = $category . '::' . $key;
+		$key = $this->_key($category, $key);
 		
 		if(isset($this->list[$key])){
 			if(!$this->model->user->in_group($this->list[$key]['group'])){
@@ -86,12 +91,6 @@ class Solidocs_Acl extends Solidocs_Base
 	 * @return string|bool
 	 */
 	public function get_action($category, $key){
-		if(is_object($category)){
-			$category = get_class($category);
-		}
-		
-		$key = $category . '::' . $key;
-		
-		return $this->list[$key]['action'];
+		return $this->list[$this->_key($category, $key)]['action'];
 	}
 }
