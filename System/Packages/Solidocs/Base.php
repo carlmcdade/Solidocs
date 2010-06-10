@@ -8,7 +8,7 @@ class Solidocs_Base
 	 */
 	public function __construct($config = ''){
 		if(is_array($config)){
-			Solidocs::apply_config($this,$config);
+			Solidocs::apply_config($this, $config);
 		}
 		
 		$this->init();
