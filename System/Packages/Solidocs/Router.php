@@ -108,4 +108,40 @@ class Solidocs_Router
 			}
 		}
 	}
+	
+	/**
+	 * Get uri
+	 *
+	 * @param string
+	 * @param array		Optional.
+	 * @return string
+	 */
+	public function get_uri($key, $values = null){
+		if(!isset($this->routes[$key])){
+			trigger_error('The route "' . $key . '" could not be found');
+			return false;
+		}
+		
+		if(isset($this->routes[$key]['default'])){
+			$defaults = $this->routes[$key]['default'];
+		}
+		
+		if(!is_array($values)){
+			$values = array();
+		}
+		
+		if(is_array($defaults)){
+			$values = array_merge($defaults, $values);
+		}
+		
+		$uri = $this->routes[$key]['uri'];
+		
+		if(count($values) !== 0){
+			foreach($values as $key => $val){
+				$uri = str_replace(':' . $key, $val, $uri);
+			}
+		}
+		
+		return $uri;
+	}
 }
