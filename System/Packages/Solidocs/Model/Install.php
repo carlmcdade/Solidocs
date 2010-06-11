@@ -63,7 +63,8 @@ class Solidocs_Model_Install extends Solidocs_Install
 		'user'	=> array(
 			'email'		=> 'admin@example.com',
 			'username'	=> 'admin',
-			'password'	=> 'password'
+			'password'	=> 'password',
+			'group'		=> 'user,admin'
 		)
 	);
 }

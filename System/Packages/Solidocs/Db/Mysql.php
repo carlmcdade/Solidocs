@@ -201,7 +201,7 @@ class Solidocs_Db_Mysql
 	 * @return object
 	 */
 	public function select_from($table, $fields = '*'){
-		$this->query .= 'SELECT ' . $fields . ' FROM ' . $table . ' ';
+		$this->query .= 'SELECT ' . $fields . ' FROM ' . $this->_table($table) . ' ';
 		
 		return $this;
 	}
@@ -212,7 +212,7 @@ class Solidocs_Db_Mysql
 	 * @return object
 	 */
 	public function delete_from($table){
-		$this->query .= 'DELETE FROM ' . $table . ' ';
+		$this->query .= 'DELETE FROM ' . $this->_table($table) . ' ';
 		
 		return $this;
 	}
@@ -225,7 +225,7 @@ class Solidocs_Db_Mysql
 	 * @return object
 	 */
 	public function insert_into($table, $data){
-		$this->query .= 'INSERT INTO ' . $table . ' (' . implode(',', array_keys($data)) . ') VALUES("' . implode('","', $data) . '")';
+		$this->query .= 'INSERT INTO ' . $this->_table($table) . ' (`' . implode('`,`', array_keys($data)) . '`) VALUES("' . implode('","', $data) . '")';
 		
 		return $this;
 	}
@@ -238,10 +238,10 @@ class Solidocs_Db_Mysql
 	 * @return object
 	 */
 	public function update_set($table, $data){
-		$this->query .= 'UPDATE ' . $table . ' SET ';
+		$this->query .= 'UPDATE ' . $this->_table($table) . ' SET ';
 		
 		foreach($data as $key=>$val){
-			$this->query .= $key . ' = "' . $val . '", ';
+			$this->query .= '`' . $key . '` = "' . $val . '", ';
 		}
 		
 		$this->query = trim($this->query, ', ') . ' ';
@@ -258,7 +258,7 @@ class Solidocs_Db_Mysql
 	 * @return object
 	 */
 	public function join($table, $on1, $on2){
-		$this->query .= 'JOIN ' . $table . ' ON(' . $on1 . ' = ' . $on2 . ') ';
+		$this->query .= 'JOIN ' . $this->_table($table) . ' ON(' . $on1 . ' = ' . $on2 . ') ';
 		
 		return $this;
 	}
@@ -462,5 +462,19 @@ class Solidocs_Db_Mysql
 	 */
 	public function having($args, $separator = 'AND', $block_separator = 'AND'){
 		return $this->where($args, $separator, $block_separator, true);
+	}
+	
+	/**
+	 * Table
+	 *
+	 * @param string
+	 * @return string
+	 */
+	public function _table($table){
+		if(!strpos($table, '.')){
+			return '`' . $table . '`';
+		}
+		
+		return $table;
 	}
 }
