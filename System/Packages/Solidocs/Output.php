@@ -150,44 +150,73 @@ class Solidocs_Output extends Solidocs_Base
 			'$_SESSION'			=> debug($_SESSION, '', true),
 			'$_COOKIE'			=> debug($_COOKIE, '', true)
 		);
-		
+
 		$output = '
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js"></script>
+		<script type="text/javascript">
+		$(document).ready(function(){
+			
+			$("#debug_box ul li a").click(function(){
+				
+				$("#debug_box ul li div").hide();
+				$(this).siblings().show();
+				
+			});
+			
+		});
+		</script>
 		<style type="text/css">
 		#debug_box
-		{background: #fff; border: 2px solid #444; border-left: 0; border-right: 0; padding: 10px 0 0 0; margin: 10px 0; font-size: 10px;}
+		{position: fixed; bottom: 0; left: 0; width: 100%; height: 25px; background: #444; border-top: 1px solid #333;}
 		
-		#debug_box .section
-		{background: #eee; margin-bottom: 10px;}
+		#debug_box ul
+		{margin-left: 10px;}
 		
-		#debug_box .section .headline
-		{display: block; padding: 5px; font-weight: bold; border: 1px solid #ccc; border-left: 0; border-right: 0; background: #ddd;}
+		#debug_box ul li
+		{display: inline; position: relative;}
 		
-		#debug_box .section .item
-		{padding: 5px; border-bottom: 1px solid #ccc;}
+		#debug_box ul li a
+		{display: block; float: left; height: 25px; line-height: 25px; padding: 0 10px; font-size: 10px; background: #ccc; color: #444; border: 1px solid #666; border-top: 0; border-bottom: 0; margin-right: 10px;}
 		
-		#debug_box .section .row div
-		{padding: 5px; border-bottom: 1px solid #ccc;}
+		#debug_box ul li div
+		{position: absolute; bottom: 1px; left: 0; background: #ccc; border: 1px solid #666; border-bottom: 0; display: none;}
 		
-		#debug_box .section .row div:first-child
-		{float: left; width: 200px; font-weight: bold;}
+		#debug_box ul li div.item
+		{padding: 5px;}
+		
+		#debug_box ul li div table
+		{width: 500px;}
+		
+		#debug_box ul li div table tr td
+		{padding: 5px;}
+		
+		#debug_box ul li div table tr td:first-child
+		{font-weight: bold; padding-right: 20px;}
+		
+		#debug_box ul li div table tr:nth-child(even) td
+		{background: #ddd;}
 		</style>
-		<div id="debug_box">';
-		
+		<div id="debug_box"><ul>';
+
 		foreach($debug as $section => $parts){
-			$output .= '<div class="section"><span class="headline">' . $section . '</span>';
+			$output .= '<li>';
 			
 			if(!is_array($parts)){
 				$output .= '<div class="item">' . $parts . '</div>';
 			}
 			else{
+				$output .= '<div><table>';
+				
 				foreach($parts as $title => $content){
-					$output .= '<div class="row"><div>' . $title . '</div><div>' . $content . '</div></div>';
+					$output .= '<tr><td>' . $title . '</td><td>' . $content . '</td></tr>';
 				}
+				
+				$output .= '</table></div>';
 			}
 			
-			$output .= '</div>';
+			$output .= '<a href="#">' . $section . '</a></li>';
 		}
 		
-		return $output . '</div>';
+		return $output . '<li><a href="#">X</a></ul></div>';
 	}
 }

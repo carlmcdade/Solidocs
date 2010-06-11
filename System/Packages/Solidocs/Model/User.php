@@ -44,7 +44,10 @@ class Solidocs_Model_User extends Solidocs_Base
 		))->limit(1)->run();
 		
 		if($this->db->affected_rows() !== 0){
-			$this->session->user			= $this->db->fetch_assoc();
+			$array = $this->db->fetch_assoc();
+			unset($array['password']);
+			
+			$this->session->user			= $array;
 			$this->session->user['group']	= explode(',', $this->session->user['group']);
 			$this->user						= &$this->session->user;
 			
