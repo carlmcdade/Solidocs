@@ -99,7 +99,7 @@ class Solidocs_Db_Mysql
 			$this->affected_rows = 0;
 		}
 		
-		$this->queries = array(
+		$this->queries[] = array(
 			'query'		=> $this->query,
 			'success'	=> $success,
 			'rows'		=> $this->affected_rows
@@ -190,7 +190,7 @@ class Solidocs_Db_Mysql
 	 */
 	public function sql($sql){
 		$this->query .= $sql . ' ';
-		
+				
 		return $this;
 	}
 	

@@ -12,6 +12,11 @@ class Solidocs_Install_Mysql extends Solidocs_Base
 	public $tables = array();
 	
 	/**
+	 * Data
+	 */
+	public $data = array();
+	
+	/**
 	 * Types
 	 */
 	public $types = array(
@@ -25,10 +30,8 @@ class Solidocs_Install_Mysql extends Solidocs_Base
 	 * Install
 	 */
 	public function install(){
-		$sql = '';
-		
 		foreach($this->tables as $table => $fields){
-			$sql		.= 'CREATE TABLE IF NOT EXISTS `' . $table . '` (' . "\n";
+			$sql		= 'CREATE TABLE IF NOT EXISTS `' . $table . '` (' . "\n";
 			$indexes	= array();
 			
 			foreach($fields as $name => $field){
@@ -71,9 +74,22 @@ class Solidocs_Install_Mysql extends Solidocs_Base
 				$sql .= implode(',' . "\n", $indexes) . "\n";
 			}
 			
-			$sql = trim($sql, ',') . ') ENGINE=' . $this->engine . ';' . "\n\n";
+			$this->db->sql(trim($sql, ',') . ') ENGINE=' . $this->engine . ';')->run();
 		}
 		
-		debug($sql);
+		if(count($this->data) !== 0){
+			foreach($this->data as $table => $item){
+				$this->db->insert_into($table, $item)->run();
+			}
+		}
+	}
+	
+	/**
+	 * Uninstall
+	 */
+	public function uninstall(){
+		foreach($this->tables as $table => $fields){
+			$this->db->sql('DROP TABLE IF EXISTS `' . $table . '`;')->run();
+		}
 	}
 }

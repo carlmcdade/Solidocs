@@ -17,11 +17,17 @@ class Solidocs_Install extends Solidocs_Base
 	public $tables;
 	
 	/**
+	 * Data
+	 */
+	public $data;
+	
+	/**
 	 * Init
 	 */
 	public function init(){
-		$this->instance = new $this->adapter;
-		$this->instance->tables = $this->tables;
+		$this->instance			= new $this->adapter;
+		$this->instance->tables	= $this->tables;
+		$this->instance->data	= $this->data;
 	}
 	
 	/**
@@ -29,5 +35,12 @@ class Solidocs_Install extends Solidocs_Base
 	 */
 	public function install(){
 		$this->instance->install();
+	}
+	
+	/**
+	 * Uninstall
+	 */
+	public function uninstall(){
+		$this->instance->uninstall();
 	}
 }
