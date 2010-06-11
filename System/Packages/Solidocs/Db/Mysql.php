@@ -1,5 +1,5 @@
 <?php
-class Solidocs_Db_Adapter_Mysql
+class Solidocs_Db_Mysql
 {
 	/**
 	 * Link
