@@ -29,7 +29,7 @@ class Solidocs_Db
 	/**
 	 * Driver
 	 */
-	public $driver = 'Solidocs_Db_Mysql';
+	public $driver = 'Solidocs_Db_Adapter_Mysql';
 		
 	/**
 	 * Instance
