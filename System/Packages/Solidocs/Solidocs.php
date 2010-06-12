@@ -40,13 +40,18 @@ class Solidocs
 	 * @param object
 	 * @param array
 	 */
-	public static function apply_config($obj,$config){
+	public static function apply_config($obj, $config){
 		if(!is_array($config)){
 			return false;
 		}
 		
-		foreach($config as $key=>$val){
-			$obj->$key = $val;
+		foreach($config as $key => $val){
+			if(method_exists($obj, 'set_' . $key)){
+				call_user_func(array($obj, 'set_' . $key), $val);
+			}
+			else{
+				$obj->$key = $val;	
+			}
 		}
 	}
 	
