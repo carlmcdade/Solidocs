@@ -52,7 +52,7 @@ class Solidocs_Helper_Debug extends Solidocs_Helper
 		{display: block; float: left; height: 25px; line-height: 25px; padding: 0 10px; font-size: 10px; background: #ccc; color: #222; border: 1px solid #666; border-top: 0; border-bottom: 0; margin-right: 10px;}
 		
 		#debug_box ul li div
-		{position: absolute; bottom: 1px; left: 0; background: #ccc; border: 1px solid #666; border-bottom: 0; display: none;}
+		{position: absolute; bottom: 1px; left: 0; background: #ccc; border: 1px solid #666; border-bottom: 0; display: none; max-width: 900px; max-height: 600px; overflow: auto;}
 		
 		#debug_box ul li div.item
 		{padding: 5px;}
