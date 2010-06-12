@@ -20,14 +20,11 @@
 		<div id="sidebar">
 		
 			<ul>
-				<li><a href="#">Dashboard</a></li>
-				<li>
-					<a href="#">Packages</a>
-					<ul>
-						<li><a href="#">Plugins</a></li>
-						<li><a href="#">Install</a></li>
-					</ul>
-				</li>
+				<?php
+				$this->list_channel('admin_navigation', array(
+					'children' => true
+				));
+				?>
 			</ul>
 			
 			<b><?php echo $this->session->user->username;?></b>, <a href="/logout">logout?</a>

@@ -8,18 +8,23 @@ class Solidcms_Helper_List extends Solidocs_Helper
 	 * @param string
 	 * @param array|string	Optional.
 	 */
-	public function generate($type, $key, $args = array()){
+	public function generate($type, $key, $args = array(), $return = false){
 		$args = parse_args(array(
-			'locale'		=> $this->locale,
-			'limit'			=> 20,
-			'order_by'		=> 'weight',
-			'order'			=> 'ASC',
-			'link'			=> true,
-			'depth'			=> 0,
-			'parent_id'		=> 0,
-			'before_item'	=> '<li>',
-			'after_item'	=> '</li>'
+			'locale'			=> $this->locale,
+			'limit'				=> 20,
+			'order_by'			=> 'weight',
+			'order'				=> 'ASC',
+			'link'				=> true,
+			'depth'				=> 0,
+			'parent_id'			=> 0,
+			'children'			=> false,
+			'before_item'		=> '<li>',
+			'after_item'		=> '</li>',
+			'before_children'	=> '<ul>',
+			'after_children'	=> '</ul>'
 		), $args);
+		
+		$output = '';
 		
 		switch($type){
 			case 'channel':
@@ -63,8 +68,34 @@ class Solidcms_Helper_List extends Solidocs_Helper
 				$the_item = '<a href="' . $item['url'] . '">' . $item['title'] . '</a>';
 			}
 			
-			echo $before_item . $the_item . $args['after_item'];
+			$output .= $before_item . $the_item;
+			
+			if($args['children'] == true){
+				if($type == 'channel'){
+					$id = 'channel_item_id';
+				}
+				else{
+					$id = 'content_id';
+				}
+				
+				$children = $this->generate($type, $key, array_merge($args, array(
+					'depth' => $args['depth'] + 1,
+					'parent_id' => $item[$id]
+				)), true);
+				
+				if(!empty($children)){
+					$output .= $args['before_children'] . $children . $args['after_children'];
+				}
+			}
+			
+			$output .= $args['after_item'];
 		}
+		
+		if($return){
+			return $output;
+		}
+		
+		echo $output;
 	}
 	
 	/**
@@ -72,9 +103,10 @@ class Solidcms_Helper_List extends Solidocs_Helper
 	 *
 	 * @param string
 	 * @param array		Optional.
+	 * @param bool		Optional.
 	 */
-	public function channel($channel, $args = array()){
-		$this->generate('channel', $channel, $args);
+	public function channel($channel, $args = array(), $return = false){
+		return $this->generate('channel', $channel, $args, $return);
 	}
 	
 	/**
@@ -82,8 +114,9 @@ class Solidcms_Helper_List extends Solidocs_Helper
 	 *
 	 * @param string
 	 * @param array		Optional.
+	 * @param bool		Optional.
 	 */
-	public function type($type, $args = array()){
-		$this->generate('type', $type, $args);
+	public function type($type, $args = array(), $return = false){
+		return $this->generate('type', $type, $args, $return);
 	}
 }
