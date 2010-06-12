@@ -40,7 +40,7 @@ class Solidocs_Application extends Solidocs_Base
 		Solidocs::apply_config($this->load, $this->config->get('Solidocs_Load'));
 		
 		// Setup database
-		$this->load->library('Solidocs', 'Db');
+		$this->load->library('Db');
 		$this->db->connect();
 		$this->db->select_db();
 		
@@ -56,7 +56,7 @@ class Solidocs_Application extends Solidocs_Base
 		Solidocs::do_action('pre_libraries');
 		
 		// Load libraries
-		$this->load->library('Solidocs',array(
+		$this->load->library(array(
 			'Router',
 			'Session',
 			'Input',

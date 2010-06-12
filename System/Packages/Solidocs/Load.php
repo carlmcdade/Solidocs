@@ -124,27 +124,28 @@ class Solidocs_Load extends Solidocs_Base
 	/**
 	 * Library
 	 *
-	 * @param string
 	 * @param string|array
 	 */
-	public function library($package, $libraries){
+	public function library($libraries){
 		if(!is_array($libraries)){
 			$libraries = explode(',', $libraries);
 		}
 		
 		foreach($libraries as $library){
-			$class	= $package . '_' . $library;
-			$slug	= strtolower($library);
-			$config	= null;
+			$search = $this->search($library);
 			
-			if(is_object($this->config)){
-				$config	= $this->config->get($class);
-			}
-			
-			Solidocs::$registry->$slug = new $class($config);
-			
-			if(is_array($config)){
-				Solidocs::apply_config(Solidocs::$registry->$slug, $config);
+			if(is_array($search)){
+				$config = null;
+				
+				if(is_object($this->config)){
+					$config	= $this->config->get($search['class']);
+				}
+				
+				Solidocs::$registry->$search['slug'] = new $search['class']($config);
+				
+				if(is_array($config)){
+					Solidocs::apply_config(Solidocs::$registry->$search['slug'], $config);
+				}
 			}
 		}
 	}
