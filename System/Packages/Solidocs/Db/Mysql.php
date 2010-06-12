@@ -20,6 +20,11 @@ class Solidocs_Db_Mysql
 	 * Affected rows
 	 */
 	public $affected_rows = 0;
+	
+	/**
+	 * Insert id
+	 */
+	public $insert_id = 0;
 
 	/**
 	 * First order
@@ -91,6 +96,7 @@ class Solidocs_Db_Mysql
 	public function run(){
 		$success				= $this->query($this->query);
 		$this->affected_rows	= mysql_affected_rows($this->link);
+		$this->insert_id		= mysql_insert_id($this->link);
 		$this->first_order		= true;
 		$this->first_where		= true;
 		$this->last_query		= $this->query;
@@ -180,6 +186,15 @@ class Solidocs_Db_Mysql
 	 */
 	public function affected_rows(){
 		return $this->affected_rows;
+	}
+	
+	/**
+	 * Insert id
+	 *
+	 * @return integer
+	 */
+	public function insert_id(){
+		return $this->insert_id;
 	}
 	
 	/**
