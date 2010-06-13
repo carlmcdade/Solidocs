@@ -15,11 +15,20 @@ body
 h1 a
 {font: 1.6em Georgia, "Times New Roman", Times, serif; display: block; float: left; height: 50px; line-height: 50px; padding: 0 20px;}
 
+h2
+{font-size: 1.6em; padding: 10px 0; border-bottom: 1px solid #aaa; margin-bottom: 10px; position: relative;}
+
+h2 a
+{padding: 3px 5px; border: 1px solid #ccc; font-size: 0.8em; background: #eee; position: absolute; top: 5px; right: 5px;}
+
 a
 {color: #444; text-decoration: none;}
 
 a:hover
 {text-decoration: underline;}
+
+p
+{font-size: 1.2em; line-height: 150%;}
 
 /**
  * Layout
@@ -31,13 +40,13 @@ a:hover
 {height: 50px; background: #ddd; border-bottom: 1px solid #ccc;}
 
 #sidebar
-{width: 169px; margin: 10px 20px 10px 0; padding: 10px 5px; float: left; border-right: 1px solid #aaa;}
+{width: 169px; margin: 10px 5px 10px 0; padding: 10px 5px; float: left; border-right: 1px solid #aaa;}
 
 #sidebar b
 {padding: 0 5px;}
 
 #main
-{width: 800px; float: left; padding: 10px 0;}
+{width: 800px; float: left; padding: 10px 5px;}
 
 /**
  * Sidebar menu
