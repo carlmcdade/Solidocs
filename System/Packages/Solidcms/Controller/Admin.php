@@ -6,6 +6,7 @@ class Solidcms_Controller_Admin extends Solidocs_Controller_Action
 	 */
 	public function init(){
 		$this->acl->set_access($this, 'index', 'admin', 'login');
+		$this->acl->set_access($this, 'item', 'admin', 'login');
 	}
 	
 	/**
@@ -42,5 +43,9 @@ class Solidcms_Controller_Admin extends Solidocs_Controller_Action
 	 * Item
 	 */
 	public function do_item(){
+		$this->theme->set_theme('Admin');
+		
+		$item	= $this->input->uri_segment('item');
+		$action	= $this->input->uri_segment('action');
 	}
 }
