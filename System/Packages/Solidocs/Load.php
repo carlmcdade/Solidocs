@@ -161,11 +161,11 @@ class Solidocs_Load extends Solidocs_Base
 		
 		if(is_array($search)){
 			if(isset(Solidocs::$registry->plugin->$search['slug'])){
-				return true;
+				return Solidocs::$registry->plugin->$search['slug'];
 			}
 			
 			if(!class_exists($search['class'])){
-				include($search['path']);
+				include_once($search['path']);
 			}
 			
 			Solidocs::$registry->plugin->$search['slug'] = new $search['class'];
@@ -191,7 +191,7 @@ class Solidocs_Load extends Solidocs_Base
 				return true;
 			}
 			
-			include($search['path']);
+			include_once($search['path']);
 			Solidocs::$registry->model->$search['slug'] = new $search['class'];
 		}
 		else{
@@ -213,7 +213,7 @@ class Solidocs_Load extends Solidocs_Base
 				return true;
 			}
 			
-			include($search['path']);
+			include_once($search['path']);
 			Solidocs::$registry->helper->$search['slug'] = new $search['class'];
 		}
 		else{
@@ -231,7 +231,7 @@ class Solidocs_Load extends Solidocs_Base
 		$search = $this->search($class, 'Controller', $package);
 		
 		if(is_array($search)){
-			include($search['path']);
+			include_once($search['path']);
 			return $search['class'];
 		}
 		else{
@@ -263,7 +263,7 @@ class Solidocs_Load extends Solidocs_Base
 				));
 			}
 			else{
-				include($search['path']);
+				include_once($search['path']);
 			}
 		}
 		else{

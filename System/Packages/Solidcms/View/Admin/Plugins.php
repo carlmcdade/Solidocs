@@ -1,4 +1,4 @@
-<h2>Packages</h2>
+<h2>Plugins</h2>
 
 <table class="list">
 
@@ -7,13 +7,11 @@
 		<td>
 			<div class="block"><strong><?php echo $item['name'];?></strong></div>
 			<div class="block">
-				<?php if($item['install']):?>
+			
+				<a href="/admin/package/install_plugin/?plugin=<?php echo $item['class'];?>">Install</a> | 
+				<a href="/admin/package/uninstall_plugin/?plugin=<?php echo $item['class'];?>">Uninstall</a> | 
+				<a href="/admin/package/reinstall_plugin/?plugin=<?php echo $item['class'];?>">Reinstall</a>
 				
-					<a href="/admin/package/install_package/?package=<?php echo $item['package'];?>">Install</a> | 
-					<a href="/admin/package/uninstall_package/?package=<?php echo $item['package'];?>">Uninstall</a> | 
-					<a href="/admin/package/reinstall_package/?package=<?php echo $item['package'];?>">Reinstall</a>
-				
-				<?php endif;?>
 			</div>
 		</td>
 		<td>

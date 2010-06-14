@@ -34,7 +34,7 @@ class Solidcms_Model_Admin extends Solidocs_Base
 					$item = array(
 						'name' 			=> $package,
 						'version'		=> 'unknown',
-						'website'		=> '',
+						'url'			=> '',
 						'description'	=> ''
 					);
 				}
@@ -55,5 +55,51 @@ class Solidcms_Model_Admin extends Solidocs_Base
 		closedir($handle);
 		
 		return $packages;
+	}
+	
+	/**
+	 * Get plugins
+	 *
+	 * @return array
+	 */
+	public function get_plugins(){
+		$plugins = array();
+		
+		$handle = opendir(PACKAGE);
+		
+		while(false !== ($package = readdir($handle))){
+			if($package !== '.' AND $package !== '..'){
+				$path = PACKAGE . '/' . $package . '/Plugin';
+				
+				if(file_exists($path)){
+					
+					$package_handle = opendir($path);
+					
+					while(false !== ($plugin = readdir($package_handle))){
+						if($plugin !== '.' AND $plugin !== '..'){
+							$class = $package . '_Plugin_' . trim($plugin, '.php');
+							
+							include_once($path . '/' . $plugin);
+							
+							$instance = new $class;
+							
+							$plugins[] = array(
+								'name'			=> $instance->name,
+								'description'	=> $instance->description,
+								'version'		=> $instance->version,
+								'url'			=> $instance->url,
+								'class'			=> $class
+							);
+						}
+					}
+					
+					closedir($package_handle);
+				}
+			}
+		}
+		
+		closedir($handle);
+		
+		return $plugins;
 	}
 }
