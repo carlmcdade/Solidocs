@@ -1,5 +1,5 @@
 <?php
-class Solidcms_Model_Admin extends Solidocs_Base
+class Solidadmin_Model_Admin extends Solidocs_Base
 {
 	/**
 	 * Get item
@@ -75,6 +75,16 @@ class Solidcms_Model_Admin extends Solidocs_Base
 					
 					$package_handle = opendir($path);
 					
+					$info = array(
+						'package'	=> $package,
+						'version'	=> 'unknown',
+						'url'		=> ''
+					);
+					
+					if(file_exists(PACKAGE . '/' . $package . '/Package.ini')){
+						$info = array_merge($info, parse_ini_file(PACKAGE . '/' . $package . '/Package.ini'));
+					}
+					
 					while(false !== ($plugin = readdir($package_handle))){
 						if($plugin !== '.' AND $plugin !== '..'){
 							$class = $package . '_Plugin_' . trim($plugin, '.php');
@@ -86,9 +96,10 @@ class Solidcms_Model_Admin extends Solidocs_Base
 							$plugins[] = array(
 								'name'			=> $instance->name,
 								'description'	=> $instance->description,
-								'version'		=> $instance->version,
-								'url'			=> $instance->url,
-								'class'			=> $class
+								'class'			=> $class,
+								'package'		=> $info['package'],
+								'version'		=> $info['version'],
+								'url'			=> $info['url']
 							);
 						}
 					}

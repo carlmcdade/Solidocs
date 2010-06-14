@@ -5,7 +5,7 @@
 <?php foreach($list as $item):?>	
 	<tr>
 		<td>
-			<div class="block"><strong><?php echo $item['name'];?></strong></div>
+			<div class="block"><strong><?php echo $item['name'];?></strong> (package: <?php echo $item['package'];?>)</div>
 			<div class="block">
 			
 				<a href="/admin/package/install_plugin/?plugin=<?php echo $item['class'];?>">Install</a> | 

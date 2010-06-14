@@ -12,16 +12,6 @@ class Solidocs_Plugin extends Solidocs_Base
 	public $description = '';
 	
 	/**
-	 * Version
-	 */
-	public $version = 'unkown';
-	
-	/**
-	 * Url
-	 */
-	public $url;
-	
-	/**
 	 * Install
 	 */
 	public function install(){
