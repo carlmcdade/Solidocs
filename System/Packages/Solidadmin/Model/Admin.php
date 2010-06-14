@@ -14,45 +14,48 @@ class Solidadmin_Model_Admin extends Solidocs_Base
 	}
 	
 	/**
+	 * Get package info
+	 *
+	 * @param string
+	 * @return array
+	 */
+	public function get_package_info($package){
+		$path = PACKAGE . '/' . $package;
+		
+		$info = array(
+			'name' 			=> $package,
+			'version'		=> 'unknown',
+			'url'			=> '',
+			'description'	=> '',
+			'package'		=> $package
+		);
+		
+		if(file_exists($path . '/Package.ini')){
+		    $info = array_merge($info, parse_ini_file($path . '/Package.ini'));
+		}
+		
+		return $info;
+	}
+	
+	/**
 	 * Get packages
 	 *
 	 * @return array
 	 */
 	public function get_packages(){
+		$this->load->library('File');
 		$packages = array();
 		
-		$handle = opendir(PACKAGE);
-		
-		while(false !== ($package = readdir($handle))){
-			if($package !== '.' AND $package !== '..'){
-				$path = PACKAGE . '/' . $package;
-				
-				if(file_exists($path . '/Package.ini')){
-					$item = parse_ini_file($path . '/Package.ini');
-				}
-				else{
-					$item = array(
-						'name' 			=> $package,
-						'version'		=> 'unknown',
-						'url'			=> '',
-						'description'	=> ''
-					);
-				}
-				
-				$item['package'] = $package;
-				
-				if(file_exists($path . '/Model/Install.php')){
-					$item['install'] = true;
-				}
-				else{
-					$item['install'] = false;
-				}
-				
-				$packages[] = $item;
+		foreach($this->file->dir(PACKAGE) as $package){
+			$item = $this->get_package_info($package);
+			$item['install'] = false;
+			
+			if(file_exists($path . '/Model/Install.php')){
+			    $item['install'] = true;
 			}
-		}
-		
-		closedir($handle);
+			
+			$packages[] = $item;
+		}	
 		
 		return $packages;
 	}
@@ -63,53 +66,34 @@ class Solidadmin_Model_Admin extends Solidocs_Base
 	 * @return array
 	 */
 	public function get_plugins(){
+		$this->load->library('File');
 		$plugins = array();
 		
-		$handle = opendir(PACKAGE);
-		
-		while(false !== ($package = readdir($handle))){
-			if($package !== '.' AND $package !== '..'){
-				$path = PACKAGE . '/' . $package . '/Plugin';
-				
-				if(file_exists($path)){
-					
-					$package_handle = opendir($path);
-					
-					$info = array(
-						'package'	=> $package,
-						'version'	=> 'unknown',
-						'url'		=> ''
-					);
-					
-					if(file_exists(PACKAGE . '/' . $package . '/Package.ini')){
-						$info = array_merge($info, parse_ini_file(PACKAGE . '/' . $package . '/Package.ini'));
-					}
-					
-					while(false !== ($plugin = readdir($package_handle))){
-						if($plugin !== '.' AND $plugin !== '..'){
-							$class = $package . '_Plugin_' . trim($plugin, '.php');
-							
-							include_once($path . '/' . $plugin);
-							
-							$instance = new $class;
-							
-							$plugins[] = array(
-								'name'			=> $instance->name,
-								'description'	=> $instance->description,
-								'class'			=> $class,
-								'package'		=> $info['package'],
-								'version'		=> $info['version'],
-								'url'			=> $info['url']
-							);
-						}
-					}
-					
-					closedir($package_handle);
-				}
+		foreach($this->file->dir(PACKAGE) as $package){
+			$path = PACKAGE . '/' . $package . '/Plugin';
+			
+			if(file_exists($path)){
+			    
+			    $info = $this->get_package_info($package);
+			    
+			    foreach($this->file->dir($path) as $plugin){
+			    	$class = $package . '_Plugin_' . trim($plugin, '.php');
+			    	
+			    	include_once($path . '/' . $plugin);
+			    	
+			    	$instance = new $class;
+			    	
+			    	$plugins[] = array(
+			    	    'name'			=> $instance->name,
+			    	    'description'	=> $instance->description,
+			    	    'class'			=> $class,
+			    	    'package'		=> $info['package'],
+			    	    'version'		=> $info['version'],
+			    	    'url'			=> $info['url']
+			    	);
+			    }
 			}
 		}
-		
-		closedir($handle);
 		
 		return $plugins;
 	}
