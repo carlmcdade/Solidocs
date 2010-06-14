@@ -39,11 +39,14 @@ p
 #header
 {height: 50px; background: #ddd; border-bottom: 1px solid #ccc;}
 
+#header .userbar
+{height: 30px; line-height: 30px; margin: 10px; background: #fff; float: right; padding: 0 10px; font-size: 1.2em;}
+
+#header .userbar a
+{font-weight: bold;}
+
 #sidebar
 {width: 169px; margin: 10px 5px 10px 0; padding: 10px 5px; float: left; border-right: 1px solid #aaa;}
-
-#sidebar b
-{padding: 0 5px;}
 
 #main
 {width: 800px; float: left; padding: 10px 5px;}

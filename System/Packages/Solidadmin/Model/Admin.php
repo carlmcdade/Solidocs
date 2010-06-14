@@ -73,25 +73,24 @@ class Solidadmin_Model_Admin extends Solidocs_Base
 			$path = PACKAGE . '/' . $package . '/Plugin';
 			
 			if(file_exists($path)){
-			    
-			    $info = $this->get_package_info($package);
-			    
-			    foreach($this->file->dir($path) as $plugin){
-			    	$class = $package . '_Plugin_' . trim($plugin, '.php');
-			    	
-			    	include_once($path . '/' . $plugin);
-			    	
-			    	$instance = new $class;
-			    	
-			    	$plugins[] = array(
-			    	    'name'			=> $instance->name,
-			    	    'description'	=> $instance->description,
-			    	    'class'			=> $class,
-			    	    'package'		=> $info['package'],
-			    	    'version'		=> $info['version'],
-			    	    'url'			=> $info['url']
-			    	);
-			    }
+				$info = $this->get_package_info($package);
+				
+				foreach($this->file->dir($path) as $plugin){
+				    $class = $package . '_Plugin_' . trim($plugin, '.php');
+				    
+				    include_once($path . '/' . $plugin);
+				    
+				    $instance = new $class;
+				    
+				    $plugins[] = array(
+				        'name'			=> $instance->name,
+				        'description'	=> $instance->description,
+				        'class'			=> $class,
+				        'package'		=> $info['package'],
+				        'version'		=> $info['version'],
+				        'url'			=> $info['url']
+				    );
+				}
 			}
 		}
 		

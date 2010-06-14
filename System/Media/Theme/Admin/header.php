@@ -15,6 +15,12 @@
 			
 			<h1><a href="#">Solidocs Admin</a></h1>
 			
+			<div class="userbar">
+				
+				Welcome <?php echo $this->session->user->username;?>, <a href="/logout">logout?</a>
+				
+			</div>
+			
 		</div>
 			
 		<div id="sidebar">
@@ -26,8 +32,6 @@
 				));
 				?>
 			</ul>
-			
-			<b><?php echo $this->session->user->username;?></b>, <a href="/logout">logout?</a>
 			
 		</div>
 		
