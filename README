@@ -7,8 +7,9 @@ What is Solidocs?
 Solidocs is a PHP MVC framework. Solidocs is a very light and works right out
 of the box. The word "Solidocs" is a combination of Solid + Docs (documents).
 
-Solidocs comes bundled with the Solidcms package which is a complete Content
-Management System (CMS).
+Solidocs comes bundled with the Solidcms package and the Soliadmin package.
+Solidcms is a complete Content Management System (CMS) and Solidadmin is the
+built-in admin interface.
 
 Requirements
 ------------
