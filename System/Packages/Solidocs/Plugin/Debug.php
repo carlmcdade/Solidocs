@@ -1,10 +1,10 @@
 <?php
-class Solidocs_Plugin_Debug
+class Solidocs_Plugin_Debug extends Solidocs_Plugin
 {
 	/**
 	 * Name
 	 */
-	public $name = 'Solidocs Debug Bar';
+	public $name = 'Debug Bar';
 	
 	/**
 	 * Description
@@ -13,6 +13,13 @@ class Solidocs_Plugin_Debug
 	
 	/**
 	 * Init
+	 */
+	public function init(){
+		Solidocs::add_filter('render', array($this, 'debug_bar'));
+	}
+	
+	/**
+	 * Debug bar
 	 */
 	public function debug_bar($output){
 		$array = array(

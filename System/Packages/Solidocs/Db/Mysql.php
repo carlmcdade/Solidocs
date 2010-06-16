@@ -105,6 +105,13 @@ class Solidocs_Db_Mysql
 			$this->affected_rows = 0;
 		}
 		
+		if(!$success){
+			$success = 'no';
+		}
+		else{
+			$success = 'yes';
+		}
+		
 		$this->queries[] = array(
 			'query'		=> $this->query,
 			'success'	=> $success,

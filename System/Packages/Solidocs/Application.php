@@ -19,7 +19,7 @@ class Solidocs_Application extends Solidocs_Base
 	 * Setup
 	 */
 	public function setup(){
-		Solidocs::do_action('post_setup,pre_execute');
+		Solidocs::do_action('pre_setup');
 		
 		// Include core
 		include(PACKAGE . '/Solidocs/Error.php');
@@ -47,6 +47,13 @@ class Solidocs_Application extends Solidocs_Base
 			}
 		}
 		
+		// Plugins
+		if($plugins = $this->config->get('Plugins')){
+			foreach($plugins['autoload'] as $class){
+				$this->load->plugin($class);
+			}
+		}
+		
 		Solidocs::do_action('pre_libraries');
 		
 		// Load libraries
@@ -69,7 +76,7 @@ class Solidocs_Application extends Solidocs_Base
 		));
 		$this->load->model('User');
 		
-		Solidocs::do_action('post_execute,pre_render');
+		Solidocs::do_action('post_setup,pre_execute');
 	}
 	
 	/**
@@ -78,6 +85,8 @@ class Solidocs_Application extends Solidocs_Base
 	public function execute(){
 		$this->router->route();
 		$this->dispatch($this->router->package, $this->router->controller, $this->router->action);
+		
+		Solidocs::do_action('post_execute,pre_render');
 	}
 	
 	/**
