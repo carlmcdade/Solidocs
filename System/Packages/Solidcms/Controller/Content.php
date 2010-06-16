@@ -20,7 +20,7 @@ class Solidcms_Controller_Content extends Solidocs_Controller_Action
 		
 		$content = $this->model->cms->get_content(array(
 			'uri' => $uri
-		);
+		));
 		
 		if(count($content) == 0){
 			$this->load->view('404');

@@ -84,7 +84,10 @@ class Solidocs_Router
 				
 				foreach($route_segment as $i => $segment){
 					if(isset($route['default'])){
-						if(isset($this->segment[$i])){
+						if(substr($segment, 0, 1) !== ':' AND $this->segment[$i] !== $segment){
+							$match = false;
+						}
+						elseif(isset($this->segment[$i])){
 							$this->segment[trim($segment, ':')] = $this->segment[$i];
 						}
 						elseif(isset($route['default'][trim($segment, ':')])){
