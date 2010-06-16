@@ -113,16 +113,18 @@ class Solidocs_Router
 	}
 	
 	/**
-	 * Get uri
+	 * Assemble
 	 *
 	 * @param string
 	 * @param array		Optional.
 	 * @return string
 	 */
-	public function get_uri($key, $values = null){
+	public function assemble($key, $values = null, $query = null){
 		if(!isset($this->routes[$key])){
-			trigger_error('The route "' . $key . '" could not be found');
-			return false;
+			$uri = $key;
+		}
+		else{
+			$uri = $this->routes[$key]['uri'];
 		}
 		
 		if(isset($this->routes[$key]['default'])){
@@ -137,12 +139,20 @@ class Solidocs_Router
 			$values = array_merge($defaults, $values);
 		}
 		
-		$uri = $this->routes[$key]['uri'];
-		
 		if(count($values) !== 0){
 			foreach($values as $key => $val){
 				$uri = str_replace(':' . $key, $val, $uri);
 			}
+		}
+		
+		if(is_array($query)){
+			$uri .= '?';
+			
+			foreach($query as $key => $val){
+				$uri .= $key . '=' . $val . '&';
+			}
+			
+			$uri = trim($uri, '&');
 		}
 		
 		return $uri;
