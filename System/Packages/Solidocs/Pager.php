@@ -22,14 +22,14 @@ class Solidocs_Pager
 	public $num_pages = 1;
 	
 	/**
-	 * Item start
+	 * Limit
 	 */
-	public $item_start;
+	public $limit;
 	
 	/**
-	 * Item end
+	 * Offset
 	 */
-	public $item_end;
+	public $offset;
 	
 	/**
 	 * Url
@@ -39,14 +39,14 @@ class Solidocs_Pager
 	/**
 	 * Constructor
 	 */
-	public function __construct($total_rows, $per_page = 10, $current_page = 1){
+	public function __construct($total_rows = 0, $per_page = 10, $current_page = 1){
 		$this->total_rows	= $total_rows;
 		$this->page_limit	= $per_page;
 		$this->current_page	= $current_page;
 		
 		$this->num_pages	= ceil($this->total_rows / $this->per_page);
-		$this->item_start	= floor(($this->current_page - 1) * $this->per_page);
-		$this->item_end		= ceil($this->current_page * $this->per_page);
+		$this->offset		= floor(($this->current_page - 1) * $this->per_page);
+		$this->limit		= ceil($this->current_page * $this->per_page);
 	}
 	
 	/**
@@ -54,6 +54,8 @@ class Solidocs_Pager
 	 */
 	public function create_links($args = null){
 		$args = parse_args(array(
+			'before'		=> '<ul>',
+			'after'			=> '</ul>',
 			'before_item'	=> '<li>',
 			'after_item'	=> '</li>',
 			'previous_text'	=> 'Previous',
@@ -63,6 +65,8 @@ class Solidocs_Pager
 		if($this->total_rows == 0 OR $this->per_page == 0 OR $this->num_pages == 1){
 			return false;
 		}
+		
+		echo $args['before'];
 		
 		if($this->current_page !== 1){
 			echo $args['before_item'] . '<a href="' . str_replace(':page', $this->current_page - 1, $this->uri) . '">' . $args['previous_text'] . '</a>' . $args['after_item'];
@@ -78,5 +82,7 @@ class Solidocs_Pager
 		if($this->current_page !== $this->num_pages){
 			echo $args['before_item'] . '<a href="' . str_replace(':page', $this->current_page + 1, $this->uri) . '">' . $args['next_text'] . '</a>' . $args['after_item'];
 		}
+		
+		echo $args['after'];
 	}
 }

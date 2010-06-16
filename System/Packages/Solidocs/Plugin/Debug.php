@@ -24,11 +24,13 @@ class Solidocs_Plugin_Debug extends Solidocs_Plugin
 	public function debug_bar($output){
 		$array = array(
 			'General'	=> array(
+				'URI'				=> $this->router->request_uri,
 				'Time to generate'	=> microtime_since(STARTTIME),
 				'Memory usage'		=> round(memory_get_usage() / 1024 / 1024, 5) . ' MB',
 				'Included files'	=> count(get_included_files())
 			),
 			'Database queries'	=> debug($this->db->instance->queries, '', true),
+			'URI segments'		=> debug($this->router->segment, '', true),
 			'Errors'			=> debug($this->error->errors, '', true),
 			'ACL'				=> debug($this->acl->list, '', true),
 			'$_REQUEST'			=> debug($_REQUEST, '', true),

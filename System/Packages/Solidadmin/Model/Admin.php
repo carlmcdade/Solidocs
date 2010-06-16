@@ -50,7 +50,7 @@ class Solidadmin_Model_Admin extends Solidocs_Base
 			$item = $this->get_package_info($package);
 			$item['install'] = false;
 			
-			if(file_exists($path . '/Model/Install.php')){
+			if(file_exists(PACKAGE . '/' . $package . '/Model/Install.php')){
 			    $item['install'] = true;
 			}
 			

@@ -90,8 +90,11 @@ p
 table.list
 {width: 100%; border: 1px solid #ccc; font-size: 1.1em;}
 
-table.list tr td
-{padding: 10px; border-bottom: 1px solid #ccc;}
+table.list tr td, table.list tr th
+{padding: 10px; border-bottom: 1px solid #ccc; text-align: left;}
+
+table.list tr th
+{background: #ddd;}
 
 table.list tr:last-child td
 {border-bottom: 0;}

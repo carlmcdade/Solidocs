@@ -12,29 +12,6 @@ class Solidocs_Acl extends Solidocs_Base
 	public $groups = array('user', 'admin');
 	
 	/**
-	 * Autoload db
-	 */
-	public $autoload_db = true;
-	
-	/**
-	 * Init
-	 */
-	public function init(){
-		if($this->autoload_db){
-			$this->db->select_from('acl')->run();
-			
-			if($this->db->affected_rows()){
-				while($item = $this->db->fetch_assoc()){
-					$this->list[$this->_key($item['category'], $item['key'])] = array(
-						'group'		=> $item['group'],
-						'action'	=> $item['action']
-					);
-				}
-			}
-		}
-	}
-	
-	/**
 	 * Key
 	 *
 	 * @param string
