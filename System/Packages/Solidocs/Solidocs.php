@@ -76,13 +76,9 @@ class Solidocs
 	 * @return array
 	 */
 	public static function do_action($keys, $data = null, $is_filter = false){
-		if(!is_array($data)){
-			$data = array($data);
-		}
-			
 		foreach(explode(',', $keys) as $key){
 			if(!isset(self::$registry->hook[$key])){
-				return false;
+				continue;
 			}
 			
 			foreach(self::$registry->hook[$key] as $hook){
@@ -111,10 +107,10 @@ class Solidocs
 				}
 				
 				if($is_filter){
-					$data = call_user_func_array($hook, $data);
+					$data = call_user_func($hook, $data);
 				}
 				else{
-					call_user_func_array($hook, $data);
+					call_user_func($hook, $data);
 				}
 			}
 		}

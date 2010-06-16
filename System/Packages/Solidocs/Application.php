@@ -11,22 +11,16 @@ class Solidocs_Application extends Solidocs_Base
 	 */
 	public function init(){
 		$this->setup();
-		
-		Solidocs::do_action('post_setup,pre_execute');
-		
 		$this->execute();
-		
-		Solidocs::do_action('post_execute,pre_render');
-		
 		$this->render();
-
-		Solidocs::do_action('post_render');
 	}
 	
 	/**
 	 * Setup
 	 */
 	public function setup(){
+		Solidocs::do_action('post_setup,pre_execute');
+		
 		// Include core
 		include(PACKAGE . '/Solidocs/Error.php');
 		include(PACKAGE . '/Solidocs/Config.php');
@@ -74,6 +68,8 @@ class Solidocs_Application extends Solidocs_Base
 			$this->output, 'add_view'
 		));
 		$this->load->model('User');
+		
+		Solidocs::do_action('post_execute,pre_render');
 	}
 	
 	/**
@@ -88,7 +84,9 @@ class Solidocs_Application extends Solidocs_Base
 	 * Render
 	 */
 	public function render(){
-		$this->output->render();
+		echo Solidocs::apply_filter('render', $this->output->render());
+		
+		Solidocs::do_action('post_render');
 	}
 	
 	/**

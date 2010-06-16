@@ -2,19 +2,14 @@
 class Solidocs_Error
 {
 	/**
-	 * Display
-	 */
-	public $display = false;
-	
-	/**
 	 * Errors
 	 */
 	public $errors = array();
 	
 	/**
-	 * View
+	 * Backtrace
 	 */
-	public $view = false;
+	public $backtrace = true;
 	
 	/**
 	 * Constructor
@@ -31,30 +26,28 @@ class Solidocs_Error
 	 * @param string
 	 * @param integer
 	 */
-	public function error_handler($errno, $errstr, $errfile, $errline){
-		$errno		= $this->error_level($errno);
-		$errstr		= str_replace(ROOT, '', $errstr);
-		$errfile	= str_replace(ROOT, '', $errfile);
+	public function error_handler($errno, $string, $file, $line){
+		$string		= str_replace(ROOT, '', strip_tags($string));
+		$file		= str_replace(ROOT, '', $file);
+		$backtrace	= array();
 		
-		if($this->display){
-			if($this->view !== false){
-				Solidocs::$registry->load->view($this->view, array(
-					'errno'		=> $errno,
-					'errstr'	=> $errstr,
-					'errfile'	=> $errfile,
-					'errline'	=> $errline
-				));
-			}
-			else{
-				echo '<div style="padding: 10px; margin: 10px; border:1px solid red;"><b>' . $errno . ':</b> ' . $errstr . ' in <b>' . $errfile . '</b> on line <b> ' . $errline . '</b></div>';
+		if($this->backtrace){
+			foreach(debug_backtrace() as $i => $item){
+				unset($item['object']);
+				unset($item['args']);
+				
+				if($i !== 0){
+					$backtrace[] = $item;
+				}
 			}
 		}
 		
 		$this->errors[] = array(
 			'errno'		=> $errno,
-			'errstr'	=> $errstr,
-			'errfile'	=> $errfile,
-			'errline'	=> $errline
+			'string'	=> $string,
+			'file'		=> $file,
+			'line'		=> $line,
+			'backtrace'	=> $backtrace
 		);
 	}
 	

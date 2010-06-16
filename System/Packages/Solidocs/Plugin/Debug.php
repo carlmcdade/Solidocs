@@ -1,13 +1,21 @@
 <?php
-class Solidocs_Helper_Debug extends Solidocs_Helper
+class Solidocs_Plugin_Debug
 {
 	/**
-	 * Debug bar
-	 *
-	 * @return string
+	 * Name
 	 */
-	public function bar(){
-		$debug = array(
+	public $name = 'Solidocs Debug Bar';
+	
+	/**
+	 * Description
+	 */
+	public $description = 'A plugin which displays a bar a the bottom of every page allowing you to view data about the page request.';
+	
+	/**
+	 * Init
+	 */
+	public function debug_bar($output){
+		$array = array(
 			'General'	=> array(
 				'Time to generate'	=> microtime_since(STARTTIME),
 				'Memory usage'		=> round(memory_get_usage() / 1024 / 1024, 5) . ' MB',
@@ -24,7 +32,7 @@ class Solidocs_Helper_Debug extends Solidocs_Helper
 			'$_COOKIE'			=> debug($_COOKIE, '', true)
 		);
 
-		$output = '
+		$debug = '
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js"></script>
 		<script type="text/javascript">
 		$(document).ready(function(){
@@ -52,7 +60,7 @@ class Solidocs_Helper_Debug extends Solidocs_Helper
 		{display: block; float: left; height: 25px; line-height: 25px; padding: 0 10px; font-size: 10px; background: #ccc; color: #222; border: 1px solid #666; border-top: 0; border-bottom: 0; margin-right: 10px;}
 		
 		#debug_box ul li div
-		{position: absolute; bottom: 1px; left: 0; background: #ccc; border: 1px solid #666; border-bottom: 0; display: none; max-width: 900px; max-height: 600px; overflow: auto;}
+		{position: absolute; bottom: 1px; left: 0; background: #ccc; border: 1px solid #666; border-bottom: 0; display: none; max-width: 900px; max-height: 600px; overflow: auto; font-size: 10px;}
 		
 		#debug_box ul li div.item
 		{padding: 5px;}
@@ -71,25 +79,34 @@ class Solidocs_Helper_Debug extends Solidocs_Helper
 		</style>
 		<div id="debug_box"><ul>';
 
-		foreach($debug as $section => $parts){
-			$output .= '<li>';
+		foreach($array as $section => $parts){
+			$debug .= '<li>';
 			
 			if(!is_array($parts)){
-				$output .= '<div class="item">' . $parts . '</div>';
+				$debug .= '<div class="item">' . $parts . '</div>';
 			}
 			else{
-				$output .= '<div><table>';
+				$debug .= '<div><table>';
 				
 				foreach($parts as $title => $content){
-					$output .= '<tr><td>' . $title . '</td><td>' . $content . '</td></tr>';
+					$debug .= '<tr><td>' . $title . '</td><td>' . $content . '</td></tr>';
 				}
 				
-				$output .= '</table></div>';
+				$debug .= '</table></div>';
 			}
 			
-			$output .= '<a href="#">' . $section . '</a></li>';
+			$debug .= '<a href="#">' . $section . '</a></li>';
 		}
 		
-		return $output . '<li><a href="#">X</a></ul></div>';
+		$debug .= '<li><a href="#">X</a></ul></div>';
+	
+		if(preg_match('/<\/body>/', $output, $matches)){
+			$output = str_replace('</body>', $debug . '</body>', $output);
+		}
+		else{
+			$output .= $debug;
+		}
+		
+		return $output;
 	}
 }

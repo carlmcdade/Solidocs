@@ -4,7 +4,7 @@ class Solidocs_Plugin_Config extends Solidocs_Plugin
 	/**
 	 * Name
 	 */
-	public $name = 'Solidocs Database Config Plugin';
+	public $name = 'Solidocs Database Config';
 	
 	/**
 	 * Description

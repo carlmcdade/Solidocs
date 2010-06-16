@@ -13,16 +13,6 @@ class Solidocs_Output extends Solidocs_Base
 		'Content-type: text/html; charset=utf-8'
 	);
 	
-	/** 
-	 * Render debug
-	 */
-	public $render_debug = false;
-	
-	/**
-	 * Debug helper
-	 */
-	public $debug_helper = 'debug_bar';
-	
 	/**
 	 * Call magic method
 	 *
@@ -105,13 +95,7 @@ class Solidocs_Output extends Solidocs_Base
 			$this->render_content(false);
 		}
 		
-		$output = ob_get_clean();
-		
-		if($this->render_debug == true){
-			$output .= $this->{$this->debug_helper}();
-		}
-		
-		echo $output;
+		return ob_get_clean();
 	}
 	
 	/**
