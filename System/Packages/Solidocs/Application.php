@@ -83,8 +83,13 @@ class Solidocs_Application extends Solidocs_Base
 	 * Execute
 	 */
 	public function execute(){
-		$this->router->route();
-		$this->dispatch($this->router->package, $this->router->controller, $this->router->action);
+		try{
+			$this->router->route();
+			$this->dispatch($this->router->package, $this->router->controller, $this->router->action);
+		}
+		catch(Exception $e){
+			$this->dispatch('Application', 'Error', '404');
+		}
 		
 		Solidocs::do_action('post_execute,pre_render');
 	}

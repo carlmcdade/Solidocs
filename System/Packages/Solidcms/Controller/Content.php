@@ -23,7 +23,7 @@ class Solidcms_Controller_Content extends Solidocs_Controller_Action
 		));
 		
 		if(count($content) == 0){
-			$this->load->view('404');
+			throw new Exception('No content was found');
 		}
 		else{
 			$this->theme->title_parts[] = $content['title'];

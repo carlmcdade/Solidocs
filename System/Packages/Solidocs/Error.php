@@ -9,7 +9,7 @@ class Solidocs_Error
 	/**
 	 * Backtrace
 	 */
-	public $backtrace = true;
+	public $backtrace = false;
 	
 	/**
 	 * Constructor

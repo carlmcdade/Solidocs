@@ -2,6 +2,16 @@
 class Solidocs_Controller_Action extends Solidocs_Controller
 {
 	/**
+	 * Call
+	 *
+	 * @param string
+	 * @param array
+	 */
+	public function __call($action, $params){
+		throw new Exception('Action "' . $action . '" could not be found');
+	}
+	
+	/**
 	 * Dispatch action
 	 *
 	 * @param string
@@ -17,14 +27,7 @@ class Solidocs_Controller_Action extends Solidocs_Controller
 			}
 		}
 		
-		if(method_exists($this, 'do_' . $action)){
-			$action = 'do_' . $action;
-		}
-		else{
-			$action = 'do_404';
-		}
-		
-		$this->$action();
+		call_user_func(array($this, 'do_' . $action));
 	}
 	
 	/**
@@ -34,12 +37,5 @@ class Solidocs_Controller_Action extends Solidocs_Controller
 	 */
 	public function forward($action){
 		$this->dispatch_action($action);
-	}
-	
-	/**
-	 * 404
-	 */
-	public function do_404(){
-		$this->load->view('404');
 	}
 }
