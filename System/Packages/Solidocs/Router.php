@@ -54,8 +54,8 @@ class Solidocs_Router
 	 * @param array
 	 */
 	public function set_route($route){
-		$this->package		= ucfirst($route['package']);
-		$this->controller	= ucfirst($route['controller']);
+		$this->package		= $route['package'];
+		$this->controller	= $route['controller'];
 		$this->action		= $route['action'];
 	}
 	
