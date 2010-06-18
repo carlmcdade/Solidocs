@@ -87,31 +87,39 @@ class Solidocs_Config
 	 */
 	public function load_file($file, $return = false){
 		if(file_exists($file . '.php')){
-			return $this->load_php($file . '.php', $return);
+			$config = $this->load_php($file . '.php');
 		}
 		elseif(file_exists($file . '.ini')){
-			return $this->load_ini($file . '.ini', $return);
+			$config = $this->load_ini($file . '.ini');
+		}
+		elseif(file_exists($file . '.xml')){
+			$config = $this->load_xml($file . '.xml');
 		}
 		
-		trigger_error('Config file "'.$file.'" could not be loaded');
+		if(is_array($config)){
+			if($return){
+				return $config;
+			}
+			else{
+				$this->config = array_merge($this->config, $config);
+			}
+		}
+		else{
+			throw new Exception('Config file "'.$file.'" could not be loaded');
+		}
 	}
 	
 	/**
 	 * Load php
 	 *
 	 * @param string
-	 * @param bool		Optional.
 	 * @return array
 	 */
-	public function load_php($file, $return = false){
+	public function load_php($file){
 		include($file);
 		
 		if(isset($config)){
-			if($return){
-				return $config;
-			}
-			
-			$this->config = array_merge($this->config, $config);
+			return $config;
 		}
 	}
 	
@@ -119,10 +127,9 @@ class Solidocs_Config
 	 * Ini
 	 *
 	 * @param string
-	 * @param bool		Optional.
 	 * @return array
 	 */
-	public function load_ini($file, $return = false){
+	public function load_ini($file){
 		$config = array();
 		
 		foreach(parse_ini_file($file, true) as $section => $keys){
@@ -136,10 +143,29 @@ class Solidocs_Config
 			}
 		}
 		
-		if($return){
-			return $config;
+		return $config;
+	}
+	
+	/**
+	 * Load XML
+	 *
+	 * @param string
+	 * @return array
+	 */
+	public function load_xml($file){
+		$config = array();
+		
+		$xml = simplexml_load_file($file);
+		
+		foreach($xml as $key => $val){
+			if(isset($config[$key])){
+				$config[$key][] = (string) $val;
+			}
+			else{
+				$config[$key] = (array) $val;
+			}
 		}
 		
-		$this->config = array_merge($this->config, $config);
+		return $config;
 	}
 }
