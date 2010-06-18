@@ -52,9 +52,13 @@ class Solidocs_Plugin_Debug extends Solidocs_Plugin
 			
 			$("#debug_box ul li a").click(function(){
 				
-				$("#debug_box ul li div").hide();
-				$(this).siblings().show();
-				
+				if($(this).hasClass("active")){
+					$(this).removeClass("active").siblings().hide();
+				}
+				else{
+					$("#debug_box ul li a").removeClass("active").siblings().hide();
+					$(this).addClass("active").siblings().show();
+				}
 			});
 			
 		});
@@ -110,8 +114,6 @@ class Solidocs_Plugin_Debug extends Solidocs_Plugin
 			
 			$debug .= '<a href="#">' . $section . '</a></li>';
 		}
-		
-		$debug .= '<li><a href="#">X</a></ul></div>';
 		
 		if(preg_match('/<\/body>/', $output, $matches)){
 			$output = str_replace('</body>', $debug . '</body>', $output);
