@@ -32,12 +32,21 @@ class Solidocs_Config
 	 * @param mixed		Optional.
 	 * @return mixed
 	 */
-	public function get($section, $default = false){
-		if(isset($this->config[$section])){
-			return $this->config[$section];
+	public function get($key, $default = false){
+		$key = explode('.', $key);
+		
+		$config = $this->config[$key[0]];
+		unset($key[0]);
+		
+		if(count($key) == 0){
+			return $config;
 		}
 		
-		return $default;
+		foreach($key as $part){
+			$config = $config[$part];
+		}
+		
+		return $config;
 	}
 	
 	/**

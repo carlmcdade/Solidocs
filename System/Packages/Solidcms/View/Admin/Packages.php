@@ -24,7 +24,7 @@
 					<a href="/admin/package/uninstall_package/?package=<?php echo $item['package'];?>">Uninstall</a> | 
 					<a href="/admin/package/reinstall_package/?package=<?php echo $item['package'];?>">Reinstall</a>
 					
-					<span class="discrete"><i><?php echo count($item['install_tables']);?></i> tables</span>
+					<span class="discrete"><i><?php echo count($item['install_tables']);?></i> table(s)</span>
 				
 				<?php endif;?>
 				</div>
