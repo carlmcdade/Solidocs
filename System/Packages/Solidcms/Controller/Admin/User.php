@@ -1,5 +1,5 @@
 <?php
-class Solidadmin_Controller_Admin_User extends Solidocs_Controller_Action
+class Solidcms_Controller_Admin_User extends Solidocs_Controller_Action
 {
 	/**
 	 * Index

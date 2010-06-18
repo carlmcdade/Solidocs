@@ -5,27 +5,6 @@ class Solidocs_Model_Install extends Solidocs_Install
 	 * Tables
 	 */
 	public $tables = array(
-		'acl' => array(
-			'category' => array(
-				'type' 		=> 'string',
-				'length'	=> 64,
-				'index'		=> true
-			),
-			'key' => array(
-				'type'		=> 'string',
-				'length'	=> 64,
-				'index'		=> true
-			),
-			'action' => array(
-				'type'		=> 'string',
-				'length'	=> 64
-			),
-			'group' => array(
-				'type'		=> 'string',
-				'length'	=> 32
-			)
-		),
-		
 		'user' => array(
 			'user_id' => array(
 				'type'		=> 'integer',

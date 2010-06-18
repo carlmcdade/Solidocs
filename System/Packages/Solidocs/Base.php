@@ -11,7 +11,9 @@ class Solidocs_Base
 			Solidocs::apply_config($this, $config);
 		}
 		
-		$this->init();
+		if($config !== false){
+			$this->init();
+		}
 	}
 	
 	/**

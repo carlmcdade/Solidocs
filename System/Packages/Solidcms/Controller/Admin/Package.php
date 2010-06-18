@@ -1,12 +1,12 @@
 <?php
-class Solidadmin_Controller_Admin_Package extends Solidocs_Controller_Action
+class Solidcms_Controller_Admin_Package extends Solidocs_Controller_Action
 {
 	/**
 	 * Index
 	 */
 	public function do_index(){
 		$this->load->view('Admin_Packages', array(
-			'list'	=> $this->model->admin->get_packages()
+			'list' => $this->model->admin->get_packages()
 		));
 	}
 	
@@ -15,7 +15,9 @@ class Solidadmin_Controller_Admin_Package extends Solidocs_Controller_Action
 	 */
 	public function do_plugin(){
 		$this->load->view('Admin_Plugins', array(
-			'list'	=> $this->model->admin->get_plugins()
+			'list' => $this->model->admin->get_plugins(),
+			'active_plugins' => $this->model->admin->get_active_plugins(),
+			'config_plugins' => $this->model->admin->get_config_plugins()
 		));
 	}
 	
@@ -51,25 +53,19 @@ class Solidadmin_Controller_Admin_Package extends Solidocs_Controller_Action
 	}
 	
 	/**
-	 * Install plugin
+	 * Activate plugin
 	 */
-	public function do_install_plugin(){
-		$class = $this->input->get('plugin');
-		$instance = new $class;
-		
-		$instance->install();
+	public function do_activate_plugin(){
+		$this->model->admin->activate_plugin($this->input->get('plugin'));
 		
 		$this->forward('Plugin');
 	}
 
 	/**
-	 * Uninstall plugin
+	 * Deactivate plugin
 	 */
-	public function do_uninstall_plugin(){
-		$class = $this->input->get('plugin');
-		$instance = new $class;
-		
-		$instance->uninstall();
+	public function do_deactivate_plugin(){
+		$this->model->admin->deactivate_plugin($this->input->get('plugin'));
 		
 		$this->forward('Plugin');
 	}

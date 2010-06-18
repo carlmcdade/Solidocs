@@ -104,3 +104,9 @@ table.list tr:nth-child(odd) td
 
 table.list tr td .block
 {padding: 2px;}
+
+/**
+ * Classes
+ */
+.discrete
+{color: #777;}

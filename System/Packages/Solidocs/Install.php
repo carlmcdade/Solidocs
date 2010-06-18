@@ -15,6 +15,25 @@ class Solidocs_Install extends Solidocs_Base
 	 * Engine
 	 */
 	public $engine = 'MyISAM';
+	
+	/**
+	 * Field
+	 */
+	public $types = array(
+		'string' => 'VARCHAR',
+		'bool' => 'TINYINT',
+		'int' => 'INTEGER',
+		'text' => 'TEXT'
+	);
+	
+	/**
+	 * Get tables
+	 *
+	 * @return array
+	 */
+	public function get_tables(){
+		return array_keys($this->tables);
+	}
 
 	/**
 	 * Install
@@ -46,6 +65,10 @@ class Solidocs_Install extends Solidocs_Base
 				}
 				
 				if(isset($field['default'])){
+					if($field['default'] == false){
+						$field['default'] = 0;
+					}
+					
 					$sql .= 'DEFAULT \'' . $field['default'] . '\'';
 				}
 				

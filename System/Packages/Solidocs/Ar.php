@@ -33,10 +33,12 @@ class Solidocs_Ar extends Solidocs_Base
 				$this->identifier => $id
 			))->limit(1)->run();
 			
-			$this->row = $this->db->fetch_assoc();
-			$this->id = $id;
-			
-			unset($this->row[$this->identifier]);
+			if($this->db->affected_rows() !== 0){
+				$this->row = $this->db->fetch_assoc();
+				$this->id = $id;
+				
+				unset($this->row[$this->identifier]);
+			}
 		}
 	}
 	
@@ -79,7 +81,14 @@ class Solidocs_Ar extends Solidocs_Base
 	public function save(){
 		if(is_null($this->id)){
 			$this->db->insert_into($this->table, $this->row)->run();
-			$this->id = $this->db->insert_id();
+			$id = $this->db->insert_id();
+			
+			if(!is_integer($id)){
+				$this->id = $this->row->{$this->identifier};
+			}
+			else{
+				$this->id = $this->db->insert_id();
+			}
 		}
 		else{
 			$this->db->update_set($this->table, $this->row)->where(array(

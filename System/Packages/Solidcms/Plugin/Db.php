@@ -1,5 +1,5 @@
 <?php
-class Solidocs_Plugin_Db extends Solidocs_Plugin
+class Solidcms_Plugin_Db extends Solidocs_Plugin
 {
 	/**
 	 * Name
