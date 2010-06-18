@@ -149,7 +149,7 @@ class Solidocs_Db
 	}
 	
 	/**
-	 * Was success
+	 * Is success
 	 *
 	 * @return bool
 	 */
