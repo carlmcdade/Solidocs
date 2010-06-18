@@ -44,10 +44,16 @@ class Solidcms_Controller_Admin extends Solidocs_Controller_Action
 		$item	= $this->input->uri_segment('item');
 		$action	= $this->input->uri_segment('action');
 		$admin	= $this->model->admin->get_item($item);
+		
+		if($admin == false){
+			$admin['controller']	= 'Admin_' . ucfirst($item);
+			$admin['package']		= 'Solidcms';
+		}
+		
 		$class	= $this->load->controller($admin['controller'], $admin['package']);
 		
 		if(empty($class)){
-			$this->forward('404');
+			throw new Exception('The item "' . $item . '" could not be found');
 			return false;
 		}
 		

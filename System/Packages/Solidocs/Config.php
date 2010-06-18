@@ -35,6 +35,10 @@ class Solidocs_Config
 	public function get($key, $default = false){
 		$key = explode('.', $key);
 		
+		if(!isset($this->config[$key[0]])){
+			return $default;
+		}
+		
 		$config = $this->config[$key[0]];
 		unset($key[0]);
 		
@@ -43,6 +47,10 @@ class Solidocs_Config
 		}
 		
 		foreach($key as $part){
+			if(!isset($config[$part])){
+				return $default;
+			}
+			
 			$config = $config[$part];
 		}
 		

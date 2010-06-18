@@ -22,7 +22,7 @@ class Solidocs_Install extends Solidocs_Base
 	public $types = array(
 		'string' => 'VARCHAR',
 		'bool' => 'TINYINT',
-		'int' => 'INTEGER',
+		'integer' => 'INTEGER',
 		'text' => 'TEXT'
 	);
 	
@@ -87,12 +87,14 @@ class Solidocs_Install extends Solidocs_Base
 				$sql .= implode(',' . "\n", $indexes) . "\n";
 			}
 			
-			$this->db->sql(trim($sql, ',') . ') ENGINE=' . $this->engine . ';')->run();
+			$this->db->sql(trim(trim($sql), ',') . ') ENGINE=' . $this->engine . ';')->run();
 		}
 		
 		if(count($this->data) !== 0){
-			foreach($this->data as $table => $item){
-				$this->db->insert_into($table, $item)->run();
+			foreach($this->data as $table => $items){
+				foreach($items as $item){
+					$this->db->insert_into($table, $item)->run();
+				}
 			}
 		}
 	}
@@ -104,5 +106,24 @@ class Solidocs_Install extends Solidocs_Base
 		foreach($this->tables as $table => $fields){
 			$this->db->sql('DROP TABLE IF EXISTS `' . $table . '`;')->run();
 		}
+	}
+	
+	/**
+	 * Is installed
+	 *
+	 * @return bool
+	 */
+	public function is_installed(){
+		$flag = true;
+		
+		foreach($this->tables as $table => $fields){
+			$this->db->select_from($table, 1)->limit(1)->run();
+			
+			if(!$this->db->is_success()){
+				$flag = false;
+			}
+		}
+		
+		return $flag;
 	}
 }

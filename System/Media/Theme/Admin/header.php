@@ -13,7 +13,7 @@
 		
 		<div id="header">
 			
-			<h1><a href="#">Solidocs Admin</a></h1>
+			<h1><?php echo $this->config->get('Site.name', 'Solidocs Admin');?> <a href="/"><span class="discrete label">visit site</span></a></h1>
 			
 			<div class="userbar">
 				

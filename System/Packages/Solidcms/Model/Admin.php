@@ -10,7 +10,11 @@ class Solidcms_Model_Admin extends Solidocs_Base
 	public function get_item($item){
 		$this->db->select_from('admin')->where(array('item' => $item))->run();
 		
-		return $this->db->fetch_assoc();
+		if($this->db->affected_rows() !== 0){
+			return $this->db->fetch_assoc();
+		}
+		
+		return false;
 	}
 	
 	/**
@@ -55,6 +59,7 @@ class Solidcms_Model_Admin extends Solidocs_Base
 				$install_class = $package . '_Model_Install';
 				$install = new $install_class;
 				
+				$item['is_installed'] = $install->is_installed();
 				$item['install_tables'] = $install->get_tables();
 				$item['install'] = true;
 				

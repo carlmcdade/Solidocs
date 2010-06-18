@@ -30,16 +30,16 @@ class Solidcms_Helper_List extends Solidocs_Helper
 			case 'channel':
 			
 				$this->db
-					->select_from('solidcms_channel_item')
+					->select_from('channel_item')
 					->where(array(
-						'solidcms_channel_item.channel' => $key
+						'channel_item.channel' => $key
 					));
 			
 			break;
 			case 'type':
 				
 				$this->db
-					->select_from('solidcms_content', 'solidcms_content.uri,solidcms_content.title,solidcms_content.list_title')
+					->select_from('content', 'content.uri,content.title,content.list_title')
 					->where(array(
 						'content_type' => $key
 					));

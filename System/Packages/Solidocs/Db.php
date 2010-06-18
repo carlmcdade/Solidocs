@@ -72,6 +72,11 @@ class Solidocs_Db
 	public $last_query;
 	
 	/**
+	 * Last success
+	 */
+	public $last_success = false;
+	
+	/**
 	 * Connect
 	 *
 	 * @return bool
@@ -114,7 +119,7 @@ class Solidocs_Db
 	 * @return object
 	 */
 	public function run(){
-		$success				= $this->query($this->query);
+		$this->last_success		= $this->query($this->query);
 		$this->affected_rows	= mysql_affected_rows($this->link);
 		$this->insert_id		= mysql_insert_id($this->link);
 		$this->first_order		= true;
@@ -125,7 +130,7 @@ class Solidocs_Db
 			$this->affected_rows = 0;
 		}
 		
-		if(!$success){
+		if(!$this->last_success){
 			$success = 'no';
 		}
 		else{
@@ -141,6 +146,15 @@ class Solidocs_Db
 		$this->query = '';
 		
 		return $this;
+	}
+	
+	/**
+	 * Was success
+	 *
+	 * @return bool
+	 */
+	public function is_success(){
+		return $this->last_success;
 	}
 	
 	/**

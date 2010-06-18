@@ -18,15 +18,17 @@
 			<td>
 				<div class="block"><strong><?php echo $item['name'];?></strong></div>
 				<div class="block">
-				<?php if($item['install']):?>
+				<?php if($item['install'] AND $item['is_installed']):?>
 				
-					<a href="/admin/package/install_package/?package=<?php echo $item['package'];?>">Install</a> | 
-					<a href="/admin/package/uninstall_package/?package=<?php echo $item['package'];?>">Uninstall</a> | 
-					<a href="/admin/package/reinstall_package/?package=<?php echo $item['package'];?>">Reinstall</a>
-					
-					<span class="discrete"><i><?php echo count($item['install_tables']);?></i> table(s)</span>
+					<a href="/admin/package/uninstall_package/?package=<?php echo $item['package'];?>">Uninstall</a>
+				
+				<?php elseif($item['install']):?>
+				
+					<a href="/admin/package/install_package/?package=<?php echo $item['package'];?>">Install</a>
 				
 				<?php endif;?>
+				
+					 | <a href="/admin/package/reinstall_package/?package=<?php echo $item['package'];?>">Reinstall</a> <span class="discrete"><i><?php echo count($item['install_tables']);?></i> table(s)</span>
 				</div>
 			</td>
 			<td>
