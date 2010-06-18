@@ -12,6 +12,16 @@ class Solidocs_Router
 	public $routes;
 	
 	/**
+	 * Route name
+	 */
+	public $route_name;
+	
+	/**
+	 * Route data
+	 */
+	public $route_data = 'html';
+	
+	/**
 	 * Package
 	 */
 	public $package = 'Application';
@@ -51,22 +61,27 @@ class Solidocs_Router
 	/**
 	 * Set route
 	 *
+	 * @param string
 	 * @param array
 	 */
-	public function set_route($route){
+	public function set_route($name, $route){
+		$this->route		= $route;
 		$this->package		= $route['package'];
 		$this->controller	= $route['controller'];
 		$this->action		= $route['action'];
+		$this->output_type	= $route['output_type'];
+		$this->route_name	= $name;
 	}
 	
 	/**
 	 * Route
 	 */
 	public function route(){
-		foreach($this->routes as $route){
+		foreach($this->routes as $route_name => $route){
 			$route = array_merge(array(
-				'package'	=> 'Application',
-				'locale'	=> Solidocs::$registry->locale
+				'package'		=> 'Application',
+				'locale'		=> Solidocs::$registry->locale,
+				'output_type'	=> 'html'
 			),$route);
 			
 			if($route['locale'] !== Solidocs::$registry->locale){
@@ -74,7 +89,7 @@ class Solidocs_Router
 			}
 			
 			if($route['uri'] == '/*'){
-				return $this->set_route($route);
+				return $this->set_route($route_name, $route);
 			}
 			
 			$route_segment = explode('/', trim($route['uri'], '/'));
@@ -106,7 +121,7 @@ class Solidocs_Router
 				}
 				
 				if($match){
-					return $this->set_route($route);
+					return $this->set_route($route_name, $route);
 				}
 			}
 		}

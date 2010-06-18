@@ -5,13 +5,26 @@ class Solidocs_Output extends Solidocs_Base
 	 * View
 	 */
 	public $view = array();
-
+	
+	/**
+	 * Type
+	 */
+	public $type = 'html';
+	
+	/**
+	 * Data
+	 */
+	public $data = array();
+	
 	/**
 	 * Headers
 	 */
-	public $headers = array(
-		'Content-type: text/html; charset=utf-8'
-	);
+	public $headers = array();
+	
+	/**
+	 * Use theme
+	 */
+	public $use_theme = true;
 	
 	/**
 	 * Call magic method
@@ -34,6 +47,69 @@ class Solidocs_Output extends Solidocs_Base
 		if(isset($this->helper->$helper)){
 			return call_user_func_array(array($this->helper->$helper, $method), $params);
 		}
+	}
+	
+	/**
+	 * Set type
+	 *
+	 * @param string
+	 */
+	public function set_type($type){
+		$this->type = $type;
+	}
+	
+	/**
+	 * Get type
+	 *
+	 * @return string
+	 */
+	public function get_type(){
+		return $this->type;
+	}
+	
+	/**
+	 * Set data
+	 *
+	 * @param array
+	 */
+	public function set_data($data){
+		$this->data = $data;
+	}
+	
+	/**
+	 * Get data
+	 *
+	 * @return array
+	 */
+	public function get_data($data){
+		return $this->data;
+	}
+	
+	/**
+	 * Set header
+	 *
+	 * @param string
+	 */
+	public function set_header($header){
+		$this->headers[] = $header;
+	}
+	
+	/**
+	 * Set use theme
+	 *
+	 * @param bool
+	 */
+	public function set_use_theme($flag){
+		$this->use_theme = $flag;
+	}
+	
+	/**
+	 * Use theme
+	 *
+	 * @return bool
+	 */
+	public function use_theme(){
+		return $this->use_theme;
 	}
 	
 	/**
@@ -82,14 +158,33 @@ class Solidocs_Output extends Solidocs_Base
 	 * Render
 	 */
 	public function render(){
+		switch($this->get_type()){
+			case 'html':
+				$this->set_header('Content-type: text/html; charset=utf-8');
+			break;
+			
+			case 'json':
+				$this->set_header('Content-type: application/json; charset=utf-8');
+				$this->set_use_theme(false);
+			break;
+			
+			case 'xml':
+				$this->set_header('Content-type: text/xml; charset=utf-8');
+				$this->set_use_theme(false);
+			break;
+		}
+		
 		foreach($this->headers as $header){
 			header($header);
 		}
 		
 		ob_start();
 		
-		if(is_object($this->theme) AND $this->theme->use_theme){
+		if(is_object($this->theme) AND $this->use_theme()){
 			$this->theme->render();
+		}
+		elseif($this->get_type() !== 'html'){
+			$this->render_data($this->get_type(), $this->get_data());
 		}
 		else{
 			$this->render_content(false);
@@ -115,6 +210,23 @@ class Solidocs_Output extends Solidocs_Base
 		}
 		else{
 			echo $views;
+		}
+	}
+	
+	/**
+	 * Render data
+	 *
+	 * @param string
+	 * @param array|null
+	 */
+	public function render_data($type, $data){
+		if($type == 'json'){
+			echo json_encode($data);
+		}
+		elseif($type == 'xml'){
+			/**
+			 * XML rendering from array...
+			 */
 		}
 	}
 }

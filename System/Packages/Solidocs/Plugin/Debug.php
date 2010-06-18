@@ -22,6 +22,10 @@ class Solidocs_Plugin_Debug extends Solidocs_Plugin
 	 * Debug bar
 	 */
 	public function debug_bar($output){
+		if($this->output->get_type() !== 'html'){
+			return $output;
+		}
+		
 		$array = array(
 			'General'	=> array(
 				'URI'				=> $this->router->request_uri,
@@ -108,7 +112,7 @@ class Solidocs_Plugin_Debug extends Solidocs_Plugin
 		}
 		
 		$debug .= '<li><a href="#">X</a></ul></div>';
-	
+		
 		if(preg_match('/<\/body>/', $output, $matches)){
 			$output = str_replace('</body>', $debug . '</body>', $output);
 		}

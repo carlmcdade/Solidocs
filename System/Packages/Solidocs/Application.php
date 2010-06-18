@@ -86,6 +86,7 @@ class Solidocs_Application extends Solidocs_Base
 		try{
 			$this->router->route();
 			$this->dispatch($this->router->package, $this->router->controller, $this->router->action);
+			$this->output->set_type($this->router->output_type);
 		}
 		catch(Exception $e){
 			$this->dispatch('Application', 'Error', '404');
