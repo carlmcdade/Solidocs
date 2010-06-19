@@ -99,22 +99,25 @@ p
 /**
  * Table list
  */
-table.list
+.list
 {width: 100%; border: 1px solid #ccc; font-size: 1.1em;}
 
-table.list tr td, table.list tr th
+.list tbody tr td, .list thead tr th, .list tfoot tr td
 {padding: 10px; border-bottom: 1px solid #ccc; text-align: left;}
 
-table.list tr th
+.list thead tr th, .list tfoot tr td
 {background: #ddd;}
 
-table.list tr:last-child td
+.list tfoot tr td
+{border-top: 1px solid #ccc; padding: 5px 10px;}
+
+.list tbody tr:last-child td
 {border-bottom: 0;}
 
-table.list tr:nth-child(odd) td
+.list tbody tr:nth-child(odd) td
 {background: #eee;}
 
-table.list tr td .block
+.list tbody tr td .block
 {padding: 2px;}
 
 /**

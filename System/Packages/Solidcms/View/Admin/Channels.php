@@ -1,4 +1,4 @@
-<h2>Channels</h2>
+<h2>Channels <a href="/admin/content/create_channel">Create Channel</a></h2>
 
 <table class="list">
 	
