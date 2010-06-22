@@ -53,7 +53,7 @@ class Solidcms_Controller_Admin extends Solidocs_Controller_Action
 		$class	= $this->load->controller($admin['controller'], $admin['package']);
 		
 		if(empty($class)){
-			throw new Exception('The item "' . $item . '" could not be found');
+			throw new Exception('The item "' . $item . '" could not be found', 404);
 			return false;
 		}
 		

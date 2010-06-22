@@ -20,6 +20,11 @@ session_start();
 define('STARTTIME', microtime());
 
 /**
+ * Application env
+ */
+defined('APPLICATION_ENV') || define('APPLICATION_ENV', (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : 'production'));
+
+/**
  * Path constants
  */
 define('ROOT',		getcwd());

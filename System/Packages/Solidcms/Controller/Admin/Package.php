@@ -28,7 +28,7 @@ class Solidcms_Controller_Admin_Package extends Solidocs_Controller_Action
 		$this->load->model('Install', $this->input->get('package'));
 		$this->model->install->install();
 		
-		$this->forward('Index');
+		$this->redirect('/admin/package');
 	}
 
 	/**
@@ -38,7 +38,7 @@ class Solidcms_Controller_Admin_Package extends Solidocs_Controller_Action
 		$this->load->model('Install', $this->input->get('package'));
 		$this->model->install->uninstall();
 		
-		$this->forward('Index');
+		$this->redirect('/admin/package');
 	}
 	
 	/**
@@ -49,7 +49,7 @@ class Solidcms_Controller_Admin_Package extends Solidocs_Controller_Action
 		$this->model->install->uninstall();
 		$this->model->install->install();
 		
-		$this->forward('Index');
+		$this->redirect('/admin/package');
 	}
 	
 	/**
@@ -58,7 +58,7 @@ class Solidcms_Controller_Admin_Package extends Solidocs_Controller_Action
 	public function do_activate_plugin(){
 		$this->model->admin->activate_plugin($this->input->get('plugin'));
 		
-		$this->forward('Plugin');
+		$this->redirect('/admin/package/plugin');
 	}
 
 	/**
@@ -67,19 +67,6 @@ class Solidcms_Controller_Admin_Package extends Solidocs_Controller_Action
 	public function do_deactivate_plugin(){
 		$this->model->admin->deactivate_plugin($this->input->get('plugin'));
 		
-		$this->forward('Plugin');
-	}
-	
-	/**
-	 * Reinstall plugin
-	 */
-	public function do_reinstall_plugin(){
-		$class = $this->input->get('plugin');
-		$instance = new $class;
-		
-		$instance->uninstall();
-		$instance->install();
-		
-		$this->forward('Plugin');
+		$this->redirect('/admin/package/plugin');
 	}
 }

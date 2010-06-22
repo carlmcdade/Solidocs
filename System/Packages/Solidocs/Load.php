@@ -28,7 +28,7 @@ class Solidocs_Load extends Solidocs_Base
 	 *
 	 * @param array
 	 */
-	public function set_view_handler($view_handler){
+	public function set_view_handler(&$view_handler){
 		$this->view_handler = $view_handler;
 	}
 	
@@ -257,7 +257,7 @@ class Solidocs_Load extends Solidocs_Base
 		
 		if(is_array($search)){
 			if(isset($this->view_handler)){
-				call_user_func_array($this->view_handler,array(
+				call_user_func_array(array($this->view_handler, 'add_view'),array(
 					$search['path'],
 					$params
 				));

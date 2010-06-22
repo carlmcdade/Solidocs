@@ -82,8 +82,10 @@ class Solidocs_Db
 	 * @return bool
 	 */
 	public function connect(){
-		if(!$this->link = mysql_connect($this->server, $this->user, $this->password)){
-			trigger_error(mysql_error());
+		$this->link = mysql_connect($this->server, $this->user, $this->password);
+		
+		if(!is_resource($this->link)){
+			throw new Exception(mysql_error());
 		}
 	}
 	
@@ -94,7 +96,7 @@ class Solidocs_Db
 	 */
 	public function select_db(){
 		if(!mysql_select_db($this->database, $this->link)){
-			trigger_error(mysql_error());
+			throw new Exception(mysql_error());
 		}
 	}
 	
@@ -106,7 +108,7 @@ class Solidocs_Db
 	 */
 	public function query($query){
 		if(!$this->result = mysql_query($query)){
-			trigger_error(mysql_error($this->link));
+			throw new Exception(mysql_error($this->link));
 			return false;
 		}
 		

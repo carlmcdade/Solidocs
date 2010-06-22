@@ -7,20 +7,51 @@ class Solidocs_Application extends Solidocs_Base
 	public $controller;
 	
 	/**
+	 * Is setup
+	 */
+	public $is_setup = false;
+	
+	/**
 	 * Init
 	 */
 	public function init(){
-		$this->setup();
-		$this->execute();
-		$this->render();
+		try{
+			// Setup
+			Solidocs::do_action('pre_setup');
+			$this->setup();
+			Solidocs::do_action('post_setup');
+			
+			// Execute
+			Solidocs::do_action('pre_execute');
+			$this->execute();
+			Solidocs::do_action('post_execute');
+		}
+		catch(Exception $e){
+			// Error
+			if($e->getCode() == '404'){
+				$this->dispatch('Application', 'Error', '404');
+			}
+			else{
+				if(APPLICATION_ENV == 'development'){
+					die($e);
+				}
+				
+				$this->dispatch('Application', 'Error', '500');
+			}
+		}
+		
+		// Render if setup has been run
+		if($this->is_setup){
+			Solidocs::do_action('pre_render');
+			$this->render();
+			Solidocs::do_action('post_render');
+		}
 	}
 	
 	/**
 	 * Setup
 	 */
-	public function setup(){
-		Solidocs::do_action('pre_setup');
-		
+	public function setup(){		
 		// Include core
 		include(PACKAGE . '/Solidocs/Error.php');
 		include(PACKAGE . '/Solidocs/Config.php');
@@ -71,28 +102,19 @@ class Solidocs_Application extends Solidocs_Base
 		
 		// Set routes, set view handler and load user model
 		$this->router->set_routes($this->config->load_file(APP . '/Config/Routes', true));
-		$this->load->set_view_handler(array(
-			$this->output, 'add_view'
-		));
+		$this->load->set_view_handler($this->output);
 		$this->load->model('User');
 		
-		Solidocs::do_action('post_setup,pre_execute');
+		$this->is_setup = true;
 	}
 	
 	/**
 	 * Execute
 	 */
 	public function execute(){
-		try{
-			$this->router->route();
-			$this->dispatch($this->router->package, $this->router->controller, $this->router->action);
-			$this->output->set_type($this->router->output_type);
-		}
-		catch(Exception $e){
-			$this->dispatch('Application', 'Error', '404');
-		}
-		
-		Solidocs::do_action('post_execute,pre_render');
+		$this->router->route();
+		$this->dispatch($this->router->package, $this->router->controller, $this->router->action);
+		$this->output->set_type($this->router->output_type);
 	}
 	
 	/**
@@ -100,8 +122,6 @@ class Solidocs_Application extends Solidocs_Base
 	 */
 	public function render(){
 		echo Solidocs::apply_filter('render', $this->output->render());
-		
-		Solidocs::do_action('post_render');
 	}
 	
 	/**

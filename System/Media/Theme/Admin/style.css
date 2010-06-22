@@ -120,6 +120,9 @@ p
 .list tbody tr td .block
 {padding: 2px;}
 
+.list tbody tr.active td
+{background: #d4ecff;}
+
 /**
  * Classes
  */

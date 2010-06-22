@@ -8,7 +8,7 @@ class Solidocs_Controller_Action extends Solidocs_Controller
 	 * @param array
 	 */
 	public function __call($action, $params){
-		throw new Exception('Action "' . $action . '" could not be found');
+		throw new Exception('Action "' . $action . '" could not be found', 404);
 	}
 	
 	/**
