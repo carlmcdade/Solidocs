@@ -23,23 +23,32 @@ class Solidocs_Ar extends Solidocs_Base
 	
 	/**
 	 * Constructor
+	 *
+	 * @param string
+	 * @param string
+	 * @param string|integer	Optional.
 	 */
 	public function __construct($table, $identifier, $id = null){
 		$this->table = $table;
 		$this->identifier = $identifier;
 		
-		if(!is_null($id)){
+		if(is_array($id)){
+			$this->row = $id;
+			$this->id = $this->row[$this->identifier];
+		}
+		elseif(!is_null($id)){
 			$this->db->select_from($this->table)->where(array(
 				$this->identifier => $id
 			))->limit(1)->run();
 			
 			if($this->db->affected_rows() !== 0){
 				$this->row = $this->db->fetch_assoc();
-				$this->id = $id;
-				
-				unset($this->row[$this->identifier]);
 			}
+			
+			$this->id = $id;
 		}
+		
+		unset($this->row[$this->identifier]);
 	}
 	
 	/**

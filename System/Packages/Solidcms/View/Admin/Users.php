@@ -1,3 +1,5 @@
+<h2>Users <a href="/admin/user/create">Add User</a></h2>
+
 <table class="list">
 
 	<thead>
