@@ -1,3 +1,5 @@
+setenv APPLICATION_ENV development
+
 RewriteEngine on
 
 RewriteCond %{REQUEST_FILENAME} !-f
