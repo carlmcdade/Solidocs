@@ -1,10 +1,6 @@
 <?php
-class Solidcms_Model_Install extends Solidocs_Install
-{
-	/**
-	 * Tables
-	 */
-	public $tables = array(
+$config = array(
+	'tables' => array(
 		'acl' => array(
 			'category' => array(
 				'type' 		=> 'string',
@@ -208,12 +204,9 @@ class Solidcms_Model_Install extends Solidocs_Install
 				'length' => 128
 			)
 		)
-	);
+	),
 	
-	/**
-	 * Data
-	 */
-	public $data = array(
+	'data' => array(
 		'plugin' => array(
 			array(
 				'class' => 'Solidocs_Plugin_Debug',
@@ -337,5 +330,5 @@ class Solidcms_Model_Install extends Solidocs_Install
 				'default_view' => 'Solidcms_Page'
 			)
 		)
-	);
-}
+	)
+);

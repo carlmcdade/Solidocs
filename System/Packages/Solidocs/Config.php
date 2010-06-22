@@ -97,6 +97,16 @@ class Solidocs_Config
 	}
 	
 	/**
+	 * File exists
+	 *
+	 * @param string
+	 * @return bool
+	 */
+	public function file_exists($file){
+		return (file_exists($file . '.php') OR file_exists($file . '.ini') OR file_exists($file . '.xml'));
+	}
+	
+	/**
 	 * Load file
 	 *
 	 * @param string

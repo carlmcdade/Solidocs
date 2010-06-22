@@ -25,8 +25,7 @@ class Solidcms_Controller_Admin_Package extends Solidocs_Controller_Action
 	 * Install package
 	 */
 	public function do_install_package(){
-		$this->load->model('Install', $this->input->get('package'));
-		$this->model->install->install();
+		$this->model->admin->get_installer($this->input->get('package'))->install();
 		
 		$this->redirect('/admin/package');
 	}
@@ -35,8 +34,7 @@ class Solidcms_Controller_Admin_Package extends Solidocs_Controller_Action
 	 * Uninstall package
 	 */
 	public function do_uninstall_package(){
-		$this->load->model('Install', $this->input->get('package'));
-		$this->model->install->uninstall();
+		$this->model->admin->get_installer($this->input->get('package'))->uninstall();
 		
 		$this->redirect('/admin/package');
 	}
@@ -45,9 +43,9 @@ class Solidcms_Controller_Admin_Package extends Solidocs_Controller_Action
 	 * Reinstall package
 	 */
 	public function do_reinstall_package(){
-		$this->load->model('Install', $this->input->get('package'));
-		$this->model->install->uninstall();
-		$this->model->install->install();
+		$installer = $this->model->admin->get_installer($this->input->get('package'));
+		$installer->uninstall();
+		$installer->install();
 		
 		$this->redirect('/admin/package');
 	}

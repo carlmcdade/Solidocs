@@ -1,10 +1,6 @@
 <?php
-class Solidocs_Model_Install extends Solidocs_Install
-{
-	/**
-	 * Tables
-	 */
-	public $tables = array(
+$config = array(
+	'tables' => array(
 		'user' => array(
 			'user_id' => array(
 				'type'		=> 'integer',
@@ -33,12 +29,9 @@ class Solidocs_Model_Install extends Solidocs_Install
 				'default'	=> 'user'
 			)
 		)
-	);
-	
-	/**
-	 * Data
-	 */
-	public $data = array(
+	),
+
+	'data' => array(
 		'user'	=> array(
 			array(
 				'email'		=> 'admin@example.com',
@@ -47,5 +40,5 @@ class Solidocs_Model_Install extends Solidocs_Install
 				'group'		=> 'user,admin'
 			)
 		)
-	);
-}
+	)
+);

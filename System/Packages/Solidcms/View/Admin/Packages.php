@@ -26,9 +26,12 @@
 				
 					<a href="/admin/package/install_package/?package=<?php echo $item['package'];?>">Install</a>
 				
-				<?php endif;?>
+				<?php endif;
+				if($item['install']):?>
 				
 					 | <a href="/admin/package/reinstall_package/?package=<?php echo $item['package'];?>">Reinstall</a> <span class="discrete"><i><?php echo count($item['install_tables']);?></i> table(s)</span>
+				
+				<?php endif;?>
 				</div>
 			</td>
 			<td>

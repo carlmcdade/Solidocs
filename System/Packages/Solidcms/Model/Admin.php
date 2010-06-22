@@ -55,10 +55,15 @@ class Solidcms_Model_Admin extends Solidocs_Base
 			$item['install_tables'] = null;
 			$item['install'] = false;
 			
-			if(file_exists(PACKAGE . '/' . $package . '/Model/Install.php')){
+			if($this->config->file_exists(PACKAGE . '/' . $package . '/Config/Install')){
+				$install = new Solidocs_Install($this->config->load_file(PACKAGE . '/' . $package . '/Config/Install', true));
+			}
+			elseif(file_exists(PACKAGE . '/' . $package . '/Model/Install.php')){
 				$install_class = $package . '_Model_Install';
 				$install = new $install_class;
-				
+			}
+			
+			if(isset($install)){
 				$item['is_installed'] = $install->is_installed();
 				$item['install_tables'] = $install->get_tables();
 				$item['install'] = true;
@@ -141,6 +146,27 @@ class Solidcms_Model_Admin extends Solidocs_Base
 		}
 		
 		return $plugins;
+	}
+	
+	/**
+	 * Get installer
+	 *
+	 * @param string
+	 * @return bool|object
+	 */
+	public function get_installer($package){
+		if($this->config->file_exists(PACKAGE . '/' . $package . '/Config/Install')){
+			$install = new Solidocs_Install($this->config->load_file(PACKAGE . '/' . $package . '/Config/Install', true));
+		}
+		elseif(file_exists(PACKAGE . '/' . $package . '/Model/Install.php')){	
+			$install_class = $package . '_Model_Install';
+			$install = new $install_class;
+		}
+		else{
+			return false;
+		}
+		
+		return $install;
 	}
 	
 	/**
