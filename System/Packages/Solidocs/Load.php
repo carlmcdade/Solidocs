@@ -205,8 +205,14 @@ class Solidocs_Load extends Solidocs_Base
 	 * @param string
 	 * @param string	Optional.
 	 */
-	public function helper($class, $package = null){
-		$search = $this->search($class, 'Helper', $package);
+	public function helper($helper, $package = null){
+		$class = '';
+		
+		foreach(explode('_', $helper) as $part){
+			$class .= '_' . ucfirst($part);
+		}
+		
+		$search = $this->search(trim($class, '_'), 'Helper', $package);
 		
 		if(is_array($search)){
 			if(isset(Solidocs::$registry->helper->$search['slug'])){
