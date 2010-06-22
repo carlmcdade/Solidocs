@@ -174,20 +174,25 @@ class Solidocs_Output extends Solidocs_Base
 			break;
 		}
 		
-		foreach($this->headers as $header){
-			header($header);
+		if(headers_sent()){
+			throw new Exception('Headers have already been sent');
+		}
+		else{
+			foreach($this->headers as $header){
+				header($header);
+			}
 		}
 		
 		ob_start();
 		
 		if(is_object($this->theme) AND $this->use_theme()){
-			$this->theme->render();
+			echo $this->theme->render();
 		}
 		elseif($this->get_type() !== 'html'){
-			$this->render_data($this->get_type(), $this->get_data());
+			echo $this->render_data($this->get_type(), $this->get_data());
 		}
 		else{
-			$this->render_content(false);
+			echo $this->render_content(false);
 		}
 		
 		return ob_get_clean();

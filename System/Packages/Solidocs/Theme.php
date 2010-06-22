@@ -121,11 +121,12 @@ class Solidocs_Theme extends Solidocs_Base
 		}
 		
 		if(!isset($theme_file)){
-			trigger_error('No theme file could be found in "' . THEME . '".');
-			return false;
+			throw new Exception('No theme file could be found in "' . THEME . '".');
 		}
 		
+		ob_start();
 		include($theme_file);
+		return ob_get_clean();
 	}
 	
 	/**

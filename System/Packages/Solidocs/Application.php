@@ -7,11 +7,6 @@ class Solidocs_Application extends Solidocs_Base
 	public $controller;
 	
 	/**
-	 * Is setup
-	 */
-	public $is_setup = false;
-	
-	/**
 	 * Init
 	 */
 	public function init(){
@@ -27,24 +22,18 @@ class Solidocs_Application extends Solidocs_Base
 			Solidocs::do_action('post_execute');
 		}
 		catch(Exception $e){
-			// Error
-			if($e->getCode() == '404'){
-				$this->dispatch('Application', 'Error', '404');
-			}
-			else{
-				if(APPLICATION_ENV == 'development'){
-					die($e);
-				}
-				
-				$this->dispatch('Application', 'Error', '500');
-			}
+			$this->dispatch_exception($e);
 		}
 		
-		// Render if setup has been run
-		if($this->is_setup){
+		try{
+			// Render
 			Solidocs::do_action('pre_render');
 			$this->render();
 			Solidocs::do_action('post_render');
+		}
+		catch(Exception $e){
+			ob_clean();
+			$this->dispatch_exception($e);
 		}
 	}
 	
@@ -104,8 +93,6 @@ class Solidocs_Application extends Solidocs_Base
 		$this->router->set_routes($this->config->load_file(APP . '/Config/Routes', true));
 		$this->load->set_view_handler($this->output);
 		$this->load->model('User');
-		
-		$this->is_setup = true;
 	}
 	
 	/**
@@ -141,6 +128,25 @@ class Solidocs_Application extends Solidocs_Base
 		if(!empty($class)){
 			$this->controller = new $class;
 			$this->controller->dispatch_action($action);
+		}
+	}
+	
+	/**
+	 * Dispatch exception
+	 *
+	 * @param object
+	 */
+	public function dispatch_exception($e){
+		// Error
+		if($e->getCode() == '404'){
+			$this->dispatch('Application', 'Error', '404');
+		}
+		else{
+			$this->dispatch('Application', 'Error', '500');
+			
+			if(APPLICATION_ENV == 'development'){
+				die($e);
+			}
 		}
 	}
 }
