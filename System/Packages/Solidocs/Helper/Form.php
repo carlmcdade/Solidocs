@@ -55,7 +55,13 @@ class Solidocs_Helper_Form extends Solidocs_Helper
 		echo '<select ' . html_properties($args) . '>';
 		
 		foreach($options as $key => $val){
-			echo '<option value="' . $key . '">' . $val . '</option>';
+			$selected = '';
+			
+			if($value == $key){
+				$selected = ' selected="selected"';
+			}
+			
+			echo '<option value="' . $key . '"' . $selected . '>' . $val . '</option>';
 		}
 		
 		echo '</select>';

@@ -2,7 +2,14 @@
 
 <form action="/admin/channel/edit/{channel}" method="post">
 
-<?php foreach($items as $item):?>
+<?php
+$options = array(0 => 'None');
+
+foreach($items as $option){
+	$options[$option['channel_item_id']] = $option['title'] . ' (' . $option['url'] . ')';
+}
+
+foreach($items as $item):?>
 <div class="block">
 	
 	<?php
@@ -11,12 +18,6 @@
 	
 	$this->form_label('URL');
 	$this->form_input('name=item[' . $item['channel_item_id'] . '][url]&value=' . $item['url']);
-	
-	$options = array();
-	
-	foreach($items as $option){
-		$options[$option['channel_item_id']] = $option['title'] . ' (' . $option['url'] . ')';
-	}
 	
 	$this->form_label('Parent');
 	$this->form_select('name=item[' . $item['channel_item_id'] . '][parent_id]', $options, $item['parent_id']);
