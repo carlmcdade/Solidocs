@@ -273,7 +273,7 @@ class Solidocs_Theme extends Solidocs_Base
 						break;
 						
 						case 'js':
-							$output .= '<script type="text/javascript" src="' . $val . '" />' . "\n";
+							$output .= '<script type="text/javascript" src="' . $val . '"></script>' . "\n";
 						break;
 						
 						case 'css':

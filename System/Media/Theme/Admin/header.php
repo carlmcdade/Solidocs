@@ -4,9 +4,9 @@
 
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title><?php echo $this->title('Solidocs', 'PHP Framework', ' | ', true);?></title>
-	<link rel="stylesheet" type="text/css" href="<?php echo THEME_WWW;?>/style.css" />
 	<?php
-	$this->add_js('http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js');
+	$this->add_css(THEME_WWW . '/style.css');
+	$this->add_js('http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js');
 	$this->add_js(THEME_WWW . '/script.js');
 	echo $this->head();
 	?>

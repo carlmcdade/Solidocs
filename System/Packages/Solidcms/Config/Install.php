@@ -234,6 +234,11 @@ $config = array(
 				'item' => 'content',
 				'package' => 'Solidcms',
 				'controller' => 'Admin_Content'
+			),
+			array(
+				'item' => 'channel',
+				'package' => 'Solidcms',
+				'controller' => 'Admin_Channel'
 			)
 		),
 		
@@ -242,6 +247,11 @@ $config = array(
 				'channel' => 'admin_navigation',
 				'name' => 'Admin Navigation',
 				'description' => 'The navigation in the admin interface.'
+			),
+			array(
+				'channel' => 'main_navigation',
+				'name' => 'Main Navigation',
+				'description' => 'The main navigation.'
 			)
 		),
 		
@@ -274,7 +284,7 @@ $config = array(
 			),
 			array(
 				'channel' => 'admin_navigation',
-				'url' => '/admin/content/channel',
+				'url' => '/admin/channel',
 				'title' => 'Channels',
 				'parent_id' => 2,
 				'depth' => 1,
@@ -305,6 +315,16 @@ $config = array(
 				'title' => 'ACL',
 				'parent_id' => 8,
 				'depth' => 1
+			),
+			array(
+				'channel' => 'main_navigation',
+				'url' => '/',
+				'title' => 'Home'
+			),
+			array(
+				'channel' => 'main_navigation',
+				'url' => '/about',
+				'title' => 'About'
 			)
 		),
 		

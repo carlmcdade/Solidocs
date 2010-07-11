@@ -19,12 +19,12 @@ class Solidocs_Helper_Form extends Solidocs_Helper
 	 * Input
 	 *
 	 * @param array|string
-	 * @param bool
+	 * @param bool			Optional.
 	 */
 	public function input($args, $auto_value = false){
 		$args = parse_args(array(
-			'type'	=> 'text'
-		),$args);
+			'type' => 'text'
+		), $args);
 		
 		if($auto_value AND isset($args['name'])){
 			$value = $this->input->post($args['name'], false);
@@ -35,6 +35,30 @@ class Solidocs_Helper_Form extends Solidocs_Helper
 		}
 		
 		echo '<input ' . html_properties($args) . ' />';
+	}
+	
+	/**
+	 * Select
+	 *
+	 * @param array|string
+	 * @param array
+	 * @param bool|string	Optional.
+	 */
+	public function select($args, $options, $value = false){
+		$args = parse_args(array(
+		), $args);
+		
+		if(is_bool($value)){
+			$value = $this->input->post($args['name'], false);
+		}
+		
+		echo '<select ' . html_properties($args) . '>';
+		
+		foreach($options as $key => $val){
+			echo '<option value="' . $key . '">' . $val . '</option>';
+		}
+		
+		echo '</select>';
 	}
 	
 	/**
