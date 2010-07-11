@@ -32,6 +32,16 @@ class Solidocs_Input
 	}
 	
 	/**
+	 * Has uri segment
+	 *
+	 * @param string
+	 * @return bool
+	 */
+	public function has_uri_segment($key){
+		return (isset(Solidocs::$registry->router->segment[$key]));
+	}
+	
+	/**
 	 * Cookie
 	 *
 	 * @param string

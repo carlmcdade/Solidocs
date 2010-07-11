@@ -12,9 +12,9 @@ class Solidocs_Router
 	public $routes;
 	
 	/**
-	 * Route name
+	 * Route key
 	 */
-	public $route_name;
+	public $route_key;
 	
 	/**
 	 * Route data
@@ -70,14 +70,21 @@ class Solidocs_Router
 		$this->controller	= $route['controller'];
 		$this->action		= $route['action'];
 		$this->output_type	= $route['output_type'];
-		$this->route_name	= $name;
+		$this->route_key	= $name;
+		
+		// hack to remove segments with numeric keys
+		foreach($this->segment as $key => $val){
+			if(is_integer($key)){
+				unset($this->segment[$key]);
+			}
+		}
 	}
 	
 	/**
 	 * Route
 	 */
 	public function route(){
-		foreach($this->routes as $route_name => $route){
+		foreach($this->routes as $route_key => $route){
 			$route = array_merge(array(
 				'package'		=> 'Application',
 				'locale'		=> Solidocs::$registry->locale,
@@ -89,7 +96,7 @@ class Solidocs_Router
 			}
 			
 			if($route['uri'] == '/*'){
-				return $this->set_route($route_name, $route);
+				return $this->set_route($route_key, $route);
 			}
 			
 			$route_segment = explode('/', trim($route['uri'], '/'));
@@ -121,7 +128,7 @@ class Solidocs_Router
 				}
 				
 				if($match){
-					return $this->set_route($route_name, $route);
+					return $this->set_route($route_key, $route);
 				}
 			}
 		}
@@ -140,6 +147,10 @@ class Solidocs_Router
 		}
 		else{
 			$uri = $this->routes[$key]['uri'];
+			
+			if($key == $this->route_key){
+				$values = array_merge($this->segment, $values);
+			}
 		}
 		
 		if(isset($this->routes[$key]['default'])){
