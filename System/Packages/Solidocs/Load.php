@@ -89,7 +89,7 @@ class Solidocs_Load extends Solidocs_Base
 		$searchable['Solidocs']	= PACKAGE . '/Solidocs';
 		$searchable['Package']	= PACKAGE;
 				
-		if($package !== null){
+		if(is_string($package) AND !empty($package)){
 			$searchable = array($package => $searchable[$package]);
 		}
 						
