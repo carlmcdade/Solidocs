@@ -5,6 +5,7 @@ class Solidocs_Helper_Form extends Solidocs_Helper
 	 * Label
 	 *
 	 * @param string
+	 * @param string	Optional.
 	 */
 	public function label($label, $for = ''){
 		if(!empty($for)){
@@ -18,41 +19,37 @@ class Solidocs_Helper_Form extends Solidocs_Helper
 	/**
 	 * Input
 	 *
-	 * @param array|string
-	 * @param bool			Optional.
+	 * @param string
+	 * @param bool|string	Optional.
+	 * @param string		Optional.
 	 */
-	public function input($args, $auto_value = false){
-		$args = parse_args(array(
-			'type' => 'text'
-		), $args);
-		
-		if($auto_value AND isset($args['name'])){
-			$value = $this->input->post($args['name'], false);
-			
-			if($value !== false){
-				$args['value'] = $value;
-			}
+	public function input($name, $value = false, $type = 'text'){
+		if(is_bool($value) AND $value == true){
+			$value = $value = $this->input->post($name, false);
+		}
+		elseif($value == false){
+			$value = '';
 		}
 		
-		echo '<input ' . html_properties($args) . ' />';
+		echo '<input type="' . $type . '" name="' . $name . '" value="' . $value . '" />';
 	}
 	
 	/**
 	 * Select
 	 *
-	 * @param array|string
+	 * @param string
 	 * @param array
 	 * @param bool|string	Optional.
 	 */
-	public function select($args, $options, $value = false){
-		$args = parse_args(array(
-		), $args);
-		
-		if(is_bool($value)){
-			$value = $this->input->post($args['name'], false);
+	public function select($name, $options, $value = false){
+		if(is_bool($value) AND $value == true){
+			$value = $value = $this->input->post($name, false);
+		}
+		elseif($value == false){
+			$value = '';
 		}
 		
-		echo '<select ' . html_properties($args) . '>';
+		echo '<select name="' . $name . '">';
 		
 		foreach($options as $key => $val){
 			$selected = '';
@@ -68,36 +65,31 @@ class Solidocs_Helper_Form extends Solidocs_Helper
 	}
 	
 	/**
-	 * Button
+	 * Textarea
 	 *
-	 * @param array|string
+	 * @param string
+	 * @param bool|string	Optional.
+	 * @param integer		Optional.
+	 * @param integer		Optional.
 	 */
-	public function button($button, $args = false){
-		$args = parse_args(array(
-			'type'	=> 'submit'
-		), $args);
+	public function textarea($name, $value = false, $cols = 15, $rows = 20){
+		if(is_bool($value) AND $value == true){
+			$value = $value = $this->input->post($name, false);
+		}
+		elseif($value == false){
+			$value = '';
+		}
 		
-		echo '<button ' . html_properties($args) . '>' . $button . '</button>';
+		echo '<textarea name="' . $name . '" cols="' . $cols . '" rows="' . $rows . '">' . $value . '</textarea>';
 	}
 	
 	/**
-	 * Textarea
+	 * Button
 	 *
-	 * @param array|string
-	 * @param bool
+	 * @param string
+	 * @param string	Optional.
 	 */
-	public function textarea($args, $value = '', $auto_value = false){
-		$args = parse_args(array(
-			'cols'	=> 30,
-			'rows'	=> 5
-		),$args);
-		
-		if($auto_value){
-			if($this->input->post($args['name'], false) !== false){
-				$value = $this->input->post($args['name']);
-			}
-		}
-		
-		echo '<textarea ' . html_properties($args) . '>' . $value . '</textarea>';
+	public function button($button, $type = 'submit'){
+		echo '<button type="' . $type . '">' . $button . '</button>';
 	}
 }

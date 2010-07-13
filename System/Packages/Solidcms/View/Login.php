@@ -6,10 +6,10 @@
 		
 		<?php
 		$this->form_label('Username');
-		$this->form_input('name=username', true);
+		$this->form_input('username', true);
 		
 		$this->form_label('Password');
-		$this->form_input('name=password&type=password');
+		$this->form_input('password', false, 'password');
 		
 		$this->form_button('Sign in');
 		?>
