@@ -31,7 +31,8 @@ class Solidocs_Plugin_Debug extends Solidocs_Plugin
 				'URI'				=> $this->router->request_uri,
 				'Time to generate'	=> microtime_since(STARTTIME),
 				'Memory usage'		=> round(memory_get_usage() / 1024 / 1024, 5) . ' MB',
-				'Included files'	=> count(get_included_files())
+				'Included files'	=> count(get_included_files()),
+				'Locale'			=> $this->locale
 			),
 			'Database queries'	=> debug($this->db->queries, '', true),
 			'URI segments'		=> debug($this->router->segment, '', true),

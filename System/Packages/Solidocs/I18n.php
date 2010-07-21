@@ -55,7 +55,10 @@ class Solidocs_I18n extends Solidocs_Base
 		}
 		
 		if($this->auto_localize){
-			if(isset($this->session->locale)){
+			if($this->input->get('lang', false) !== false){
+				$locale = $this->input->get('lang');
+			}
+			elseif(isset($this->session->locale)){
 				$locale = $this->session->locale;
 			}
 			elseif(isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])){
@@ -77,6 +80,10 @@ class Solidocs_I18n extends Solidocs_Base
 	 * @param string
 	 */
 	public function set_locale($locale){
+		if(strlen($locale) !== 5 OR !in_array($this->locales) AND $locale !== $this->default_locale){
+			return false;
+		}
+		
 		Solidocs::$registry->locale = $locale;
 		$this->session->locale = $locale;
 		
