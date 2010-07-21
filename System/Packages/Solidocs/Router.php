@@ -42,6 +42,11 @@ class Solidocs_Router
 	public $segment = array();
 	
 	/**
+	 * Output type
+	 */
+	public $output_type = 'html';
+	
+	/**
 	 * Constructor
 	 */
 	public function __construct(){
@@ -69,7 +74,6 @@ class Solidocs_Router
 		$this->package		= $route['package'];
 		$this->controller	= $route['controller'];
 		$this->action		= $route['action'];
-		$this->output_type	= $route['output_type'];
 		$this->route_key	= $name;
 		
 		// hack to remove segments with numeric keys
@@ -84,11 +88,20 @@ class Solidocs_Router
 	 * Route
 	 */
 	public function route(){
+		if(strpos($this->request_uri, '.')){
+			$output_type = explode('.', $this->request_uri);
+			
+			if(in_array($output_type[count($output_type) - 1], array('html', 'xml', 'json', 'serialized'))){
+				$this->output_type = $output_type[count($output_type) - 1];
+				
+				$this->request_uri = substr($this->request_uri, 0, strpos($this->request_uri, '.' . $this->output_type));
+			}
+		}
+		
 		foreach($this->routes as $route_key => $route){
 			$route = array_merge(array(
 				'package'		=> 'Application',
 				'locale'		=> Solidocs::$registry->locale,
-				'output_type'	=> 'html'
 			),$route);
 			
 			if($route['locale'] !== Solidocs::$registry->locale){
