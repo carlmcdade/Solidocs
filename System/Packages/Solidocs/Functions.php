@@ -6,7 +6,7 @@
  * @param string	Optional.
  */
 function debug($var, $label = null, $return = false){
-	$str = '<pre><b>' . $label . '</b>' . str_replace(ROOT,'',print_r($var, true)) . '</pre>';
+	$str = '<pre><b>' . $label . '</b>' . str_replace(ROOT, '', print_r($var, true)) . '</pre>';
 	
 	if($return){
 		return $str;
@@ -45,10 +45,9 @@ function microtime_since($start)
 }
 
 /**
- * Is Serialized
- * Check if data is serialized or not 
+ * Is serialized
  * 
- * @param mixed $data    variable to check 
+ * @param mixed
  * @return boolean 
  */
 function is_serialized($string)
@@ -81,7 +80,7 @@ function excerpt($text, $maxchars) {
 }
 
 /**
- * HTML Properties
+ * Html properties
  *
  * @param array
  * @return string

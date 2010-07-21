@@ -55,8 +55,20 @@ class Solidocs_Application extends Solidocs_Base
 		include(PACKAGE . '/Solidocs/Config.php');
 		include(PACKAGE . '/Solidocs/Load.php');
 		
-		// Setup core
-		Solidocs::$registry->config	= new Solidocs_Config(array(APP . '/Config/Application', APP . '/Config/Libraries'));
+		// Default config
+		$config = array(APP . '/Config/Application');
+		
+		// Staging and development config
+		if(APPLICATION_ENV == 'staging'){
+			$config[] = APP . '/Config/Application.staging';
+		}
+		elseif(APPLICATION_ENV == 'development'){
+			$config[] = APP . '/Config/Application.staging';
+			$config[] = APP . '/Config/Application.development';
+		}
+		
+		// Set up core libraries
+		Solidocs::$registry->config	= new Solidocs_Config($config);
 		Solidocs::$registry->error	= new Solidocs_Error;
 		Solidocs::$registry->load	= new Solidocs_Load;
 		Solidocs::apply_config($this->error, $this->config->get('Solidocs_Error'));

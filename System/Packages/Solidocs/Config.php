@@ -21,7 +21,9 @@ class Solidocs_Config
 		}
 		
 		foreach($files as $file){
-			$this->load_file($file);
+			if($this->file_exists($file)){
+				$this->load_file($file);
+			}
 		}
 	}
 	
@@ -123,7 +125,7 @@ class Solidocs_Config
 			$config = $this->load_xml($file . '.xml');
 		}
 		
-		if(is_array($config)){
+		if(isset($config) AND is_array($config)){
 			if($return){
 				return $config;
 			}

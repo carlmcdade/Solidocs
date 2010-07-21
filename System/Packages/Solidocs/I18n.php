@@ -135,7 +135,7 @@ class Solidocs_I18n extends Solidocs_Base
 		$file .= '/' . $locale . '.txt';
 		
 		if(!file_exists($file)){
-			trigger_error('Could not load language file "' . $file . '"');
+			throw new Exception('Could not load language file "' . $file . '"');
 			return false;
 		}
 		
@@ -143,7 +143,7 @@ class Solidocs_I18n extends Solidocs_Base
 		
 		foreach(explode("\n", trim(file_get_contents($file))) as $line){
 			if(!isset($line[0]) OR !isset($line[1])){
-				trigger_error('The language file "' . $file . '" is not correctly formated');
+				throw new Exception('The language file "' . $file . '" is not correctly formated');
 				return false;
 			}
 			
