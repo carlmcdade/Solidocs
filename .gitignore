@@ -1,2 +1,3 @@
 System/Cache/*
 System/Application/Config/Application.development.ini
+System/Application/Config/Routes.development.ini
