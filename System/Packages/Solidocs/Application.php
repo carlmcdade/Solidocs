@@ -11,19 +11,23 @@ class Solidocs_Application extends Solidocs_Base
 	 */
 	public function init(){
 		try{
-			// Setup
+			// Setup core and plugins
 			$this->setup_core();
 			$this->setup_plugins();
-			$this->setup_libs();
-			$this->setup_config();
 			
-			Solidocs::do_action('post_setup');
+			// Setup libraries
+			Solidocs::do_action('pre_libraries');
+			$this->setup_libraries();
+			Solidocs::do_action('post_libraries');
+			
+			// Configure
+			Solidocs::do_action('pre_config');
+			$this->setup_configure();
+			Solidocs::do_action('post_config,post_setup');
 			
 			// Execute
 			Solidocs::do_action('pre_execute');
-			
 			$this->execute();
-			
 			Solidocs::do_action('post_execute');
 		}
 		catch(Exception $e){
@@ -86,12 +90,9 @@ class Solidocs_Application extends Solidocs_Base
 	}
 	
 	/**
-	 * Setup libs
+	 * Setup libraries
 	 */
-	public function setup_libs(){
-		Solidocs::do_action('pre_libraries');
-		
-		// Load libraries
+	public function setup_libraries(){
 		$this->load->library(array(
 			'Router',
 			'Session',
@@ -102,21 +103,14 @@ class Solidocs_Application extends Solidocs_Base
 			'Acl',
 			'User'
 		));
-		
-		Solidocs::do_action('post_libraries');
 	}
 	
 	/**
-	 * Setup config
+	 * Setup configure
 	 */
-	public function setup_config(){
-		Solidocs::do_action('pre_config');
-		
-		// Set routes, set view handler and load user model
+	public function setup_configure(){
 		$this->router->set_routes($this->config->load_file(APP . '/Config/Routes', true));
 		$this->load->set_view_handler($this->output);
-		
-		Solidocs::do_action('post_config');
 	}
 	
 	/**
@@ -147,12 +141,8 @@ class Solidocs_Application extends Solidocs_Base
 			$this->load->package($package);
 		}
 		
-		$class = $this->load->controller($controller, $package);
-		
-		if(!empty($class)){
-			$this->controller = new $class;
-			$this->controller->dispatch_action($action);
-		}
+		$this->controller = $this->load->controller($controller, $package);
+		$this->controller->dispatch_action($action);
 	}
 	
 	/**

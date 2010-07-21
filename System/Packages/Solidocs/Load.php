@@ -235,13 +235,14 @@ class Solidocs_Load extends Solidocs_Base
 	 *
 	 * @param string
 	 * @param string	Optional.
+	 * @return object
 	 */
 	public function controller($class, $package = null){
 		$search = $this->search($class, 'Controller', $package);
 		
 		if(is_array($search)){
 			include_once($search['path']);
-			return $search['class'];
+			return new $search['class'];
 		}
 		else{
 			throw new Exception('Controller "' . $class . '" could not be loaded');

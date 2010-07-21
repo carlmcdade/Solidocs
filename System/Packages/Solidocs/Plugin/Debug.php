@@ -37,6 +37,7 @@ class Solidocs_Plugin_Debug extends Solidocs_Plugin
 			'URI segments'		=> debug($this->router->segment, '', true),
 			'Errors'			=> debug($this->error->errors, '', true),
 			'ACL'				=> debug($this->acl->list, '', true),
+			'Headers'			=> debug($this->output->headers, '', true),
 			'$_REQUEST'			=> debug($_REQUEST, '', true),
 			'$_GET'				=> debug($_GET, '', true),
 			'$_POST'			=> debug($_POST, '', true),
