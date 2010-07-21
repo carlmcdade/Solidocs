@@ -135,7 +135,7 @@ class Solidocs_Load extends Solidocs_Base
 			$search = $this->search($library);
 			
 			if(is_array($search)){
-				$config = null;
+				$config = array();
 				
 				if(is_object($this->config)){
 					$config	= $this->config->get($search['class']);
@@ -146,6 +146,9 @@ class Solidocs_Load extends Solidocs_Base
 				if(is_array($config)){
 					Solidocs::apply_config(Solidocs::$registry->$search['slug'], $config);
 				}
+			}
+			else{
+				throw new Exception('The library "' . $library . '" could not be loaded');
 			}
 		}
 	}
@@ -173,7 +176,7 @@ class Solidocs_Load extends Solidocs_Base
 			return Solidocs::$registry->plugin->$search['slug'];
 		}
 		else{
-			trigger_error('Plugin "'.$class.'" could not be loaded');
+			throw new Exception('Plugin "' . $class . '" could not be loaded');
 		}
 	}
 	
@@ -195,7 +198,7 @@ class Solidocs_Load extends Solidocs_Base
 			Solidocs::$registry->model->$search['slug'] = new $search['class'];
 		}
 		else{
-			trigger_error('Model "'.$class.'" could not be loaded');
+			throw new Exception('Model "' . $class . '" could not be loaded');
 		}
 	}
 	
@@ -223,7 +226,7 @@ class Solidocs_Load extends Solidocs_Base
 			Solidocs::$registry->helper->$search['slug'] = new $search['class'];
 		}
 		else{
-			trigger_error('Helper "'.$class.'" could not be loaded');
+			throw new Exception('Helper "' . $class . '" could not be loaded');
 		}
 	}
 	
@@ -241,7 +244,7 @@ class Solidocs_Load extends Solidocs_Base
 			return $search['class'];
 		}
 		else{
-			trigger_error('Controller "'.$class.'" could not be loaded');
+			throw new Exception('Controller "' . $class . '" could not be loaded');
 		}
 	}
 	
@@ -273,7 +276,7 @@ class Solidocs_Load extends Solidocs_Base
 			}
 		}
 		else{
-			trigger_error('View "'.$view.'" could not be loaded');
+			throw new Exception('View "' . $view . '" could not be loaded');
 		}
 	}
 }

@@ -32,7 +32,7 @@ class Solidocs_Config
 	 * @param mixed		Optional.
 	 * @return mixed
 	 */
-	public function get($key, $default = false){
+	public function get($key, $default = null){
 		$key = explode('.', $key);
 		
 		if(!isset($this->config[$key[0]])){

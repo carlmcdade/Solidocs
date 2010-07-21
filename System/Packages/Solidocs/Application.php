@@ -12,13 +12,18 @@ class Solidocs_Application extends Solidocs_Base
 	public function init(){
 		try{
 			// Setup
-			Solidocs::do_action('pre_setup');
-			$this->setup();
+			$this->setup_core();
+			$this->setup_plugins();
+			$this->setup_libs();
+			$this->setup_config();
+			
 			Solidocs::do_action('post_setup');
 			
 			// Execute
 			Solidocs::do_action('pre_execute');
+			
 			$this->execute();
+			
 			Solidocs::do_action('post_execute');
 		}
 		catch(Exception $e){
@@ -38,9 +43,9 @@ class Solidocs_Application extends Solidocs_Base
 	}
 	
 	/**
-	 * Setup
+	 * Setup core
 	 */
-	public function setup(){		
+	public function setup_core(){
 		// Include core
 		include(PACKAGE . '/Solidocs/Error.php');
 		include(PACKAGE . '/Solidocs/Config.php');
@@ -57,7 +62,12 @@ class Solidocs_Application extends Solidocs_Base
 		$this->load->library('Db');
 		$this->db->connect();
 		$this->db->select_db();
-		
+	}
+	
+	/**
+	 * Setup plugins
+	 */
+	public function setup_plugins(){
 		// Hooks
 		if($this->config->get('Hooks') !== false){
 			foreach($this->config->get('Hooks') as $key => $val){
@@ -73,7 +83,12 @@ class Solidocs_Application extends Solidocs_Base
 				$this->load->plugin($class);
 			}
 		}
-		
+	}
+	
+	/**
+	 * Setup libs
+	 */
+	public function setup_libs(){
 		Solidocs::do_action('pre_libraries');
 		
 		// Load libraries
@@ -84,15 +99,24 @@ class Solidocs_Application extends Solidocs_Base
 			'I18n',
 			'Output',
 			'Theme',
-			'Acl'
+			'Acl',
+			'User'
 		));
 		
 		Solidocs::do_action('post_libraries');
+	}
+	
+	/**
+	 * Setup config
+	 */
+	public function setup_config(){
+		Solidocs::do_action('pre_config');
 		
 		// Set routes, set view handler and load user model
 		$this->router->set_routes($this->config->load_file(APP . '/Config/Routes', true));
 		$this->load->set_view_handler($this->output);
-		$this->load->model('User');
+		
+		Solidocs::do_action('post_config');
 	}
 	
 	/**
