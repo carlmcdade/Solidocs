@@ -62,6 +62,11 @@ class Solidocs_Theme extends Solidocs_Base
 	public $style = array();
 	
 	/**
+	 * Script
+	 */
+	public $script = array();
+	
+	/**
 	 * Body class
 	 */
 	public $body_class = '';
@@ -209,12 +214,34 @@ class Solidocs_Theme extends Solidocs_Base
 	}
 	
 	/**
+	 * Remove meta
+	 *
+	 * @param string
+	 */
+	public function remove_meta($name){
+		if(isset($this->meta[$name])){
+			unset($this->meta[$name]);
+		}
+	}
+	
+	/**
 	 * Add js
 	 *
 	 * @param string
 	 */
 	public function add_js($src){
 		$this->js[] = $src;
+	}
+	
+	/**
+	 * Remove js
+	 *
+	 * @param string
+	 */
+	public function remove_js($src){
+		if(in_array($src, $this->js)){
+			unset($this->js[array_search($src, $this->js)]);
+		}
 	}
 	
 	/**
@@ -227,12 +254,32 @@ class Solidocs_Theme extends Solidocs_Base
 	}
 	
 	/**
+	 * Remove css
+	 *
+	 * @param string
+	 */
+	public function remove_css($href){
+		if(in_array($href, $this->css)){
+			unset($this->css[array_search($href, $this->css)]);
+		}
+	}
+	
+	/**
 	 * Add style
 	 *
 	 * @param string
 	 */
 	public function add_style($style){
 		$this->style[] = $style;
+	}
+	
+	/**
+	 * Add script
+	 *
+	 * @param string
+	 */
+	public function add_script($script){
+		$this->script[] = $script;
 	}
 	
 	/**

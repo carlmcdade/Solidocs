@@ -10,6 +10,9 @@ class Solidocs_User extends Solidocs_Base
 	
 	/**
 	 * Call
+	 *
+	 * @param string
+	 * @param array
 	 */
 	public function __call($method, $params){
 		if(!method_exists($this->model->user, $method)){
