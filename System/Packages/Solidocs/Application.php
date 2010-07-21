@@ -66,6 +66,9 @@ class Solidocs_Application extends Solidocs_Base
 			$config[] = APP . '/Config/Application.staging';
 			$config[] = APP . '/Config/Application.development';
 		}
+		else{
+			ini_set('display_errors', 0);
+		}
 		
 		// Set up core libraries
 		Solidocs::$registry->config	= new Solidocs_Config($config);
