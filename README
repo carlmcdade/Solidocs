@@ -13,7 +13,8 @@ Management System (CMS) with a complete admin interface.
 Requirements
 ------------
 
-Solidocs is supposed to work with PHP 5.2 and up but PHP 5.3 is recommended.
+PHP 5.2
+MySQL 5.1
 
 Documentation
 -------------
