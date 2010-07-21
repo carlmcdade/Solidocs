@@ -121,7 +121,27 @@ class Solidocs_Application extends Solidocs_Base
 	 * Setup configure
 	 */
 	public function setup_configure(){
-		$this->router->set_routes($this->config->load_file(APP . '/Config/Routes', true));
+		// Load production routes
+		$routes = $this->config->load_file(APP . '/Config/Routes', true);
+		
+		// Staging and development routes
+		if(APPLICATION_ENV == 'staging'){
+			if($this->config->file_exists(APP . '/Config/Routes.staging')){
+				$routes = array_merge($routes, $this->config->load_file(APP . '/Config/Routes.staging', true));	
+			}
+		}
+		elseif(APPLICATION_ENV == 'development'){
+			if($this->config->file_exists(APP . '/Config/Routes.staging')){
+				$routes = array_merge($routes, $this->config->load_file(APP . '/Config/Routes.staging', true));
+			}
+			
+			if($this->config->file_exists(APP . '/Config/Routes.development')){
+				$routes = array_merge($routes, $this->config->load_file(APP . '/Config/Routes.development', true));
+			}
+		}
+		
+		// Set routes and view handler
+		$this->router->set_routes($routes);
 		$this->load->set_view_handler($this->output);
 	}
 	
