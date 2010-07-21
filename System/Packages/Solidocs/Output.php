@@ -151,7 +151,7 @@ class Solidocs_Output extends Solidocs_Base
 			}
 		}
 		
-		return str_replace($search,$replace,$output);
+		return str_replace($search, $replace, $output);
 	}
 	
 	/**
@@ -170,6 +170,11 @@ class Solidocs_Output extends Solidocs_Base
 			
 			case 'xml':
 				$this->set_header('Content-type: text/xml; charset=utf-8');
+				$this->set_use_theme(false);
+			break;
+			
+			case 'serialized':
+				$this->set_header('Content-type: text/plain; charset=utf-8');
 				$this->set_use_theme(false);
 			break;
 		}
@@ -227,6 +232,9 @@ class Solidocs_Output extends Solidocs_Base
 	public function render_data($type, $data){
 		if($type == 'json'){
 			echo json_encode($data);
+		}
+		elseif($type == 'serialized'){
+			echo serialize($data);
 		}
 		elseif($type == 'xml'){
 			/**
