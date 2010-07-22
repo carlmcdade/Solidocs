@@ -205,6 +205,8 @@ class Solidocs_Output extends Solidocs_Base
 	
 	/**
 	 * Render content
+	 *
+	 * @return string
 	 */
 	public function render_content(){
 		$views = '';
@@ -213,7 +215,7 @@ class Solidocs_Output extends Solidocs_Base
 			$views .= $view;
 		}
 		
-		echo $views;
+		return $views;
 	}
 	
 	/**

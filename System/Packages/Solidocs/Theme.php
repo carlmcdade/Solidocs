@@ -110,6 +110,8 @@ class Solidocs_Theme extends Solidocs_Base
 	
 	/**
 	 * Render
+	 *
+	 * @return string
 	 */
 	public function render(){
 		define('THEME', MEDIA . '/Theme/' . $this->theme);
@@ -135,22 +137,10 @@ class Solidocs_Theme extends Solidocs_Base
 	}
 	
 	/**
-	 * Render content
-	 *
-	 * @param bool
+	 * Layout
 	 */
-	public function render_content($render_layout = true){
-		$this->output->render_content($render_layout);
-	}
-	
-	/**
-	 * Theme layout
-	 *
-	 * @param string
-	 * @param string
-	 */
-	public function theme_layout($layout, $views){
-		include(THEME . '/' . $layout . '.layout.php');
+	public function layout(){
+		echo '<div id="content">' . $this->output->render_content() . '</div>';
 	}
 	
 	/**
@@ -160,6 +150,20 @@ class Solidocs_Theme extends Solidocs_Base
 	 */
 	public function theme_part($part){
 		include(THEME . '/' . $part . '.php');
+	}
+	
+	/**
+	 * Theme header
+	 */
+	public function theme_header(){
+		$this->theme_part('header');
+	}
+	
+	/**
+	 * Theme footer
+	 */
+	public function theme_footer(){
+		$this->theme_part('footer');
 	}
 	
 	/**

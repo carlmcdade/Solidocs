@@ -88,7 +88,7 @@ class Solidocs_Application extends Solidocs_Base
 	 */
 	public function setup_plugins(){
 		// Hooks
-		if($this->config->get('Hooks') !== false){
+		if($this->config->get('Hooks', false) !== false){
 			foreach($this->config->get('Hooks') as $key => $val){
 				foreach($val as $hook){
 					Solidocs::add_action($key, $hook);	
@@ -127,17 +127,15 @@ class Solidocs_Application extends Solidocs_Base
 		// Load production routes
 		$routes = $this->config->load_file(APP . '/Config/Routes', true);
 		
-		// Staging and development routes
-		if(APPLICATION_ENV == 'staging'){
+		// Staging routes
+		if(APPLICATION_ENV == 'staging' OR APPLICATION_ENV == 'development'){
 			if($this->config->file_exists(APP . '/Config/Routes.staging')){
 				$routes = array_merge($routes, $this->config->load_file(APP . '/Config/Routes.staging', true));	
 			}
 		}
-		elseif(APPLICATION_ENV == 'development'){
-			if($this->config->file_exists(APP . '/Config/Routes.staging')){
-				$routes = array_merge($routes, $this->config->load_file(APP . '/Config/Routes.staging', true));
-			}
-			
+		
+		// Development routes
+		if(APPLICATION_ENV == 'development'){
 			if($this->config->file_exists(APP . '/Config/Routes.development')){
 				$routes = array_merge($routes, $this->config->load_file(APP . '/Config/Routes.development', true));
 			}
@@ -194,7 +192,7 @@ class Solidocs_Application extends Solidocs_Base
 			$this->dispatch('Application', 'Error', '500');
 			
 			if(APPLICATION_ENV == 'development'){
-				die($e);
+				die('<pre>' . $e . '</pre>');
 			}
 		}
 	}

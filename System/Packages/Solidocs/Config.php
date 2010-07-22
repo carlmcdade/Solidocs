@@ -162,8 +162,8 @@ class Solidocs_Config
 		$config = array();
 		
 		foreach(parse_ini_file($file, true) as $section => $keys){
-			if(!is_array($keys)){
-				$config[$section] = $keys;
+			if(!is_array($keys) OR strpos($section, '.')){
+				$this->add(&$config, $section, $keys);
 				continue;
 			}
 			

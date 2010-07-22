@@ -24,7 +24,7 @@ class Solidocs_I18n extends Solidocs_Base
 	/**
 	 * Locales
 	 */
-	public $locales;
+	public $locales = array();
 	
 	/**
 	 * Default locale
@@ -80,7 +80,7 @@ class Solidocs_I18n extends Solidocs_Base
 	 * @param string
 	 */
 	public function set_locale($locale){
-		if(strlen($locale) !== 5 OR !in_array($this->locales) AND $locale !== $this->default_locale){
+		if(strlen($locale) !== 5 OR !in_array($locale, $this->locales) AND $locale !== $this->default_locale){
 			return false;
 		}
 		
