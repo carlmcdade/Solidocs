@@ -197,7 +197,7 @@ class Solidocs_Output extends Solidocs_Base
 			echo $this->render_data($this->get_type(), $this->get_data());
 		}
 		else{
-			echo $this->render_content(false);
+			echo $this->render_content();
 		}
 		
 		return ob_get_clean();
@@ -205,22 +205,15 @@ class Solidocs_Output extends Solidocs_Base
 	
 	/**
 	 * Render content
-	 *
-	 * @param bool	Optional.
 	 */
-	public function render_content($render_layout = true){
+	public function render_content(){
 		$views = '';
 		
 		foreach($this->view as $view){
 			$views .= $view;
 		}
 		
-		if($render_layout AND !empty($this->layout)){
-			$this->theme_layout($this->layout, $views);
-		}
-		else{
-			echo $views;
-		}
+		echo $views;
 	}
 	
 	/**
@@ -237,9 +230,8 @@ class Solidocs_Output extends Solidocs_Base
 			echo serialize($data);
 		}
 		elseif($type == 'xml'){
-			/**
-			 * XML rendering from array...
-			 */
+			$xml = new Solidocs_Xml($data);
+			echo $xml->render();
 		}
 	}
 }

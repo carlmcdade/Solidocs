@@ -50,8 +50,7 @@ class Solidocs_Router
 	 * Constructor
 	 */
 	public function __construct(){
-		$this->request_uri	= $_SERVER['REQUEST_URI'];
-		$this->segment		= explode('/', trim($this->request_uri, '/'));
+		$this->request_uri = $_SERVER['REQUEST_URI'];
 	}
 	
 	/**
@@ -97,6 +96,8 @@ class Solidocs_Router
 				$this->request_uri = substr($this->request_uri, 0, strpos($this->request_uri, '.' . $this->output_type));
 			}
 		}
+		
+		$this->segment = explode('/', trim($this->request_uri, '/'));
 		
 		foreach($this->routes as $route_key => $route){
 			$route = array_merge(array(
