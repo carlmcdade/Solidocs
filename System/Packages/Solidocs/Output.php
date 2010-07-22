@@ -208,14 +208,18 @@ class Solidocs_Output extends Solidocs_Base
 	 *
 	 * @return string
 	 */
-	public function render_content(){
+	public function render_content($return = false){
 		$views = '';
 		
 		foreach($this->view as $view){
 			$views .= $view;
 		}
 		
-		return $views;
+		if($return){
+			return $views;
+		}
+		
+		echo $views;
 	}
 	
 	/**

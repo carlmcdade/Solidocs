@@ -17,9 +17,24 @@ class Solidocs_Theme extends Solidocs_Base
 	public $theme_files = array('index');
 	
 	/**
-	 * Theme layout
+	 * Layout
 	 */
-	public $theme_layout;
+	public $layout = 'default';
+	
+	/**
+	 * Layouts
+	 */
+	public $layouts = array('default' => array('regions' => array('content')));
+	
+	/**
+	 * Regions
+	 */
+	public $regions = array('content' => 'Content');
+	
+	/**
+	 * Region items
+	 */
+	public $region_items = array();
 	
 	/**
 	 * Title base
@@ -91,6 +106,15 @@ class Solidocs_Theme extends Solidocs_Base
 	}
 	
 	/**
+	 * Set layout
+	 *
+	 * @param string
+	 */
+	public function set_layout($layout){
+		$this->layout = $layout;
+	}
+	
+	/**
 	 * Add file
 	 *
 	 * @param string
@@ -109,6 +133,16 @@ class Solidocs_Theme extends Solidocs_Base
 	}
 	
 	/**
+	 * Add region item
+	 *
+	 * @param string
+	 * @param string
+	 */
+	public function add_region_item($region, $content){
+		$this->region_items[$region][] = $content;
+	}
+	
+	/**
 	 * Render
 	 *
 	 * @return string
@@ -116,6 +150,18 @@ class Solidocs_Theme extends Solidocs_Base
 	public function render(){
 		define('THEME', MEDIA . '/Theme/' . $this->theme);
 		define('THEME_WWW', str_replace(ROOT, '', THEME));
+		
+		if($this->config->file_exists(THEME . '/theme')){
+			$config = $this->config->load_file(THEME . '/theme', true);
+			
+			if(isset($config['layouts'])){
+				$this->layouts = $config['layouts'];
+			}
+			
+			if(isset($config['regions'])){
+				$this->regions = $config['regions'];
+			}
+		}
 		
 		foreach($this->theme_files as $file){
 			if(isset($theme_file)){
@@ -137,10 +183,37 @@ class Solidocs_Theme extends Solidocs_Base
 	}
 	
 	/**
-	 * Layout
+	 * Render layout
 	 */
-	public function layout(){
-		echo '<div id="content">' . $this->output->render_content() . '</div>';
+	public function render_layout(){
+		$layout_file = THEME . '/' . $this->layout . '.layout.php';
+		
+		if(file_exists($layout_file)){	
+			include($layout_file);
+		}
+		else{
+			echo '<div id="content">' . $this->output->render_content(true) . '</div>';
+		}
+	}
+	
+	/**
+	 * Render content
+	 */
+	public function render_content(){
+		echo $this->output->render_content();
+	}
+	
+	/** 
+	 * Render region
+	 *
+	 * @param string
+	 */
+	public function render_region($region){
+		if(is_array($this->region_items[$region])){
+			foreach(Solidocs::apply_filter('region.' . $region, $this->region_items[$region]) as $content){
+				echo $content;
+			}
+		}
 	}
 	
 	/**
