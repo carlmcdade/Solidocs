@@ -154,6 +154,23 @@ class Solidocs_Load extends Solidocs_Base
 	}
 	
 	/**
+	 * Get library
+	 *
+	 * @param string
+	 * @return object
+	 */
+	public function get_library($library){
+		$search = $this->search($library);
+		
+		if(is_array($search)){
+			return new $search['class'];
+		}
+		else{
+			throw new Exception('The library "' . $library . '" could not be loaded');
+		}
+	}
+	
+	/**
 	 * Plugin
 	 *
 	 * @param string

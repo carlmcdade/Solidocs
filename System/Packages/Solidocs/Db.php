@@ -116,6 +116,31 @@ class Solidocs_Db
 	}
 	
 	/**
+	 * Escape
+	 *
+	 * @param string|array
+	 * @return string|array
+	 */
+	public function escape($input){
+		if(is_array($input)){
+			$output = array();
+			
+			foreach($input as $key => $val){
+				if(is_array($val)){
+					$output[$key] = $this->escape($val);
+				}
+				else{
+					$output[$key] = mysql_real_escape_string($val, $this->link);
+				}
+			}
+			
+			return $output;
+		}
+		
+		return mysql_real_escape_string($input);
+	}
+	
+	/**
 	 * Run
 	 *
 	 * @return object
@@ -280,9 +305,16 @@ class Solidocs_Db
 	 *
 	 * @param string
 	 * @param array
+	 * @param bool		Optional.
 	 * @return object
 	 */
-	public function insert_into($table, $data){
+	public function insert_into($table, $data, $escape = true){
+		if($escape){
+			foreach($data as $key => $val){
+				$data[$key] = $this->escape($val);
+			}
+		}
+		
 		$this->query .= 'INSERT INTO ' . $this->_table($table) . ' (`' . implode('`,`', array_keys($data)) . '`) VALUES("' . implode('","', $data) . '")';
 		
 		return $this;
@@ -293,12 +325,17 @@ class Solidocs_Db
 	 *
 	 * @param string
 	 * @param array
+	 * @param bool		Optional.
 	 * @return object
 	 */
-	public function update_set($table, $data){
+	public function update_set($table, $data, $escape = true){
 		$this->query .= 'UPDATE ' . $this->_table($table) . ' SET ';
 		
-		foreach($data as $key=>$val){
+		foreach($data as $key => $val){
+			if($escape){
+				$val = $this->escape($val);
+			}
+			
 			$this->query .= '`' . $key . '` = "' . $val . '", ';
 		}
 		
@@ -344,7 +381,7 @@ class Solidocs_Db
 	 * @return object
 	 */
 	public function limit($limit, $offset = 0){
-		$this->query .= 'LIMIT ' . $offset . ',' . $limit . ' ';
+		$this->query .= 'LIMIT ' . (int) $offset . ',' . (int) $limit . ' ';
 		
 		return $this;
 	}
@@ -356,7 +393,7 @@ class Solidocs_Db
 	 * @return object
 	 */
 	public function offset($offset){
-		$this->query .= 'OFFSET ' . $offset . ' ';
+		$this->query .= 'OFFSET ' . (int) $offset . ' ';
 		
 		return $this;
 	}
@@ -437,12 +474,16 @@ class Solidocs_Db
 		}
 		
 		foreach($args as $key => $val){
+			$val = $this->escape($val);
+			
 			$comparison = '=';
 			
 			if(is_array($val)){
 				$this->query .= '(';
 				
 				foreach($val as $key => $val){
+					$val = $this->escape($val);
+					
 					if(substr($val, 0, 5) == 'LIKE '){
 						$comparison = 'LIKE';
 						$val		= substr($val, 5);
@@ -487,6 +528,10 @@ class Solidocs_Db
 	 * @return object
 	 */
 	public function where_in($field, $args, $in = 'IN'){
+		foreach($args as $key => $val){
+			$args[$key] = $this->escape($val);
+		}
+		
 		if($having){
 			$this->first_having($separator);
 		}
