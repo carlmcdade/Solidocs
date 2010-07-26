@@ -26,7 +26,7 @@ class Solidcms_Controller_Content extends Solidocs_Controller_Action
 			throw new Exception('No content was found', 404);
 		}
 		else{
-			$this->theme->title_parts[] = $content['title'];
+			$this->theme->add_title($content['title']);
 			
 			if(!empty($content['locale']) AND $content['locale'] !== $this->locale){
 				$this->i18n->set_locale($content['locale']);

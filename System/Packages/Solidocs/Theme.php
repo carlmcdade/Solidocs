@@ -124,11 +124,11 @@ class Solidocs_Theme extends Solidocs_Base
 	}
 	
 	/**
-	 * Add title part
+	 * Add title
 	 *
 	 * @param string
 	 */
-	public function add_title_part($part){
+	public function add_title($part){
 		$this->title_parts[] = $part;
 	}
 	
