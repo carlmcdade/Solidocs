@@ -5,14 +5,13 @@ class Solidadmin_Controller_Admin extends Solidocs_Controller_Action
 	 * Init
 	 */
 	public function init(){
+		$this->acl->set_access($this, 'init', 'admin', 'login');
 		$this->acl->set_access($this, 'index', 'admin', 'login');
-		$this->acl->set_access($this, 'item', 'admin', 'login');
 		
-		if($this->model->user->in_group('admin')){
+		if($this->acl->has_access($this, 'init')){
 			$this->load->model('Admin');
 			$this->theme->set_theme('Admin');	
 		}
-
 	}
 	
 	/**
