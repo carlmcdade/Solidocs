@@ -2,17 +2,38 @@
 class Solidocs_Helper_Form extends Solidocs_Helper
 {
 	/**
+	 * Starttag
+	 *
+	 * @param string	$action	Optional.
+	 * @param string	$method	Optional.
+	 * @param string	$name	Optional.
+	 */
+	public function starttag($action = '#', $method = 'post', $name = ''){
+		return '<form action="' . $action . '" method="' . $method . '" name="' . $name . '">';
+	}
+	
+	/**
+	 * Endtag
+	 *
+	 * @return string
+	 */
+	public function endtag(){
+		return '</form>';
+	}
+	
+	/**
 	 * Label
 	 *
 	 * @param string
 	 * @param string	Optional.
+	 * @return string
 	 */
 	public function label($label, $for = ''){
 		if(!empty($for)){
-			echo '<label for="' . $for . '">' . $label . '</label>';
+			return '<label for="' . $for . '">' . $label . '</label>';
 		}
 		else{
-			echo '<label>' . $label . '</label>';
+			return '<label>' . $label . '</label>';
 		}
 	}
 	
@@ -22,6 +43,7 @@ class Solidocs_Helper_Form extends Solidocs_Helper
 	 * @param string
 	 * @param bool|string	Optional.
 	 * @param string		Optional.
+	 * @return string
 	 */
 	public function input($name, $value = false, $type = 'text'){
 		if(is_bool($value) AND $value == true){
@@ -31,7 +53,19 @@ class Solidocs_Helper_Form extends Solidocs_Helper
 			$value = '';
 		}
 		
-		echo '<input type="' . $type . '" name="' . $name . '" value="' . $value . '" />';
+		return '<input type="' . $type . '" name="' . $name . '" value="' . $value . '" />';
+	}
+	
+	
+	/**
+	 * Text
+	 *
+	 * @param string
+	 * @param mixed		Optional.
+	 * @return string
+	 */
+	public function text($name, $value = false){
+		return $this->input($name, $value);
 	}
 	
 	/**
@@ -40,6 +74,7 @@ class Solidocs_Helper_Form extends Solidocs_Helper
 	 * @param string
 	 * @param array
 	 * @param bool|string	Optional.
+	 * @return string
 	 */
 	public function select($name, $options, $value = false){
 		if(is_bool($value) AND $value == true){
@@ -49,7 +84,7 @@ class Solidocs_Helper_Form extends Solidocs_Helper
 			$value = '';
 		}
 		
-		echo '<select name="' . $name . '">';
+		$select = '<select name="' . $name . '">';
 		
 		foreach($options as $key => $val){
 			$selected = '';
@@ -58,10 +93,10 @@ class Solidocs_Helper_Form extends Solidocs_Helper
 				$selected = ' selected="selected"';
 			}
 			
-			echo '<option value="' . $key . '"' . $selected . '>' . $val . '</option>';
+			$select .= '<option value="' . $key . '"' . $selected . '>' . $val . '</option>';
 		}
 		
-		echo '</select>';
+		return $select . '</select>';
 	}
 	
 	/**
@@ -71,6 +106,7 @@ class Solidocs_Helper_Form extends Solidocs_Helper
 	 * @param bool|string	Optional.
 	 * @param integer		Optional.
 	 * @param integer		Optional.
+	 * @return string
 	 */
 	public function textarea($name, $value = false, $cols = 15, $rows = 20){
 		if(is_bool($value) AND $value == true){
@@ -80,7 +116,7 @@ class Solidocs_Helper_Form extends Solidocs_Helper
 			$value = '';
 		}
 		
-		echo '<textarea name="' . $name . '" cols="' . $cols . '" rows="' . $rows . '">' . $value . '</textarea>';
+		return '<textarea name="' . $name . '" cols="' . $cols . '" rows="' . $rows . '">' . $value . '</textarea>';
 	}
 	
 	/**
@@ -90,6 +126,6 @@ class Solidocs_Helper_Form extends Solidocs_Helper
 	 * @param string	Optional.
 	 */
 	public function button($button, $type = 'submit'){
-		echo '<button type="' . $type . '">' . $button . '</button>';
+		return '<button type="' . $type . '">' . $button . '</button>';
 	}
 }

@@ -6,38 +6,20 @@
 	<title><?php echo $this->title('Solidocs', 'PHP Framework', ' | ', true);?></title>
 	<?php
 	$this->add_css(THEME_WWW . '/style.css');
-	$this->add_js('http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js');
-	$this->add_js(THEME_WWW . '/script.js');
 	echo $this->head();
 	?>
 
 </head>
 <body>
 
-	<div id="wrapper">
-		
-		<div id="header">
-			
-			<h1><?php echo $this->config->get('Site.name', 'Solidocs Admin');?> <a href="/"><span class="discrete label">visit site</span></a></h1>
-			
-			<div class="userbar">
-				
-				Welcome <?php echo $this->session->user->username;?>, <a href="/logout">logout?</a>
-				
-			</div>
-			
-		</div>
-			
-		<div id="sidebar">
-		
-			<ul>
-				<?php
-				$this->list_channel('admin_navigation', array(
-					'children' => true
-				));
-				?>
-			</ul>
-			
-		</div>
-		
-		<div id="main">
+<div id="header">
+
+	<h1><?php echo $this->config->get('Site.name');?> <a href="/">Visit</a></h1>
+
+</div>
+
+<div id="main">
+	
+	<div id="sidebar">
+	
+	</div>

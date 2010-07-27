@@ -14,21 +14,43 @@ class Solidocs_Input
 	/**
 	 * Has get
 	 *
-	 * @param string
+	 * @param string	Optional.
 	 * @return bool
 	 */
-	public function has_get($key){
+	public function has_get($key = ''){
+		if(empty($key)){
+			return (count($_GET) !== 0);
+		}
+		
 		return (isset($_GET[$key]));
 	}
 	
 	/**
 	 * Has post
 	 *
-	 * @param string
+	 * @param string	Optional.
 	 * @return bool
 	 */
-	public function has_post($key){
+	public function has_post($key = ''){
+		if(empty($key)){
+			return (count($_POST) !== 0);
+		}
+		
 		return (isset($_POST[$key]));
+	}
+	
+	/**
+	 * Has request
+	 *
+	 * @param string	Optional.
+	 * @return bool
+	 */
+	public function has_request($key = ''){
+		if(empty($key)){
+			return (count($_REQUEST) !== 0);
+		}
+		
+		return (isset($_REQUEST[$key]));
 	}
 	
 	/**
@@ -81,6 +103,21 @@ class Solidocs_Input
 	public function post($key, $default = null){
 		if(isset($_POST[$key])){
 			return $_POST[$key];
+		}
+		
+		return $default;
+	}
+	
+	/**
+	 * Request
+	 *
+	 * @param string
+	 * @param mixed		Optional.
+	 * @return mixed
+	 */
+	public function request($key, $default = null){
+		if(isset($_REQUEST[$key])){
+			return $_REQUEST[$key];
 		}
 		
 		return $default;

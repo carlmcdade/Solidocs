@@ -32,7 +32,21 @@ class Solidocs_Output extends Solidocs_Base
 	 * @param string
 	 * @param array
 	 */
-	public function __call($called, $params){
+	public function __call($method, $params){
+		return $this->helper($method, $params);
+	}
+	
+	/**
+	 * Helper
+	 *
+	 * @param string
+	 * @param array
+	 */
+	public function helper($called, $params){
+		if(!is_array($params) AND !empty($params)){
+			$params = array($params);
+		}
+		
 		$called = explode('_', $called);
 		$method = $called[count($called) - 1];
 		
@@ -120,6 +134,10 @@ class Solidocs_Output extends Solidocs_Base
 	 */
 	public function add_view($file, $params = null){
 		ob_start();
+		
+		if(is_object($params)){
+			$params = (array) $params;
+		}
 		
 		if(is_array($params)){
 			extract($params);

@@ -4,152 +4,40 @@
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outline:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 /**
- * Basic
+ * Basics
  */
-body, html
-{height: 100%;}
-
 body
-{font: 62.5% Helvetica, Verdana, Arial, sans-serif; background: #eee;}
+{font: 62.5% "Lucida Grande", Verdana, Arial, sans-serif; background: #ddd;}
 
 h1
-{font: 1.6em Georgia, "Times New Roman", Times, serif; display: block; float: left; padding: 0 20px;}
+{display: block; height: 50px; line-height: 50px; font-size: 1.4em;}
 
-h1, h1 a
-{height: 50px; line-height: 50px; text-decoration: none;}
-
-h1 a:hover
-{text-decoration: none;}
+h1 a
+{padding: 8px; background: red; font-size: 0.7em; background: #eee; border: 1px solid #ccc;}
 
 h2
-{font-size: 1.6em; padding: 10px 0; border-bottom: 1px solid #aaa; margin-bottom: 10px; position: relative;}
-
-h2 a
-{padding: 3px 5px; border: 1px solid #ccc; font-size: 0.8em; background: #eee; position: absolute; top: 5px; right: 5px;}
-
-a
-{color: #444; text-decoration: none;}
-
-a:hover
-{text-decoration: underline;}
+{font-size: 1.4em; padding: 10px; border-bottom: 1px solid #eee;}
 
 p
-{font-size: 1.2em; line-height: 150%;}
+{padding: 10px;}
 
-/**
- * Common
- */
-.label, .userbar
-{-moz-border-radius: 5px; -webkit-border-radius: 5px;}
+a
+{color: #666;}
+
+a:hover
+{color: #999;}
 
 /**
  * Layout
  */
-#wrapper
-{width: 1000px; height: 100%; background: #fff; border-right: 1px solid #ccc;}
-
 #header
-{height: 50px; background: #ddd; border-bottom: 1px solid #ccc;}
-
-#header .userbar
-{height: 30px; line-height: 30px; margin: 10px; background: #fff; float: right; padding: 0 10px; font-size: 1.2em;}
-
-#header .userbar a
-{font-weight: bold;}
-
-#sidebar
-{width: 169px; margin: 10px 5px 10px 0; padding: 10px 5px; float: left; border-right: 1px solid #aaa;}
+{height: 50px; background: #fff; padding: 0 10px;}
 
 #main
-{width: 800px; float: left; padding: 10px 5px;}
+{width: 1000px;}
 
-/**
- * Sidebar menu
- */
-#sidebar > ul
-{margin-bottom: 10px;}
+#sidebar
+{width: 180px; height: 100px; background: #fff; margin: 10px; float: left;}
 
-#sidebar ul li
-{border: 1px solid #bbb; margin-top: -1px; background: #ddd;}
-
-#sidebar ul li:first-child
-{-webkit-border-top-left-radius: 5px; -webkit-border-top-right-radius: 5px;}
-
-#sidebar ul li:last-child
-{-webkit-border-bottom-left-radius: 5px; -webkit-border-bottom-right-radius: 5px;}
-
-#sidebar ul li a
-{display: block; padding: 7px; font: 1.3em Georgia; text-decoration: none; color: #222;}
-
-#sidebar ul li a:hover
-{text-decoration: underline;}
-
-#sidebar ul li ul
-{margin: 0 0 4px 0;}
-
-#sidebar ul li ul li
-{border: 0;}
-
-#sidebar ul li ul li a
-{padding: 4px 4px 4px 15px; margin-bottom: 2px; font-size: 1.1em; background: #eee; border: 1px solid #fff; border-left: 0; border-right: 0; font-size: 1.2em;}
-
-#sidebar ul li ul li a:hover
-{background: #cfecff;}
-
-/**
- * Table list
- */
-.list
-{width: 100%; border: 1px solid #ccc; font-size: 1.1em;}
-
-.list tbody tr td, .list thead tr th, .list tfoot tr td
-{padding: 10px; border-bottom: 1px solid #ccc; text-align: left;}
-
-.list thead tr th, .list tfoot tr td
-{background: #ddd;}
-
-.list tfoot tr td
-{border-top: 1px solid #ccc; padding: 5px 10px;}
-
-.list tbody tr:last-child td
-{border-bottom: 0;}
-
-.list tbody tr:nth-child(odd) td
-{background: #eee;}
-
-.list tbody tr td .block
-{padding: 2px;}
-
-.list tbody tr.active td
-{background: #d4ecff;}
-
-/**
- * Form
- */
-.form
-{padding: 0 5px 10px 5px;}
-
-.form label
-{font-size: 1.2em; font-weight: bold; display: block; padding-bottom: 5px; border-bottom: 1px solid #ccc; margin: 10px 0 5px 0;}
-
-.form label i
-{color: #777; font-style: italic;}
-
-.form input
-{font-size: 1.2em; padding: 5px; width: 300px; border: 1px solid #888;}
-
-.form input:focus
-{border-color: #444;}
-
-
-/**
- * Classes
- */
-.discrete
-{color: #777;}
-
-.label
-{padding: 4px; margin-left: 5px; background: #999; color: #ddd; text-decoration: none; border: 1px solid transparent;}
-
-.label:hover
-{text-decoration: none; border-color: #444;}
+#content
+{width: 800px; background: #fff; margin: 10px 0 10px 0; float: left;}
