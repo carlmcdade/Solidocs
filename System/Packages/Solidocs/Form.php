@@ -74,8 +74,6 @@ class Solidocs_Form extends Solidocs_Base
 			'required' => false
 		), $element);
 		
-		$element['type'] = $type;
-		
 		$this->elements[$name] = $element;
 	}
 	
@@ -85,7 +83,7 @@ class Solidocs_Form extends Solidocs_Base
 	 * @return bool
 	 */
 	public function is_posted(){
-		return ($this->input->{'has_' . $this->method}());
+		return ($this->input->has_request());
 	}
 	
 	/**
@@ -95,7 +93,7 @@ class Solidocs_Form extends Solidocs_Base
 	 */
 	public function is_valid(){
 		foreach($this->elements as $name => $item){
-			if(!$this->input->{'has_' . $this->method}($name) AND $item['required'] == true){
+			if(!$this->input->has_request($name) AND $item['required'] == true){
 				return false;
 			}
 			
@@ -175,14 +173,26 @@ class Solidocs_Form extends Solidocs_Base
 			
 			if(isset($item['helper'])){
 				$params = $item['helper'];
-				$helper = $params[0];
-				unset($params[0]);
 				
-				if(isset($this->values[$name])){
-					array_unshift($params, $this->values[$name]);
+				if(!is_array($params)){
+					$helper = $params;
+				}
+				else{
+					$helper = $params[0];
+					unset($params[0]);
 				}
 				
-				array_unshift($params, $name);
+				$value = '';
+				if(isset($this->values[$name])){
+					$value = $this->values[$name];
+				}
+				
+				if($item['type'] !== 'button'){
+					array_unshift($params, $value);
+					array_unshift($params, $name);
+				}
+				
+				debug($params);
 				
 				$output .= $this->output->helper($helper, $params);
 			}

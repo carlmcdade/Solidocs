@@ -69,6 +69,17 @@ class Solidocs_Helper_Form extends Solidocs_Helper
 	}
 	
 	/**
+	 * Password
+	 *
+	 * @param string
+	 * @param mixed		Optional.
+	 * @return string
+	 */
+	public function password($name, $value = false){
+		return $this->input($name, $value, 'password');
+	}
+	
+	/**
 	 * Select
 	 *
 	 * @param string
@@ -76,7 +87,7 @@ class Solidocs_Helper_Form extends Solidocs_Helper
 	 * @param bool|string	Optional.
 	 * @return string
 	 */
-	public function select($name, $options, $value = false){
+	public function select($name, $value = false, $options = array()){
 		if(is_bool($value) AND $value == true){
 			$value = $value = $this->input->post($name, false);
 		}
