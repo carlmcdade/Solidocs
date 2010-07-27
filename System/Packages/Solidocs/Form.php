@@ -99,10 +99,16 @@ class Solidocs_Form extends Solidocs_Base
 				return false;
 			}
 			
+			$this->process_values();
+			
 			if(isset($item['validators'])){
-				/**
-				 * Validators
-				 */	
+				$this->load->library('Validator');
+				
+				foreach($item['validators'] as $validator => $params){
+					array_unshift($params, $this->get_value($name));
+					
+					return $this->validator->validate($validator, $params);
+				}
 			}
 		}
 		
@@ -134,11 +140,24 @@ class Solidocs_Form extends Solidocs_Base
 	 * @return array
 	 */
 	public function get_values(){
-		if(count($this->values) == 0){
+		if(!is_array($this->values)){
 			$this->process_values();
 		}
 		
 		return $this->values;
+	}
+	
+	/**
+	 * Get value
+	 *
+	 * @param string
+	 */
+	public function get_value($name){
+		if(!is_array($this->values)){
+			$this->process_values();
+		}
+		
+		return $this->values[$name];
 	}
 	
 	/**
@@ -164,8 +183,6 @@ class Solidocs_Form extends Solidocs_Base
 				}
 				
 				array_unshift($params, $name);
-				
-				debug($params);
 				
 				$output .= $this->output->helper($helper, $params);
 			}
