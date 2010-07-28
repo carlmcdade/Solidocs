@@ -6,7 +6,9 @@ class Solidadmin_Controller_Admin extends Solidocs_Controller_Action
 	 */
 	public function init(){
 		$this->acl->set_access($this, 'init', 'admin');
-		$this->acl->set_access($this, 'index', 'admin', 'login');
+		$this->acl->set_access($this, 'index', 'admin', array('route', 'login', array(
+			'redirect' => $this->router->request_uri
+		)));
 		
 		if($this->acl->has_access($this, 'init')){
 			$this->load->model('Admin');

@@ -1,11 +1,6 @@
 <?php
-class Solidocs_Auth_Default extends Solidocs_Base
+class Solidocs_Auth_Default extends Solidocs_Auth_Auth
 {
-	/**
-	 * Identity
-	 */
-	public $identity;
-	
 	/**
 	 * Auth
 	 *
@@ -18,35 +13,27 @@ class Solidocs_Auth_Default extends Solidocs_Base
 			return false;
 		}
 		
-		$this->db->select_from('user')->where(array(
-			'email' => $email,
-			'password' => $password
+		$this->db->select_from('user', 'salt')->where(array(
+			'email' => $email
 		))->run();
 		
-		if($this->db->affected_rows()){
+		if(!$this->db->affected_rows()){
+			return false;
+		}
+		
+		$salt = $this->db->one();
+		
+		$this->db->select_from('user')->where(array(
+			'email' => $email,
+			'password' => $this->auth->password($password, $salt)
+		))->run();
+		
+		if($this->db->affected_rows() == 1){
 			$this->set_identity($this->db->fetch_assoc());
 			
 			return true;
 		}
 		
 		return false;
-	}
-	
-	/**
-	 * Set identity
-	 *
-	 * @param array
-	 */
-	public function set_identity($identity){
-		$this->identity = $identity;
-	}
-	
-	/**
-	 * Get identity
-	 *
-	 * @return array
-	 */
-	public function get_identity(){
-		return $this->identity;
 	}
 }

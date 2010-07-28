@@ -97,7 +97,8 @@ class Solidocs_Router
 			}
 		}
 		
-		$this->segment = explode('/', trim($this->request_uri, '/'));
+		$this->segment = explode('?', $this->request_uri);
+		$this->segment = explode('/', trim($this->segment[0], '/'));
 		
 		foreach($this->routes as $route_key => $route){
 			$route = array_merge(array(

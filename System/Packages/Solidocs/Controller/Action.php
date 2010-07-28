@@ -22,6 +22,24 @@ class Solidocs_Controller_Action extends Solidocs_Controller
 		if(isset($this->model->user) AND is_object($this->acl) AND !$this->acl->has_access($this, $action)){
 			$action = $this->acl->get_action($this, $action);
 			
+			if(is_array($action) AND $action[0] == 'route' OR $action[0] == 'uri'){
+				if($action[0] == 'route'){
+					$query = null;
+					
+					if(isset($action[2])){
+						$query = $action[2];
+					}
+					
+					$uri = $this->router->assemble($action[1], null, $query);
+				}
+				else{
+					$uri = $action[1];
+				}
+				
+				$this->redirect($uri);
+				return false;
+			}
+			
 			if($action == false){
 				return false;
 			}

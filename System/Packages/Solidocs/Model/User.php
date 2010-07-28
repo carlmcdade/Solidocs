@@ -12,6 +12,10 @@ class Solidocs_Model_User extends Solidocs_Base
 	public function init(){
 		if(isset($this->session->user)){
 			$this->user	= &$this->session->user;
+			
+			if(!is_array($this->user->group)){
+				$this->user->group = explode(',', $this->user->group);
+			}
 		}
 	}
 	

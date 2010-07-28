@@ -37,7 +37,7 @@ class Solidocs_Load extends Solidocs_Base
 	 *
 	 * @param string
 	 */
-	public function autoload($class){
+	public function autoload($class){	
 		$class		= ltrim($class, '\\');
 		$file		= '';
 		$namespace	= '';
@@ -50,7 +50,12 @@ class Solidocs_Load extends Solidocs_Base
 		
 		$file .= str_replace('_', DIRECTORY_SEPARATOR, $class) . '.php';
 		
-		include_once(PACKAGE . DIRECTORY_SEPARATOR . $file);
+		if(substr($file, 0, 11) == 'Application'){
+			include_once(SYS . DIRECTORY_SEPARATOR . $file);
+		}
+		else{
+			include_once(PACKAGE . DIRECTORY_SEPARATOR . $file);
+		}
 	}
 	
 	/**

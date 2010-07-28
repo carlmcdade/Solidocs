@@ -192,8 +192,6 @@ class Solidocs_Form extends Solidocs_Base
 					array_unshift($params, $name);
 				}
 				
-				debug($params);
-				
 				$output .= $this->output->helper($helper, $params);
 			}
 		}

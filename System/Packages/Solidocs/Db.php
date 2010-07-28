@@ -284,7 +284,7 @@ class Solidocs_Db
 	 * @return object
 	 */
 	public function select_from($table, $fields = '*'){
-		$this->query .= 'SELECT ' . $fields . ' FROM ' . $this->_table($table) . ' ';
+		$this->query .= 'SELECT ' . $this->_fields($fields) . ' FROM ' . $this->_table($table) . ' ';
 		
 		return $this;
 	}
@@ -579,5 +579,29 @@ class Solidocs_Db
 		}
 		
 		return $table;
+	}
+	
+	/**
+	 * Fields
+	 *
+	 * @param string|array
+	 * @return string
+	 */
+	public function _fields($fields){
+		if($fields == '*' OR empty($fields)){
+			return '*';
+		}
+		
+		if(!is_array($fields)){
+			$fields = explode(',', $fields);
+		}
+		
+		if(!strpos(implode('', $fields), '.')){
+			foreach($fields as $key => $val){
+				$fields[$key] = '`' . $val . '`';
+			}
+		}
+		
+		return implode(',', $fields);
 	}
 }
