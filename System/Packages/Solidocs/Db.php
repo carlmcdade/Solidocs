@@ -368,7 +368,7 @@ class Solidocs_Db
 	public function order($order_by, $order = 'ASC'){
 		$this->first_order();
 		
-		$this->query .= $order_by . ' ' . $order . ' ';
+		$this->query .= $this->_fields($order_by) . ' ' . $order . ' ';
 		
 		return $this;
 	}
