@@ -87,17 +87,7 @@ class Solidocs_Application extends Solidocs_Base
 	 * Setup plugins
 	 */
 	public function setup_plugins(){
-		// Hooks
-		if($this->config->get('Hooks', false) !== false){
-			foreach($this->config->get('Hooks') as $key => $val){
-				foreach($val as $hook){
-					Solidocs::add_action($key, $hook);	
-				}
-			}
-		}
-		
-		// Plugins
-		if($plugins = $this->config->get('Plugins')){
+		if($plugins = $this->config->get('Autoload.plugins')){
 			foreach($plugins['autoload'] as $class){
 				$this->load->plugin($class);
 			}
@@ -108,16 +98,7 @@ class Solidocs_Application extends Solidocs_Base
 	 * Setup libraries
 	 */
 	public function setup_libraries(){
-		$this->load->library(array(
-			'Router',
-			'Session',
-			'Input',
-			'I18n',
-			'Output',
-			'Theme',
-			'Acl',
-			'User'
-		));
+		$this->load->library($this->config->get('Autoload.libraries'));
 	}
 	
 	/**

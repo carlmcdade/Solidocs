@@ -18,7 +18,7 @@
 			<div id="navigation">
 				
 				<ul>
-					<?php $this->list_channel('main_navigation');?>
+					<?php $this->navigation->menu('main_menu');?>
 				</ul>
 				
 			</div>

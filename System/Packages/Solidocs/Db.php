@@ -108,7 +108,7 @@ class Solidocs_Db
 	 */
 	public function query($query){
 		if(!$this->result = mysql_query($query)){
-			throw new Exception(mysql_error($this->link));
+			throw new Exception(mysql_error($this->link) . '<br /><b>Query: </b>' . $query . '<br />');
 			return false;
 		}
 		
@@ -489,7 +489,7 @@ class Solidocs_Db
 						$val		= substr($val, 5);
 					}
 					
-					$this->query .= $key . ' ' . $comparison . ' "' . $val . '" ' . $block_separator . ' ';
+					$this->query .= $this->_fields($key) . ' ' . $comparison . ' "' . $val . '" ' . $block_separator . ' ';
 				}
 				
 				$this->query = trim($this->query,' ' . $block_separator . ' ') . ') ' . $separator . ' ';
@@ -500,7 +500,7 @@ class Solidocs_Db
 					$val		= substr($val, 5);
 				}
 				
-				$this->query .= $key . ' ' . $comparison . ' "' . $val . '" ' . $separator . ' ';
+				$this->query .= $this->_fields($key) . ' ' . $comparison . ' "' . $val . '" ' . $separator . ' ';
 			}
 		}
 		

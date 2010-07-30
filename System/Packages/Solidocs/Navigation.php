@@ -6,9 +6,29 @@ class Solidocs_Navigation extends Solidocs_Base
 	 *
 	 * @param string|array
 	 * @param string|array	Optional.
-	 * @return string
 	 */
 	public function menu($data, $args = ''){
+		echo $this->get_menu($data, $args);
+	}
+	
+	/**
+	 * Breadcrumb
+	 *
+	 * @param string|array
+	 * @param string|array	Optional.
+	 */
+	public function breadcrumb($data, $args = ''){
+		echo $this->get_breadcrumb($data, $args);
+	}
+	
+	/**
+	 * Get menu
+	 *
+	 * @param string|array
+	 * @param string|array	Optional.
+	 * @return string
+	 */
+	public function get_menu($data, $args = ''){
 		if(is_string($data)){
 			$data = $this->db->select_from('navigation')->where(array(
 				'key' => $data
@@ -20,13 +40,13 @@ class Solidocs_Navigation extends Solidocs_Base
 	}
 	
 	/**
-	 * Breadcrumb
+	 * Get breadcrumb
 	 *
 	 * @param string|array
 	 * @param string|array
 	 * @return string
 	 */
-	public function breadcrumb($data, $args = ''){
+	public function get_breadcrumb($data, $args = ''){
 		if(is_string($data)){
 			$data = $this->db->select_from('navigation')->where(array(
 				'key' => $data
