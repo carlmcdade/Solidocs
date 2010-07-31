@@ -134,7 +134,8 @@ class Solidocs_Config
 			}
 		}
 		else{
-			throw new Exception('Config file "'.$file.'" could not be loaded');
+			debug($config, $file . '.ini');
+			#throw new Exception('Config file "'.$file.'" could not be loaded');
 		}
 	}
 	

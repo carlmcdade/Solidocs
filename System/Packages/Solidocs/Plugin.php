@@ -4,12 +4,12 @@ class Solidocs_Plugin extends Solidocs_Base
 	/**
 	 * Name
 	 */
-	public $name = '';
+	public static $name = '';
 	
 	/**
 	 * Description
 	 */
-	public $description = '';
+	public static $description = '';
 	
 	/**
 	 * Install

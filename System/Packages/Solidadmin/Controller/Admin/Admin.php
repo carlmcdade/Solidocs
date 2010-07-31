@@ -19,7 +19,7 @@ class Solidadmin_Controller_Admin_Admin extends Solidocs_Controller_Action
 		))->add_element('controller', array(
 			'type' => 'text',
 			'label' => 'Controller:',
-			'filters' => array('trim', 'strtolower'),
+			'filters' => array('trim'),
 			'validators' => array(
 				'Strlen' => array(2, 64)
 			),

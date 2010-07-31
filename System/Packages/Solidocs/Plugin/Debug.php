@@ -4,12 +4,12 @@ class Solidocs_Plugin_Debug extends Solidocs_Plugin
 	/**
 	 * Name
 	 */
-	public $name = 'Debug Bar';
+	public static $name = 'Debug Bar';
 	
 	/**
 	 * Description
 	 */
-	public $description = 'A plugin which displays a bar a the bottom of every page allowing you to view data about the page request.';
+	public static $description = 'A plugin which displays a bar a the bottom of every page allowing you to view data about the page request.';
 	
 	/**
 	 * Init

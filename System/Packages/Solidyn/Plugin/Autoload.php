@@ -4,12 +4,12 @@ class Solidyn_Plugin_Autoload extends Solidocs_Plugin
 	/**
 	 * Name
 	 */
-	public $name = 'Autoload';
+	public static $name = 'Autoload';
 	
 	/**
 	 * Description
 	 */
-	public $description = 'Autoloads plugins, config and ACL from the database.';
+	public static $description = 'Autoloads plugins, config and ACL from the database.';
 	
 	/**
 	 * Init
