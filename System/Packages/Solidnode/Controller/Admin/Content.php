@@ -24,16 +24,56 @@ class Solidnode_Controller_Admin_Content extends Solidocs_Controller_Action
 		$node_id = $this->input->uri_segment('id', 0);
 		
 		if($node_id == 0){
-			// new
+			$content_type = $this->model->node->get_type_fields($this->input->get('content_type', 'page'));
+			$node = array(
+				'node_id' => 0
+			);
+			
+			foreach($content_type as $field => $properties){
+				$node[$field] = '';
+			}
 		}
 		else{
-			$node = $this->db->select_from('node')->where(array(
+			$node = $this->model->node->get_node(array(
 				'node_id' => $node_id
-			))->run();
+			));
+			$content_type = $this->model->node->get_type_fields($node->content_type);
 		}
 		
-		/*
-		 * Construct content type fields with Solidocs_Form
-		 */
+		$form = new Solidnode_Form_Edit(false);
+		$form->init($content_type);
+		
+		if($form->is_posted()){
+			if($form->is_valid()){
+				$form->process_values();
+				
+				$values = $form->get_values();
+				
+				if($values['node_id'] == 0 OR empty($values['node_id'])){
+					unset($values['node_id']);
+					
+					$this->model->node->create($values);
+				}
+				else{
+					$this->model->node->update($values['node_id'], $values);
+				}
+			}
+		}
+		else{
+			$form->set_values($node);
+		}
+		
+		$this->load->view('Admin_Content_Edit', array(
+			'form' => $form
+		));
+	}
+	
+	/**
+	 * Create
+	 */
+	public function do_create(){
+		$this->load->view('Admin_Content_Create', array(
+			'content_types' => $this->model->node->get_types()
+		));
 	}
 }

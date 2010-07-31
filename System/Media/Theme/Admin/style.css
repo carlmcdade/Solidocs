@@ -52,7 +52,7 @@ a:hover
 {border-top: 1px solid #ccc; font-size: 1.1em;}
 
 #sidebar ul li > ul li a
-{padding-left: 25px;}
+{padding: 0 5px 5px 25px;}
 
 #sidebar > ul > li:first-child > a
 {border: 0;}
@@ -90,8 +90,8 @@ a:hover
 .form input
 {margin-right: 10px;}
 
-.form.horizontal
-{}
+.form.vertical label
+{display: block;}
 
 /**
  * Classes

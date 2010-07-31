@@ -81,7 +81,7 @@ class Solidocs_Navigation extends Solidocs_Base
 	 * @return string
 	 */
 	public function get_menu($data, $args = ''){
-		$menu = new Solidocs_Navigation_Menu($this->_data($data), $args, $this->router->request_uri);
+		$menu = new Solidocs_Navigation_Menu($this->_data($data), $args, $this->router->uri);
 		return $menu->render();
 	}
 	
@@ -93,7 +93,7 @@ class Solidocs_Navigation extends Solidocs_Base
 	 * @return string
 	 */
 	public function get_breadcrumb($data, $args = ''){
-		$breadcrumb = new Solidocs_Navigation_Breadcrumb($this->_data($data), $args, $this->router->request_uri);
+		$breadcrumb = new Solidocs_Navigation_Breadcrumb($this->_data($data), $args, $this->router->uri);
 		return $breadcrumb->render();
 	}
 }

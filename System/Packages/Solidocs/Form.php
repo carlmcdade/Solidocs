@@ -136,6 +136,15 @@ class Solidocs_Form extends Solidocs_Base
 	}
 	
 	/**
+	 * Set values
+	 *
+	 * @param object|array
+	 */
+	public function set_values($values){
+		$this->values = (array) $values;
+	}
+	
+	/**
 	 * Get values
 	 *
 	 * @return array

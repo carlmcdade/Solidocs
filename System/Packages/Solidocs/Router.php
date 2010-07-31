@@ -7,6 +7,11 @@ class Solidocs_Router
 	public $request_uri;
 	
 	/**
+	 * Uri
+	 */
+	public $uri;
+	
+	/**
 	 * Routes
 	 */
 	public $routes;
@@ -51,6 +56,8 @@ class Solidocs_Router
 	 */
 	public function __construct(){
 		$this->request_uri = $_SERVER['REQUEST_URI'];
+		$this->uri = explode('?', $this->request_uri);
+		$this->uri = $this->uri[0];
 	}
 	
 	/**

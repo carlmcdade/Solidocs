@@ -47,7 +47,7 @@ class Solidocs_Input
 	 */
 	public function has_request($key = ''){
 		if(empty($key)){
-			return (count($_REQUEST) !== 0);
+			return (count($_REQUEST) !== 1);
 		}
 		
 		return (isset($_REQUEST[$key]));

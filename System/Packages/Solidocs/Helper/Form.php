@@ -56,7 +56,6 @@ class Solidocs_Helper_Form extends Solidocs_Helper
 		return '<input type="' . $type . '" name="' . $name . '" value="' . $value . '" />';
 	}
 	
-	
 	/**
 	 * Text
 	 *
@@ -77,6 +76,16 @@ class Solidocs_Helper_Form extends Solidocs_Helper
 	 */
 	public function password($name, $value = false){
 		return $this->input($name, $value, 'password');
+	}
+	
+	/**
+	 * Hidden
+	 *
+	 * @param string
+	 * @param bool|string	Optional.
+	 */
+	public function hidden($name, $value = false){
+		return $this->input($name, $value, 'hidden');
 	}
 	
 	/**
@@ -119,7 +128,7 @@ class Solidocs_Helper_Form extends Solidocs_Helper
 	 * @param integer		Optional.
 	 * @return string
 	 */
-	public function textarea($name, $value = false, $cols = 15, $rows = 20){
+	public function textarea($name, $value = false, $cols = 60, $rows = 15){
 		if(is_bool($value) AND $value == true){
 			$value = $value = $this->input->post($name, false);
 		}
