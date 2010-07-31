@@ -492,7 +492,7 @@ class Solidocs_Db
 					$this->query .= $this->_fields($key) . ' ' . $comparison . ' "' . $val . '" ' . $block_separator . ' ';
 				}
 				
-				$this->query = trim($this->query,' ' . $block_separator . ' ') . ') ' . $separator . ' ';
+				$this->query = trim($this->query, ' ' . $block_separator . ' ') . ') ' . $separator . ' ';
 			}
 			else{
 				if(substr($val, 0, 5) == 'LIKE '){
@@ -504,7 +504,7 @@ class Solidocs_Db
 			}
 		}
 		
-		$this->query = trim($this->query, ' ' . $separator . ' ') . ' ';
+		$this->query = substr($this->query, 0, strlen($this->query) - (strlen($separator) + 2));
 		
 		return $this;
 	}

@@ -18,4 +18,15 @@ class Solidadmin_Model_Admin extends Solidocs_Base
 		
 		return false;
 	}
+	
+	/**
+	 * Get items
+	 *
+	 * @return array
+	 */
+	public function get_items(){
+		$this->db->select_from('admin')->run();
+		
+		return $this->db->arr();
+	}
 }

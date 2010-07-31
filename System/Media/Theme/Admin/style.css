@@ -59,3 +59,36 @@ a:hover
 
 #content
 {width: 800px; background: #fff; margin: 10px 0 10px 0; float: left;}
+
+/**
+ * List
+ */
+.list
+{width: 100%;}
+
+.list tbody tr td, .list thead tr th
+{padding: 10px; border: 1px solid #999; border-right-color: #eee;}
+
+.list tbody tr td:last-child, .list thead tr th:last-child
+{border-right-color: #999;}
+
+.list thead tr th
+{background: #eee; border-right-color: #ccc;}
+
+/**
+ * Form
+ */
+.form
+{padding: 10px;}
+
+.form label, .form input
+{padding: 4px; font-size: 1.1em;}
+
+.form label
+{font-weight: bold;}
+
+.form input
+{margin-right: 10px;}
+
+.form.horizontal
+{}

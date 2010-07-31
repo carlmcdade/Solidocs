@@ -12,7 +12,7 @@ class Solidnode_Controller_Node extends Solidocs_Controller_Action
 	 * Index
 	 */
 	public function do_index(){
-		$node = $this->model->node->get(array(
+		$node = $this->model->node->get_node(array(
 			'uri' => $this->router->request_uri
 		));
 		

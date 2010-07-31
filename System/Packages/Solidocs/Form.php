@@ -67,6 +67,7 @@ class Solidocs_Form extends Solidocs_Base
 	 *
 	 * @param string
 	 * @param array
+	 * @return object
 	 */
 	public function add_element($name, $element = array()){
 		$element = array_merge(array(
@@ -75,6 +76,8 @@ class Solidocs_Form extends Solidocs_Base
 		), $element);
 		
 		$this->elements[$name] = $element;
+		
+		return $this;
 	}
 	
 	/**

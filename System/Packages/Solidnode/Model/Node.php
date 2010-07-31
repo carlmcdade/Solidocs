@@ -2,12 +2,12 @@
 class Solidnode_Model_Node extends Solidocs_Base
 {
 	/**
-	 * Get
+	 * Get node
 	 *
 	 * @param array
 	 * @return array|bool
 	 */
-	public function get($where){
+	public function get_node($where){
 		$this->db->select_from('node')->where($where)->run();
 		
 		if(!$this->db->affected_rows()){
@@ -21,5 +21,22 @@ class Solidnode_Model_Node extends Solidocs_Base
 		}
 		
 		return $node;
+	}
+	
+	/**
+	 * Get nodes
+	 *
+	 * @param array	Optional.
+	 */
+	public function get_nodes($where = ''){
+		$this->db->select_from('node');
+		
+		if(!empty($where)){
+			$this->db->where($where);
+		}
+		
+		$this->db->order('node_id')->run();
+		
+		return $this->db->arr();
 	}
 }
