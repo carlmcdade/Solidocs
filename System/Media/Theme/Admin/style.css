@@ -37,7 +37,10 @@ a:hover
 {width: 1000px;}
 
 #sidebar
-{width: 180px; height: 100px; background: #fff; margin: 10px; float: left;}
+{width: 180px; background: #fff; margin: 10px; float: left;}
+
+#sidebar ul li a
+{display: block; padding: 5px; font-size: 1.1em;}
 
 #content
 {width: 800px; background: #fff; margin: 10px 0 10px 0; float: left;}

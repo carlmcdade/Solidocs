@@ -88,7 +88,7 @@ class Solidocs_Application extends Solidocs_Base
 	 */
 	public function setup_plugins(){
 		if($plugins = $this->config->get('Autoload.plugins')){
-			foreach($plugins['autoload'] as $class){
+			foreach($plugins as $class){
 				$this->load->plugin($class);
 			}
 		}

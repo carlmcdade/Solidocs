@@ -2,9 +2,9 @@
 class Solidocs_Load extends Solidocs_Base
 {
 	/**
-	 * Searchable
+	 * Packages
 	 */
-	public $searchable = array();
+	public $packages = array();
 	
 	/**
 	 * View handler
@@ -64,8 +64,8 @@ class Solidocs_Load extends Solidocs_Base
 	 * @param string
 	 */
 	public function package($package){
-		if(!in_array($package, $this->searchable)){
-			$this->searchable[] = $package;
+		if(!in_array($package, $this->packages)){
+			$this->packages[] = $package;
 		}
 	}
 	
@@ -83,22 +83,22 @@ class Solidocs_Load extends Solidocs_Base
 		
 		$file = implode('/', explode('_', $class)) . '.php';
 		
-		$searchable = array(
+		$packages = array(
 			'Application' => APP
 		);
 		
-		foreach($this->searchable as $key){
-			$searchable[$key] = PACKAGE . '/' . $key;
+		foreach($this->packages as $key){
+			$packages[$key] = PACKAGE . '/' . $key;
 		}
 		
-		$searchable['Solidocs']	= PACKAGE . '/Solidocs';
-		$searchable['Package']	= PACKAGE;
+		$packages['Solidocs']	= PACKAGE . '/Solidocs';
+		$packages['Package']	= PACKAGE;
 				
 		if(is_string($package) AND !empty($package)){
-			$searchable = array($package => $searchable[$package]);
+			$packages = array($package => $packages[$package]);
 		}
 						
-		foreach($searchable as $package => $path){
+		foreach($packages as $package => $path){
 			if(file_exists($path . '/' . $file)){
 				$prefix	= $package;
 				$slug	= str_replace($package . '_' , '', $class);
@@ -143,7 +143,7 @@ class Solidocs_Load extends Solidocs_Base
 				$config = array();
 				
 				if(is_object($this->config)){
-					$config	= $this->config->get($search['class']);
+					$config = $this->config->get($library);
 				}
 				
 				Solidocs::$registry->$search['slug'] = new $search['class']($config);

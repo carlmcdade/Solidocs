@@ -21,5 +21,9 @@
 <div id="main">
 	
 	<div id="sidebar">
-	
+		
+		<ul>
+			<?php $this->navigation->menu('admin_menu');?>
+		</ul>
+		
 	</div>
