@@ -40,7 +40,22 @@ a:hover
 {width: 180px; background: #fff; margin: 10px; float: left;}
 
 #sidebar ul li a
-{display: block; padding: 5px; font-size: 1.1em;}
+{display: block; padding: 5px;}
+
+#sidebar ul li.active a
+{background: #eee;}
+
+#sidebar ul li.active > a
+{font-weight: bold;}
+
+#sidebar > ul > li > a
+{border-top: 1px solid #ccc; font-size: 1.1em;}
+
+#sidebar ul li > ul li a
+{padding-left: 25px;}
+
+#sidebar > ul > li:first-child > a
+{border: 0;}
 
 #content
 {width: 800px; background: #fff; margin: 10px 0 10px 0; float: left;}

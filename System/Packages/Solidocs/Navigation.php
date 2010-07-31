@@ -9,12 +9,48 @@ class Solidocs_Navigation extends Solidocs_Base
 	 */
 	public function _data($data){
 		if(is_string($data)){
-			$data = $this->db->select_from('navigation')->where(array(
-				'key' => $data
-			))->order('order')->run()->arr();
+			$data = $this->_data_part($data, 0);
 		}
 		
 		return $data;
+	}
+	
+	/**
+	 * Data part
+	 *
+	 * @param string
+	 * @param integer
+	 */
+	public function _data_part($navigation_key, $parent_id){
+		$this->db->select_from('navigation')->where(array(
+		    'key' => $navigation_key,
+		    'parent_id' => $parent_id
+		))->order('order')->run();
+		
+		if($this->db->affected_rows()){
+		    $data = $this->db->arr();
+		    
+		    foreach($data as $key => $val){
+		    	$children = $this->_data_part($navigation_key, $val['navigation_id']);
+		    	
+		    	if(is_array($children)){
+		    		$data[$key]['children'] = $children;
+		    	}
+		    	
+		    	$this->db->select_from('navigation')->where(array(
+		    		'key' => $navigation_key,
+		    		'parent_id' => $val['navigation_id']
+		    	))->run();
+		    	
+		    	if($this->db->affected_rows()){
+		    		$data[$key]['children'] = $this->db->arr();
+		    	}
+		    }
+		    
+		    return $data;
+		}
+		
+		return false;
 	}
 	
 	/**

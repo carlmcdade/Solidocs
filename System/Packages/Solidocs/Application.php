@@ -74,8 +74,8 @@ class Solidocs_Application extends Solidocs_Base
 		Solidocs::$registry->config	= new Solidocs_Config($config);
 		Solidocs::$registry->error	= new Solidocs_Error;
 		Solidocs::$registry->load	= new Solidocs_Load;
-		Solidocs::apply_config($this->error, $this->config->get('Solidocs_Error'));
-		Solidocs::apply_config($this->load, $this->config->get('Solidocs_Load'));
+		Solidocs::apply_config($this->error, $this->config->get('Error'));
+		Solidocs::apply_config($this->load, $this->config->get('Load'));
 		
 		// Setup database
 		$this->load->library('Db');
