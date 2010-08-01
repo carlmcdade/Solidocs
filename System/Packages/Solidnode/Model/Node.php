@@ -80,7 +80,12 @@ class Solidnode_Model_Node extends Solidocs_Base
 	 */
 	public function update($node_id, $node){
 		if(is_array($node['content'])){
-			$node['content'] = serialize($node['content']);
+			if(count($node['content']) == 1 AND isset($node['content']['content'])){
+				$node['content'] = $node['content']['content'];
+			}
+			else{
+				$node['content'] = serialize($node['content']);
+			}
 		}
 		
 		$this->db->update_set('node', $node)->where(array(

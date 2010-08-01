@@ -95,12 +95,12 @@ class Solidocs_Form extends Solidocs_Base
 	 * @return bool
 	 */
 	public function is_valid(){
+		$this->process_values();
+		
 		foreach($this->elements as $name => $item){
 			if(!$this->input->has_request($name) AND $item['required'] == true){
 				return false;
 			}
-			
-			$this->process_values();
 			
 			if(isset($item['validators'])){
 				$this->load->library('Validator');
@@ -154,20 +154,48 @@ class Solidocs_Form extends Solidocs_Base
 			$this->process_values();
 		}
 		
-		return $this->values;
+		$values = array();
+		
+		foreach($this->values as $key => $val){
+			if(strpos($key, '[')){
+				$key = explode('[', str_replace(']', '', $key));
+				$values[$key[0]][$key[1]] = $val;
+				
+				continue;
+			}
+			
+			$values[$key] = $val;
+		}
+		
+		return $values;
 	}
 	
 	/**
 	 * Get value
 	 *
 	 * @param string
+	 * @param mixed		Optional.
 	 */
-	public function get_value($name){
+	public function get_value($name, $default = ''){
 		if(!is_array($this->values)){
 			$this->process_values();
 		}
 		
-		return $this->values[$name];
+		if(strpos($name, '[')){
+			$key = explode('[', str_replace(']', '', $name));
+			
+			if(isset($this->values[$key[0]][$key[1]])){
+				return $this->values[$key[0]][$key[1]];		
+			}
+			
+			return $default;
+		}
+		
+		if(isset($this->values[$name])){
+			return $this->values[$name];	
+		}
+		
+		return $default;
 	}
 	
 	/**
@@ -194,13 +222,8 @@ class Solidocs_Form extends Solidocs_Base
 					unset($params[0]);
 				}
 				
-				$value = '';
-				if(isset($this->values[$name])){
-					$value = $this->values[$name];
-				}
-				
 				if($item['type'] !== 'button'){
-					array_unshift($params, $value);
+					array_unshift($params, $this->get_value($name, ''));
 					array_unshift($params, $name);
 				}
 				

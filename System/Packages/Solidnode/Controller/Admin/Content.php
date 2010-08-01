@@ -40,10 +40,16 @@ class Solidnode_Controller_Admin_Content extends Solidocs_Controller_Action
 			$content_type = $this->model->node->get_type_fields($node->content_type);
 		}
 		
+		if(!is_array($node->content)){
+			$node->content = array('content' => $node->content);
+		}
+		
 		$form = new Solidnode_Form_Edit(false);
 		$form->init($content_type);
 		
 		if($form->is_posted()){
+			$form->set_values($_POST);
+			
 			if($form->is_valid()){
 				$form->process_values();
 				

@@ -2,13 +2,58 @@
 class Solidocs_Input
 {
 	/**
+	 * Has
+	 *
+	 * @param array
+	 * @param string
+	 * @return bool
+	 */
+	public function _has(&$array, $key){
+		if(empty($key)){
+			return (count($array) !== 0);
+		}
+		
+		if(strpos($key, '[')){
+			$key = explode('[', str_replace(']', '', $key));
+			
+			return isset($array[$key[0]][$key[1]]);
+		}
+		
+		return (isset($array[$key]));
+	}
+	
+	/**
+	 * Get
+	 *
+	 * @param string
+	 * @return mixed
+	 */
+	public function _get(&$array, $key, $default = null){
+		if(strpos($key, '[')){
+			$key = explode('[', str_replace(']', '', $key));
+			
+			if(isset($array[$key[0]][$key[1]])){
+				return $array[$key[0]][$key[1]];
+			}
+			
+			return $default;
+		}
+		
+		if(isset($array[$key])){
+			return $array[$key];
+		}
+		
+		return $default;
+	}
+	
+	/**
 	 * Has cookie
 	 *
 	 * @param string
 	 * @return bool
 	 */
 	public function has_cookie($key){
-		return (isset($_COOKIE[$key]));
+		return $this->_has($_COOKIE, $key);
 	}
 	
 	/**
@@ -18,11 +63,7 @@ class Solidocs_Input
 	 * @return bool
 	 */
 	public function has_get($key = ''){
-		if(empty($key)){
-			return (count($_GET) !== 0);
-		}
-		
-		return (isset($_GET[$key]));
+		return $this->_has($_GET, $key);
 	}
 	
 	/**
@@ -32,11 +73,7 @@ class Solidocs_Input
 	 * @return bool
 	 */
 	public function has_post($key = ''){
-		if(empty($key)){
-			return (count($_POST) !== 0);
-		}
-		
-		return (isset($_POST[$key]));
+		return $this->_has($_POST, $key);
 	}
 	
 	/**
@@ -50,7 +87,7 @@ class Solidocs_Input
 			return (count($_REQUEST) !== 1);
 		}
 		
-		return (isset($_REQUEST[$key]));
+		return $this->_has($_REQUEST, $key);
 	}
 	
 	/**
@@ -71,11 +108,7 @@ class Solidocs_Input
 	 * @return mixed
 	 */
 	public function cookie($key, $default = null){
-		if(isset($_COOKIE[$key])){
-			return $_COOKIE[$key];
-		}
-		
-		return $default;
+		return $this->_get($_COOKIE, $key, $default);
 	}
 	
 	/**
@@ -86,11 +119,7 @@ class Solidocs_Input
 	 * @return mixed
 	 */
 	public function get($key, $default = null){
-		if(isset($_GET[$key])){
-			return $_GET[$key];
-		}
-		
-		return $default;
+		return $this->_get($_GET, $key, $default);
 	}
 	
 	/**
@@ -101,11 +130,7 @@ class Solidocs_Input
 	 * @return mixed
 	 */
 	public function post($key, $default = null){
-		if(isset($_POST[$key])){
-			return $_POST[$key];
-		}
-		
-		return $default;
+		return $this->_get($_POST, $key, $default);
 	}
 	
 	/**
@@ -116,11 +141,7 @@ class Solidocs_Input
 	 * @return mixed
 	 */
 	public function request($key, $default = null){
-		if(isset($_REQUEST[$key])){
-			return $_REQUEST[$key];
-		}
-		
-		return $default;
+		return $this->_get($_REQUEST, $key, $default);
 	}
 	
 	/**

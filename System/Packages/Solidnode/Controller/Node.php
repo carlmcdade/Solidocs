@@ -12,9 +12,15 @@ class Solidnode_Controller_Node extends Solidocs_Controller_Action
 	 * Index
 	 */
 	public function do_index(){
-		$node = $this->model->node->get_node(array(
+		$args = array(
 			'uri' => $this->router->request_uri
-		));
+		);
+		
+		if(!$this->user->in_group('admin')){
+			$args['published'] = 1;
+		}
+		
+		$node = $this->model->node->get_node($args);
 		
 		if($node == false){
 			throw new Exception('No node could be found', 404);
