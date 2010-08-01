@@ -22,7 +22,7 @@ class Solidocs_Navigation extends Solidocs_Base
 	 * @param integer
 	 */
 	public function _data_part($navigation_key, $parent_id){
-		$this->db->select_from('navigation')->where(array(
+		$this->db->select_from('navigation_item')->where(array(
 		    'key' => $navigation_key,
 		    'parent_id' => $parent_id
 		))->order('order')->run();
@@ -31,15 +31,15 @@ class Solidocs_Navigation extends Solidocs_Base
 		    $data = $this->db->arr();
 		    
 		    foreach($data as $key => $val){
-		    	$children = $this->_data_part($navigation_key, $val['navigation_id']);
+		    	$children = $this->_data_part($navigation_key, $val['navigation_item_id']);
 		    	
 		    	if(is_array($children)){
 		    		$data[$key]['children'] = $children;
 		    	}
 		    	
-		    	$this->db->select_from('navigation')->where(array(
+		    	$this->db->select_from('navigation_item')->where(array(
 		    		'key' => $navigation_key,
-		    		'parent_id' => $val['navigation_id']
+		    		'parent_id' => $val['navigation_item_id']
 		    	))->run();
 		    	
 		    	if($this->db->affected_rows()){
@@ -51,6 +51,25 @@ class Solidocs_Navigation extends Solidocs_Base
 		}
 		
 		return false;
+	}
+	
+	/**
+	 * Get navigation
+	 *
+	 * @param string
+	 * @return array
+	 */
+	public function get_navigation($key){
+		return $this->_data($key);
+	}
+	
+	/**
+	 * Get navigations
+	 *
+	 * @return array
+	 */
+	public function get_navigations(){
+		return $this->db->select_from('navigation')->run()->arr();
 	}
 	
 	/**

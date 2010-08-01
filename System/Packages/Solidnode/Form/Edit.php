@@ -8,10 +8,29 @@ class Solidnode_Form_Edit extends Solidocs_Form
 		$this->set_action($this->router->uri);
 		$this->set_method('post');
 		
+		if(count($this->i18n->locales) == 0){
+			$locales[$this->i18n->default_locale] = $this->i18n->default_locale;
+		}
+		else{
+			$locales = array();
+			
+			foreach($this->i18n->locales as $locale){
+				$locales[$locale] = $locale;
+			}
+		}
+		
 		$this->add_element('title', array(
 			'type' => 'text',
 			'label' => 'Title',
 			'helper' => array('form_text')
+		))->add_element('uri', array(
+			'type' => 'text',
+			'label' => 'URI',
+			'helper' => array('form_text')
+		))->add_element('locale', array(
+			'type' => 'text',
+			'label' => 'Locale',
+			'helper' => array('form_select', $locales)
 		));
 		
 		foreach($content_type as $name => $field){
@@ -39,7 +58,11 @@ class Solidnode_Form_Edit extends Solidocs_Form
 			$this->add_element('content[' . $name . ']', $element);
 		}
 		
-		$this->add_element('published', array(
+		$this->add_element('view', array(
+			'type' => 'text',
+			'label' => 'View',
+			'helper' => array('form_text')
+		))->add_element('published', array(
 			'type' => 'bool',
 			'label' => 'Publish',
 			'helper' => array('form_select', array(0 => 'Not published', 1 => 'Published'))

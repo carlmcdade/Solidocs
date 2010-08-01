@@ -99,6 +99,15 @@ class Solidnode_Model_Node extends Solidocs_Base
 	 * @param array
 	 */
 	public function create($node){
+		if(is_array($node['content'])){
+			if(count($node['content']) == 1 AND isset($node['content']['content'])){
+				$node['content'] = $node['content']['content'];
+			}
+			else{
+				$node['content'] = serialize($node['content']);
+			}
+		}
 		
+		$this->db->insert_into('node', $node)->run();
 	}
 }

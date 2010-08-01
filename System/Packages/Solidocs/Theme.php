@@ -391,6 +391,8 @@ class Solidocs_Theme extends Solidocs_Base
 				}
 				
 				foreach($this->$item as $key => $val){
+					$val = str_replace(ROOT, '', $val);
+					
 					switch($item){
 						case 'meta':
 							$output .= '<meta name="' . $key . '" content="' . $val . '" />' . "\n";

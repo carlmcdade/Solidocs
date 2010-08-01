@@ -1,0 +1,11 @@
+#navigation_list
+{padding: 10px;}
+
+#navigation_list li
+{display: block; padding: 10px; margin-bottom: 1px; border: 1px solid #ccc; background: #eee;}
+
+#navigation_list li ul
+{padding-top: 10px;}
+
+#navigation_list li ul li
+{background: #fff;}
