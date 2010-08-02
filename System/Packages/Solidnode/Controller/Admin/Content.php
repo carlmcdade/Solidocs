@@ -47,7 +47,7 @@ class Solidnode_Controller_Admin_Content extends Solidocs_Controller_Action
 		$form = new Solidnode_Form_Edit(false);
 		$form->init($content_type);
 		
-		if($form->is_posted()){
+		if($form->is_posted() AND $this->input->has_post()){
 			$form->set_values($_POST);
 			
 			if($form->is_valid()){
@@ -57,6 +57,10 @@ class Solidnode_Controller_Admin_Content extends Solidocs_Controller_Action
 				
 				if($values['node_id'] == 0 OR empty($values['node_id'])){
 					unset($values['node_id']);
+					
+					if(isset($_GET['content_type'])){
+						$values['content_type'] = $this->input->get('content_type');
+					}
 					
 					$this->model->node->create($values);
 				}

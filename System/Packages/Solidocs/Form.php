@@ -145,6 +145,16 @@ class Solidocs_Form extends Solidocs_Base
 	}
 	
 	/**
+	 * Set value
+	 *
+	 * @param string
+	 * @param mixed
+	 */
+	public function set_value($key, $val){
+		$this->values[$key] = $val;
+	}
+	
+	/**
 	 * Get values
 	 *
 	 * @return array

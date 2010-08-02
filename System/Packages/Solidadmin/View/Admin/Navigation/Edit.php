@@ -10,6 +10,8 @@
 		<?php echo $this->form_text('new_item[url]');?>
 		<label>Parent</label>
 		<?php echo $this->form_select('new_item[parent_id]', 0, $parents);?>
+		<label>Order</label>
+		<?php echo $this->form_text('new_item[order]', 999);?>
 		<?php echo $this->form_button('Save');?>
 		
 	</form>
@@ -26,6 +28,7 @@
 		echo $this->form_text('item[' . $item['navigation_item_id'] . '][title]', $item['title']);
 		echo $this->form_text('item[' . $item['navigation_item_id'] . '][url]', $item['url']);
 		echo $this->form_select('item[' . $item['navigation_item_id'] . '][parent_id]', $item['parent_id'], $parents);
+		echo $this->form_text('item[' . $item['navigation_item_id'] . '][order]', $item['order']);
 		?>
 		<a href="/admin/navigation/delete_item/<?php echo $item['navigation_item_id'];?>/?redirect=<?php echo $this->router->uri;?>">Delete item</a>
 		<?php if(isset($item['children'])){
@@ -36,6 +39,7 @@
 				echo $this->form_text('item[' . $child_item['navigation_item_id'] . '][title]', $child_item['title']);
 				echo $this->form_text('item[' . $child_item['navigation_item_id'] . '][url]', $child_item['url']);
 				echo $this->form_select('item[' . $child_item['navigation_item_id'] . '][parent_id]', $child_item['parent_id'], $parents);
+				echo $this->form_text('item[' . $child_item['navigation_item_id'] . '][order]', $child_item['order']);
 				echo '<a href="/admin/navigation/delete_item/' . $item['navigation_item_id'] . '/?redirect=' . $this->router->uri . '">Delete</a></li>';
 			}
 			

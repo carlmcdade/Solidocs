@@ -18,6 +18,10 @@ class Solidnode_Model_Node extends Solidocs_Base
 		
 		if(is_serialized($node->content)){
 			$node->content = unserialize($node->content);
+			
+			foreach($node->content as $key => $val){
+				$node->$key = $val;
+			}
 		}
 		
 		return $node;
@@ -39,6 +43,43 @@ class Solidnode_Model_Node extends Solidocs_Base
 		$this->db->order('node_id')->run();
 		
 		return $this->db->arr();
+	}
+	
+	/**
+	 * Add type field
+	 *
+	 * @param string
+	 * @param array
+	 */
+	public function add_type_field($content_type, $data){
+		$data['content_type'] = $content_type;
+		$this->db->insert_into('content_type_field', $data)->run();
+	}
+	
+	/**
+	 * Update type field
+	 *
+	 * @param string
+	 * @param array
+	 */
+	public function update_type_field($content_type, $field, $data){
+		$this->db->update_set('content_type_field', $data)->where(array(
+			'content_type' => $content_type,
+			'field' => $field
+		))->run();
+	}
+	
+	/**
+	 * Delete type field
+	 *
+	 * @param string
+	 * @param string
+	 */
+	public function delete_type_field($content_type, $field){
+		$this->db->delete_from('content_type_field')->where(array(
+			'content_type' => $content_type,
+			'field' => $field
+		))->run();
 	}
 	
 	/**

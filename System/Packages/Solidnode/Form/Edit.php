@@ -5,7 +5,7 @@ class Solidnode_Form_Edit extends Solidocs_Form
 	 * Init
 	 */
 	public function init($content_type){
-		$this->set_action($this->router->uri);
+		$this->set_action($this->router->request_uri);
 		$this->set_method('post');
 		
 		if(count($this->i18n->locales) == 0){

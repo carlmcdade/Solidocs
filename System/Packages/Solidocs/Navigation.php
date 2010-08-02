@@ -40,7 +40,7 @@ class Solidocs_Navigation extends Solidocs_Base
 		    	$this->db->select_from('navigation_item')->where(array(
 		    		'key' => $navigation_key,
 		    		'parent_id' => $val['navigation_item_id']
-		    	))->run();
+		    	))->order('order')->run();
 		    	
 		    	if($this->db->affected_rows()){
 		    		$data[$key]['children'] = $this->db->arr();
