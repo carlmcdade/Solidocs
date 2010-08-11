@@ -237,7 +237,8 @@ class Solidocs_Load extends Solidocs_Base
 			$class .= '_' . ucfirst($part);
 		}
 		
-		$search = $this->search(trim($class, '_'), 'Helper', $package);
+		$class	= trim($class, '_');
+		$search	= $this->search($class, 'Helper', $package);
 		
 		if(is_array($search)){
 			if(isset(Solidocs::$registry->helper->$search['slug'])){

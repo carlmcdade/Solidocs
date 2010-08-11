@@ -140,6 +140,38 @@ class Solidocs_Helper_Form extends Solidocs_Helper
 	}
 	
 	/**
+	 * WYSIWYG
+	 *
+	 * @param string
+	 * @param bool|string	Optional.
+	 * @return string
+	 */
+	public function wysiwyg($name, $value = false){
+		if(is_bool($value) AND $value == true){
+			$value = $value = $this->input->post($name, false);
+		}
+		elseif($value == false){
+			$value = '';
+		}
+		
+		$this->theme->add_js(MEDIA . '/Theme/Admin/SimpleTextEditor.js');
+		$this->theme->add_css(MEDIA . '/Theme/Admin/SimpleTextEditor.css');
+		$this->theme->add_script('
+		$(document).ready(function(){
+			var ste = new SimpleTextEditor("wysiwyg", "ste");
+			ste.path = "' . str_replace(ROOT, '', MEDIA . '/Theme/Admin/') . '";
+			ste.init();
+			
+			$("form").submit(function(){
+				ste.submit();
+			});
+		});
+		');
+		
+		return '<textarea id="wysiwyg" name="' . $name . '">' . $value . '</textarea>';
+	}
+	
+	/**
 	 * Button
 	 *
 	 * @param string

@@ -42,25 +42,24 @@ class Solidocs_Output extends Solidocs_Base
 	 * @param string
 	 * @param array
 	 */
-	public function helper($called, $params){
+	public function helper($method, $params){
 		if(!is_array($params) AND !empty($params)){
 			$params = array($params);
 		}
 		
-		$called = explode('_', $called);
-		$method = $called[count($called) - 1];
-		
-		unset($called[count($called) - 1]);
-		
-		$helper = implode('_', $called);
-		
+		$helper = strtolower($method);
+				
+		// Load helper if it isn't loaded
 		if(!isset($this->helper->$helper)){
-			$this->load->helper($helper);
+			$this->load->helper($method);
 		}
 		
-		if(isset($this->helper->$helper)){
+		// Check for method
+		if(method_exists($this->helper->$helper, $method)){
 			return call_user_func_array(array($this->helper->$helper, $method), $params);
 		}
+		
+		return $this->helper->$helper;
 	}
 	
 	/**
