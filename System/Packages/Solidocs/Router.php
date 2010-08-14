@@ -12,6 +12,11 @@ class Solidocs_Router
 	public $uri;
 	
 	/**
+	 * Route
+	 */
+	public $route;
+	
+	/**
 	 * Routes
 	 */
 	public $routes;
@@ -52,12 +57,24 @@ class Solidocs_Router
 	public $output_type = 'html';
 	
 	/**
+	 * Locale
+	 */
+	public $locale = 'en_GB';
+	
+	/**
 	 * Constructor
 	 */
 	public function __construct(){
 		$this->request_uri = $_SERVER['REQUEST_URI'];
 		$this->uri = explode('?', $this->request_uri);
 		$this->uri = $this->uri[0];
+	}
+	
+	/**
+	 * Set locale
+	 */
+	public function set_locale($locale){
+		$this->locale = $locale;
 	}
 	
 	/**
@@ -91,6 +108,15 @@ class Solidocs_Router
 	}
 	
 	/**
+	 * Get route
+	 *
+	 * @return array
+	 */
+	public function get_route(){
+		return $this->route;
+	}
+	
+	/**
 	 * Route
 	 */
 	public function route(){
@@ -110,10 +136,10 @@ class Solidocs_Router
 		foreach($this->routes as $route_key => $route){
 			$route = array_merge(array(
 				'package'		=> 'Application',
-				'locale'		=> Solidocs::$registry->locale,
+				'locale'		=> $this->locale,
 			),$route);
 			
-			if($route['locale'] !== Solidocs::$registry->locale){
+			if($route['locale'] !== $this->locale){
 				continue;
 			}
 			

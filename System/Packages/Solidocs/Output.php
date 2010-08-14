@@ -132,6 +132,18 @@ class Solidocs_Output extends Solidocs_Base
 	 * @param array		Optional.
 	 */
 	public function add_view($file, $params = null){
+		$this->view[] = array(
+			'file' => $file,
+			'params' => $params
+		);
+	}
+	
+	/**
+	 * Render view
+	 *
+	 * @param string
+	 */
+	public function render_view($file, $params = null){
 		ob_start();
 		
 		if(is_object($params)){
@@ -144,7 +156,7 @@ class Solidocs_Output extends Solidocs_Base
 		
 		include($file);
 		
-		$this->view[] = $this->parse_markup(ob_get_clean(), $params);
+		return $this->parse_markup(ob_get_clean(), $params);
 	}
 	
 	/**
@@ -229,7 +241,7 @@ class Solidocs_Output extends Solidocs_Base
 		$views = '';
 		
 		foreach($this->view as $view){
-			$views .= $view;
+			$views .= $this->render_view($view['file'], $view['params']);
 		}
 		
 		if($return){
