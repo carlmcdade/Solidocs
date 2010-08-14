@@ -214,11 +214,11 @@ class Solidocs_Form extends Solidocs_Base
 	 * @return string
 	 */
 	public function render(){
-		$output = $this->output->helper('form_starttag', array($this->action, $this->method, $this->name));
+		$output = $this->output->helper('form/starttag', array($this->action, $this->method, $this->name));
 		
 		foreach($this->elements as $name => $item){
 			if(isset($item['label'])){
-				$output .= $this->output->helper('form_label', $item['label']);
+				$output .= $this->output->helper('form/label', $item['label']);
 			}
 			
 			if(isset($item['helper'])){
@@ -241,6 +241,6 @@ class Solidocs_Form extends Solidocs_Base
 			}
 		}
 		
-		return $output . $this->output->helper('form_endtag');
+		return $output . $this->output->helper('form/endtag');
 	}
 }

@@ -47,11 +47,17 @@ class Solidocs_Output extends Solidocs_Base
 			$params = array($params);
 		}
 		
-		$helper = strtolower($method);
-				
+		$helper = explode('/', strtolower($method));
+		
+		if(isset($helper[1])){
+			$method = $helper[1];
+		}
+		
+		$helper = $helper[0];
+		
 		// Load helper if it isn't loaded
 		if(!isset($this->helper->$helper)){
-			$this->load->helper($method);
+			$this->load->helper($helper);
 		}
 		
 		// Check for method
