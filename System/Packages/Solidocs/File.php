@@ -31,4 +31,57 @@ class Solidocs_File
 		
 		return $files;
 	}
+	
+	/**
+	 * Get contents
+	 *
+	 * @param string
+	 */
+	public function get_contents($file){
+		return file_get_contents($file);
+	}
+	
+	/**
+	 * Set contents
+	 *
+	 * @param string
+	 * @param string
+	 */
+	public function set_contents($file, $contents){
+		$handler = fopen($file, 'w');
+		fwrite($handler, $contents);
+		fclose($handler);
+	}
+	
+	/**
+	 * Delete
+	 *
+	 * @param string
+	 */
+	public function delete($file){
+		unlink($file);
+	}
+	
+	/**
+	 * Mkdir
+	 *
+	 * @param string
+	 * @param integer	Optional.
+	 */
+	public function mkdir($path, $mode = 0777){
+		if(!mkdir($path, $mode, true)){
+			throw new Exception('Could not make directory "' . $path . '"');
+		}
+		
+		$this->chmod($path, $mode);
+	}
+	
+	/**
+	 * Chmod
+	 *
+	 * @param integer
+	 */
+	public function chmod($file, $mode){
+		chmod($file, $mode);
+	}
 }

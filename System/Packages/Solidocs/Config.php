@@ -79,17 +79,32 @@ class Solidocs_Config
 		$key = explode('.', $key);
 		
 		switch(count($key)){
-		    case 1:
-		    	$config[$key[0]] = $val;
-		    break;
-		    
-		    case 2:
-		    	$config[$key[0]][$key[1]] = $val;
-		    break;
-		    
-		    case 3:
-		    	$config[$key[0]][$key[1]][$key[2]] = $val;
-		    break;
+			case 1:
+				if(isset($config[$key[0]])){
+					$config[$key[0]] = array_merge($config[$key[0]], $val);
+				}
+				else{
+					$config[$key[0]] = $val;
+				}
+			break;
+			
+			case 2:
+				if(isset($config[$key[0]][$key[1]])){
+					$config[$key[0]][$key[1]] = array_merge($config[$key[0]][$key[1]], $val);
+				}
+				else{
+					$config[$key[0]][$key[1]] = $val;
+				}
+			break;
+			
+			case 3:
+				if(isset($config[$key[0]][$key[1]][$key[2]])){
+					$config[$key[0]][$key[1]][$key[2]] = array_merge($config[$key[0]][$key[1]][$key[2]], $val);
+				}
+				else{
+					$config[$key[0]][$key[1]][$key[2]] = $val;
+				}
+			break;
 		}
 	}
 	
@@ -119,6 +134,33 @@ class Solidocs_Config
 	}
 	
 	/**
+	 * Array merge
+	 *
+	 * @param array
+	 * @param array
+	 */
+	public function _array_merge($first, $second){
+		foreach($second as $key => $val){
+			if(isset($first[$key])){
+				if(is_array($first[$key])){
+					$first[$key] = $this->_array_merge($first[$key], $val);
+				}
+				elseif(is_integer($key)){
+					array_push($first, $val);
+				}
+				else{
+					$first[$key] = $val;
+				}
+			}
+			else{
+				$first[$key] = $val;
+			}
+		}
+		
+		return $first;
+	}
+	
+	/**
 	 * Load file
 	 *
 	 * @param string
@@ -140,12 +182,11 @@ class Solidocs_Config
 				return $config;
 			}
 			else{
-				$this->config = array_merge($this->config, $config);
+				$this->config = $this->_array_merge($this->config, $config);
 			}
 		}
 		else{
-			debug($config, $file . '.ini');
-			#throw new Exception('Config file "'.$file.'" could not be loaded');
+			throw new Exception('Config file "' . $file . '" could not be loaded');
 		}
 	}
 	
@@ -171,7 +212,7 @@ class Solidocs_Config
 	 */
 	public function load_ini($file){
 		$config = array();
-		
+				
 		foreach(parse_ini_file($file, true) as $section => $keys){
 			if(!is_array($keys) OR strpos($section, '.')){
 				$this->add(&$config, $section, $keys);
