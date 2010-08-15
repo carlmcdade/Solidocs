@@ -46,6 +46,26 @@ class Solidnode_Model_Node extends Solidocs_Base
 	}
 	
 	/**
+	 * Add type
+	 */
+	public function add_type($content_type){
+		$this->db->insert_into('content_type', $content_type)->run();
+	}
+	
+	/**
+	 * Delete type
+	 */
+	public function delete_type($content_type){
+		$this->db->delete_from('content_type')->where(array(
+			'content_type' => $content_type
+		))->run();
+		
+		$this->db->delete_from('content_type_field')->where(array(
+			'content_type' => $content_type
+		))->run();
+	}
+	
+	/**
 	 * Add type field
 	 *
 	 * @param string

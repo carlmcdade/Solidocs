@@ -18,6 +18,19 @@ class Solidnode_Controller_Admin_Type extends Solidocs_Controller_Action
 	}
 	
 	/**
+	 * Create
+	 */
+	public function do_create(){
+		if($this->input->has_post()){
+			$this->model->node->add_type($_POST);
+			
+			$this->redirect('/admin/type/edit/' . $_POST['content_type']);
+		}
+		
+		$this->load->view('Admin_Content_TypeCreate');
+	}
+	
+	/**
 	 * Edit
 	 */
 	public function do_edit(){
@@ -25,6 +38,7 @@ class Solidnode_Controller_Admin_Type extends Solidocs_Controller_Action
 			'' => '-',
 			'form_text' => 'Text field',
 			'form_textarea' => 'Textarea',
+			'form_wysiwyg' => 'WYSIWYG Textarea',
 			'form_select' => 'Select field'
 		);
 		$types = array(
@@ -52,6 +66,15 @@ class Solidnode_Controller_Admin_Type extends Solidocs_Controller_Action
 			'helpers' => $helpers,
 			'types' => $types
 		));
+	}
+	
+	/**
+	 * Delete
+	 */
+	public function do_delete(){
+		$this->model->node->delete_type($this->input->uri_segment('id'));
+		
+		$this->redirect('/admin/type');
 	}
 	
 	/**

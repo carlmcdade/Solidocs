@@ -19,7 +19,7 @@ class Application_Form_Login extends Solidocs_Form
 			),
 			'required' => true,
 			'label' => 'E-mail',
-			'helper' => array('form_text')
+			'helper' => array('form/text')
 		));
 		$this->add_element('password', array(
 			'type' => 'password',
@@ -32,11 +32,11 @@ class Application_Form_Login extends Solidocs_Form
 			),
 			'required' => true,
 			'label' => 'Password',
-			'helper' => array('form_input', 'password')
+			'helper' => array('form/input', 'password')
 		));
 		$this->add_element('submit', array(
 			'type' => 'button',
-			'helper' => array('form_button', 'Submit')
+			'helper' => array('form/button', 'Submit')
 		));
 	}
 }
