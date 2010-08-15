@@ -39,9 +39,36 @@ abstract class Solidocs_Navigation_Navigation
 	 * @param string
 	 */
 	public function __construct($data, $args, $active_url = ''){
+		$this->set_data($data);
+		$this->set_args($args);
+		$this->set_active_url($active_url);
+	}
+	
+	/**
+	 * Set data
+	 *
+	 * @param array
+	 */
+	public function set_data($data){
 		$this->data = $data;
+	}
+	
+	/**
+	 * Set args
+	 *
+	 * @param array
+	 */
+	public function set_args($args){
 		$this->args = parse_args($this->defaults, $args);
-		$this->active_url = $active_url;
+	}
+	
+	/**
+	 * Set active url
+	 *
+	 * @param string
+	 */
+	public function set_active_url($url){
+		$this->active_url = $url;
 	}
 	
 	/**

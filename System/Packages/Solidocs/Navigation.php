@@ -83,46 +83,33 @@ class Solidocs_Navigation extends Solidocs_Base
 	}
 	
 	/**
-	 * Menu
+	 * Call
 	 *
-	 * @param string|array
-	 * @param string|array	Optional.
-	 */
-	public function menu($data, $args = ''){
-		echo $this->get_menu($data, $args);
-	}
-	
-	/**
-	 * Breadcrumb
-	 *
-	 * @param string|array
-	 * @param string|array	Optional.
-	 */
-	public function breadcrumb($data, $args = ''){
-		echo $this->get_breadcrumb($data, $args);
-	}
-	
-	/**
-	 * Get menu
-	 *
-	 * @param string|array
-	 * @param string|array	Optional.
+	 * @param string
+	 * @param array
 	 * @return string
 	 */
-	public function get_menu($data, $args = ''){
-		$menu = new Solidocs_Navigation_Menu($this->_data($data), $args, $this->router->uri);
-		return $menu->render();
-	}
-	
-	/**
-	 * Get breadcrumb
-	 *
-	 * @param string|array
-	 * @param string|array
-	 * @return string
-	 */
-	public function get_breadcrumb($data, $args = ''){
-		$breadcrumb = new Solidocs_Navigation_Breadcrumb($this->_data($data), $args, $this->router->uri);
-		return $breadcrumb->render();
+	public function __call($method, $params){
+		$method = explode('_', $method);
+		$get = false;
+		
+		if($method[0] == 'get'){
+			$get = true;
+			
+			$library = $this->load->get_library('Navigation_' . ucfirst($method[1]));
+		}
+		else{
+			$library = $this->load->get_library('Navigation_' . ucfirst($method[0]));
+		}
+		
+		$library->set_data($this->_data($params[0]));
+		$library->set_args($params[1]);
+		$library->set_active_url($this->router->uri);
+		
+		if($get){
+			return $library->render();
+		}
+		
+		echo $library->render();
 	}
 }
