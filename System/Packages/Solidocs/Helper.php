@@ -10,4 +10,14 @@
  * @license		MIT License (http://www.opensource.org/licenses/mit-license.p
  */
 class Solidocs_Helper extends Solidocs_Base
-{}
+{
+	/**
+	 * Call
+	 *
+	 * @param string
+	 * @param array
+	 */
+	public function __call($method, $params){
+		return $this->output->helper($method, $params);
+	}
+}

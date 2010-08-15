@@ -23,9 +23,9 @@
 		<?php foreach($fields as $field):?>
 		<tr>
 			<td><?php echo $field['field'];?></td>
-			<td><?php echo $this->form_text($field['field'] . '[name]', $field['name']);?></td>
-			<td><?php echo $this->form_select($field['field'] . '[helper]', $field['helper'], $helpers);?></td>
-			<td><?php echo $this->form_select($field['field'] . '[type]', $field['type'], $types);?></td>
+			<td><?php echo $this->form()->text($field['field'] . '[name]', $field['name']);?></td>
+			<td><?php echo $this->form()->select($field['field'] . '[helper]', $field['helper'], $helpers);?></td>
+			<td><?php echo $this->form()->select($field['field'] . '[type]', $field['type'], $types);?></td>
 			<td><?php echo $field['filters'];?></td>
 			<td><?php echo $field['validators'];?></td>
 			<td><a href="/admin/type/delete_field/<?php echo $this->input->uri_segment('id') . ':' . $field['field'];?>">Delete</a></td>
@@ -33,10 +33,10 @@
 		<?php endforeach;?>
 		
 		<tr>
-			<td><?php echo $this->form_text('new_field[field]');?></td>
-			<td><?php echo $this->form_text('new_field[name]');?></td>
-			<td><?php echo $this->form_select('new_field[helper]', '', $helpers);?></td>
-			<td><?php echo $this->form_select('new_field[type]', '', $types);?></td>
+			<td><?php echo $this->form()->text('new_field[field]');?></td>
+			<td><?php echo $this->form()->text('new_field[name]');?></td>
+			<td><?php echo $this->form()->select('new_field[helper]', '', $helpers);?></td>
+			<td><?php echo $this->form()->select('new_field[type]', '', $types);?></td>
 			<td></td>
 			<td></td>
 			<td></td>

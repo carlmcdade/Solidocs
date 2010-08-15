@@ -67,6 +67,11 @@ class Solidocs_Theme extends Solidocs_Base
 	public $title_base_after = false;
 	
 	/**
+	 * Head jquery
+	 */
+	public $head_jquery = false;
+	
+	/**
 	 * Meta
 	 */
 	public $meta = array();
@@ -102,8 +107,8 @@ class Solidocs_Theme extends Solidocs_Base
 	 * @param string
 	 * @param array
 	 */
-	public function __call($called, $params){
-		return $this->output->__call($called, $params);
+	public function __call($method, $params){
+		return $this->output->helper($method, $params);
 	}
 	
 	/**
@@ -153,14 +158,19 @@ class Solidocs_Theme extends Solidocs_Base
 	}
 	
 	/**
+	 * Prepare
+	 */
+	public function prepare(){
+		define('THEME', MEDIA . '/Theme/' . $this->theme);
+		define('THEME_WWW', str_replace(ROOT, '', THEME));
+	}
+	
+	/**
 	 * Render
 	 *
 	 * @return string
 	 */
 	public function render(){
-		define('THEME', MEDIA . '/Theme/' . $this->theme);
-		define('THEME_WWW', str_replace(ROOT, '', THEME));
-		
 		if($this->config->file_exists(THEME . '/theme')){
 			$config = $this->config->load_file(THEME . '/theme', true);
 			
@@ -291,6 +301,15 @@ class Solidocs_Theme extends Solidocs_Base
 	}
 	
 	/**
+	 * Set jquery
+	 *
+	 * @param bool
+	 */
+	public function set_jquery($flag){
+		$this->head_jquery = $flag;
+	}
+	
+	/**
 	 * Add meta
 	 *
 	 * @param string
@@ -385,6 +404,10 @@ class Solidocs_Theme extends Solidocs_Base
 			'css'		=> true,
 			'style'		=> true
 		);
+		
+		if($this->head_jquery){
+			array_unshift($this->js, 'http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js');
+		}
 		
 		$args	= array_merge($defaults, $args);
 		$output	= '';

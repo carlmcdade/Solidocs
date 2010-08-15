@@ -17,6 +17,11 @@ class Solidocs_Output extends Solidocs_Base
 	public $view = array();
 	
 	/**
+	 * Rendered views
+	 */
+	public $rendered_views = null;
+	
+	/**
 	 * Type
 	 */
 	public $type = 'html';
@@ -155,6 +160,15 @@ class Solidocs_Output extends Solidocs_Base
 	}
 	
 	/**
+	 * Is rendered
+	 *
+	 * @return bool
+	 */
+	public function is_rendered(){
+		return (!is_null($this->rendered_views));
+	}
+	
+	/**
 	 * Render view
 	 *
 	 * @param string
@@ -236,6 +250,9 @@ class Solidocs_Output extends Solidocs_Base
 		ob_start();
 		
 		if(is_object($this->theme) AND $this->use_theme()){
+			$this->theme->prepare();
+			$this->render_content(true);
+			
 			echo $this->theme->render();
 		}
 		elseif($this->get_type() !== 'html'){
@@ -254,17 +271,23 @@ class Solidocs_Output extends Solidocs_Base
 	 * @return string
 	 */
 	public function render_content($return = false){
+		if($this->is_rendered()){
+			return $this->rendered_views;
+		}
+		
 		$views = '';
 		
 		foreach($this->view as $view){
 			$views .= $this->render_view($view['file'], $view['params']);
 		}
 		
+		$this->rendered_views = $views;
+		
 		if($return){
-			return $views;
+			return $this->rendered_views;
 		}
 		
-		echo $views;
+		echo $this->rendered_views;
 	}
 	
 	/**

@@ -34,13 +34,13 @@ class Solidnode_Controller_Admin_Type extends Solidocs_Controller_Action
 	 * Edit
 	 */
 	public function do_edit(){
-		$helpers = array(
-			'' => '-',
-			'form_text' => 'Text field',
-			'form_textarea' => 'Textarea',
-			'form_wysiwyg' => 'WYSIWYG Textarea',
-			'form_select' => 'Select field'
-		);
+		$this->db->select_from('content_type_helper')->run();
+		$helpers = array();
+		
+		while($item = $this->db->fetch_assoc()){
+			$helpers[$item['helper']] = $item['name'];
+		}
+		
 		$types = array(
 			'' => '-',
 			'text' => 'Text',

@@ -42,12 +42,7 @@ class Solidocs_Form extends Solidocs_Base
 	 * @return string
 	 */
 	public function __toString(){
-		try{
-			return $this->render();
-		}
-		catch(Exception $e){
-			echo $e;
-		}
+		return $this->render();
 	}
 	
 	/**
