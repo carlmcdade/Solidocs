@@ -32,7 +32,7 @@ class Solidocs_Plugin_Debug extends Solidocs_Plugin
 	 * Debug bar
 	 */
 	public function debug_bar($output){
-		if(!$this->user->in_group('admin') OR APPLICATION_ENV !== 'development'){
+		if(!$this->user->in_group('admin') AND APPLICATION_ENV !== 'development'){
 			return $output;
 		}
 		
