@@ -300,7 +300,40 @@ class Solidocs_Load extends Solidocs_Base
 		
 		if(is_array($search)){
 			if(isset($this->view_handler)){
-				call_user_func_array(array($this->view_handler, 'add_view'),array(
+				call_user_func_array(array($this->view_handler, 'add_view'), array(
+					$search['path'],
+					$params
+				));
+			}
+			else{
+				include_once($search['path']);
+			}
+		}
+		else{
+			throw new Exception('View "' . $view . '" could not be loaded');
+		}
+	}
+	
+	/**
+	 * Get view
+	 *
+	 * @param string
+	 * @param array		Optional.
+	 * @param string	Optional.
+	 * @return string
+	 */
+	public function get_view($view, $params = null, $package = null){
+		if($this->localized_view == true){
+			$search = $this->search($view . '.' . str_replace('_', '-', strtolower($this->locale)), 'View', $package);
+		}
+		
+		if(!isset($search) OR !is_array($search)){
+			$search = $this->search($view, 'View', $package);
+		}
+		
+		if(is_array($search)){
+			if(isset($this->view_handler)){
+				return call_user_func_array(array($this->view_handler, 'render_view'), array(
 					$search['path'],
 					$params
 				));

@@ -19,7 +19,7 @@ class Solidocs_Form extends Solidocs_Base
 	/**
 	 * Name
 	 */
-	public $name;
+	public $name = '';
 	
 	/**
 	 * Method
