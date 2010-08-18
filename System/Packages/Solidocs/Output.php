@@ -42,6 +42,11 @@ class Solidocs_Output extends Solidocs_Base
 	public $use_theme = true;
 	
 	/**
+	 * Messages
+	 */
+	public $messages = array();
+	
+	/**
 	 * Call magic method
 	 *
 	 * @param string
@@ -129,6 +134,15 @@ class Solidocs_Output extends Solidocs_Base
 	}
 	
 	/**
+	 * Get headers
+	 *
+	 * @return array
+	 */
+	public function get_headers(){
+		return $this->headers;
+	}
+	
+	/**
 	 * Set use theme
 	 *
 	 * @param bool
@@ -144,6 +158,30 @@ class Solidocs_Output extends Solidocs_Base
 	 */
 	public function use_theme(){
 		return $this->use_theme;
+	}
+	
+	/**
+	 * Add message
+	 *
+	 * @param string
+	 * @param string
+	 * @param string	Optional.
+	 */
+	public function add_message($type, $headline, $text = ''){
+		$this->messages[] = array(
+			'type' 		=> $type,
+			'headline'	=> $headline,
+			'text'		=> $text
+		);
+	}
+	
+	/**
+	 * Get messages
+	 *
+	 * @return array
+	 */
+	public function get_messages(){
+		return $this->messages;
 	}
 	
 	/**
@@ -242,7 +280,7 @@ class Solidocs_Output extends Solidocs_Base
 			throw new Exception('Headers have already been sent');
 		}
 		else{
-			foreach($this->headers as $header){
+			foreach($this->get_headers() as $header){
 				header($header);
 			}
 		}
@@ -266,6 +304,29 @@ class Solidocs_Output extends Solidocs_Base
 	}
 	
 	/**
+	 * Render messages
+	 */
+	public function render_messages(){
+		$output = '';
+		
+		foreach($this->messages as $message){
+			if($this->message_view !== null){
+				$output .= $this->load->get_view($this->message_view, $message);
+			}
+			else{
+				$output .= '
+					<div class="message ' . $message['type'] . '">
+						<span>' . $message['headline'] . '</span>
+						<p>' . $message['text'] . '</p>
+					</div>
+				';
+			}
+		}
+		
+		return $output;
+	}
+	
+	/**
 	 * Render content
 	 *
 	 * @return string
@@ -276,6 +337,10 @@ class Solidocs_Output extends Solidocs_Base
 		}
 		
 		$views = '';
+		
+		if(count($this->messages) !== 0){
+			$views .= $this->render_messages();
+		}
 		
 		foreach($this->view as $view){
 			$views .= $this->render_view($view['file'], $view['params']);

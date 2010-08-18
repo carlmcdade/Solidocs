@@ -15,6 +15,9 @@ h1 a
 h2
 {font-size: 2.2em; font-family: Georgia; font-weight: normal; color: #023d63; border-bottom: 1px solid #ccc; padding: 5px 5px 10px 5px;}
 
+h3
+{font-size: 1.4em;}
+
 p
 {font-size: 1.2em; line-height: 1.5; padding-top: 10px;}
 
@@ -80,6 +83,27 @@ a:hover
 
 #login_form button
 {display: block; margin: 5px;}
+
+/**
+ * Message
+ */
+.message
+{padding: 10px; margin: 10px; border: 1px solid; font-size: 10px;}
+
+.message span
+{font-size: 1.2em; font-weight: bold;}
+
+.message p
+{font-size: 1.1em; padding-top: 5px;}
+
+.message.success
+{border-color: #fffb1b; background: #feffde;}
+
+.message.error
+{border-color: #ea110e; background: #ffe2e5;}
+
+.message.info
+{border-color: #34a1ff; background: #dbe8ff;}
 
 /**
  * Classes
