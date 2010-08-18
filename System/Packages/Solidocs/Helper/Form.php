@@ -78,6 +78,15 @@ class Solidocs_Helper_Form extends Solidocs_Helper
 	}
 	
 	/**
+	 * File
+	 *
+	 * @param string
+	 */
+	public function file($name){
+		return $this->input($name, false, 'file');
+	}
+	
+	/**
 	 * Password
 	 *
 	 * @param string
@@ -102,24 +111,30 @@ class Solidocs_Helper_Form extends Solidocs_Helper
 	 * Select
 	 *
 	 * @param string
-	 * @param array
+	 * @param array|bool	Optional.
 	 * @param bool|string	Optional.
+	 * @param bool			Optional.
 	 * @return string
 	 */
-	public function select($name, $value = false, $options = array(), $numeric_values = false){
+	public function select($name, $value = false, $options = array(), $numeric_values = false, $multiple = true){
 		if(is_bool($value) AND $value == true){
-			$value = $value = $this->input->post($name, false);
+			$value = $this->input->post(trim($name, '[]'), false);
 		}
 		elseif($value == false){
 			$value = '';
 		}
 		
-		$select = '<select name="' . $name . '">';
+		if($multiple){
+			$select = '<select name="' . $name . '" multiple="multiple">';
+		}
+		else{
+			$select = '<select name="' . $name . '">';
+		}
 		
 		foreach($options as $key => $val){
 			$selected = '';
 			
-			if($value == $key){
+			if((is_array($value) AND in_array($key, $value)) OR $value == $key){
 				$selected = ' selected="selected"';
 			}
 			
@@ -131,6 +146,18 @@ class Solidocs_Helper_Form extends Solidocs_Helper
 		}
 		
 		return $select . '</select>';
+	}
+	
+	/**
+	 * Multiple
+	 *
+	 * @param string
+	 * @param array|bool	Optional.
+	 * @param bool|string	Optional.
+	 * @return string
+	 */
+	public function multiple($name, $value = false, $options = array(), $numeric_values = false){
+		return $this->select($name . '[]', $value, $options, $numeric_values, true);
 	}
 	
 	/**

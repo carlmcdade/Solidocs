@@ -84,8 +84,11 @@ class Solidocs_Output extends Solidocs_Base
 		if(method_exists($this->helper->$helper, $method)){
 			return call_user_func_array(array($this->helper->$helper, $method), $params);
 		}
+		else{
+			return $this->helper->$helper;
+		}
 		
-		return $this->helper->$helper;
+		return false;
 	}
 	
 	/**
