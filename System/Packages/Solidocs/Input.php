@@ -207,4 +207,70 @@ class Solidocs_Input
 		
 		return $ip;
 	}
+	
+	/**
+	 * Get os
+	 *
+	 * @return string|bool
+	 */
+	public function get_os(){
+		$os_list = array(
+			'Windows'		=> 'windows',
+			'Linux'			=> 'linux',
+			'iPhone'		=> 'iphone',
+			'iPod'			=> 'ipod',
+			'iPad'			=> 'ipad',
+			'BlackBerry'	=> 'blackberry',
+			'Nokia'			=> 'nokia',
+			'Mac OS'		=> 'mac'
+		);
+		
+		foreach($os_list as $strpos => $os){
+			if(strpos($_SERVER['HTTP_USER_AGENT'], $strpos)){
+				return $os;
+			}
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Get browser
+	 *
+	 * @return string|bool
+	 */
+	public function get_browser(){
+		$browser_list = array(
+			'Opera'						=> 'opera',
+			'Opera Mini'				=> 'operamini',
+			'WebTV'						=> 'webtv',
+			'Internet Explorer'			=> 'ie',
+			'Pocket Internet Explorer'	=> 'pocketie',
+			'Konqueror'					=> 'konqueror',
+			'iCab'						=> 'icab',
+			'OmniWeb'					=> 'omniweb',
+			'Firebird'					=> 'firebird',
+			'Firefox'					=> 'firefox',
+			'Iceweasel'					=> 'iceweasel',
+			'Lynx'						=> 'lynx',
+			'iPhone'					=> 'iphone',
+			'iPod'						=> 'ipod',
+			'iPad'						=> 'ipad',
+			'Chrome'					=> 'chrome',
+			'Android'					=> 'android',
+			'BlackBerry'				=> 'blackberry',
+			'Nokia S60'					=> 'nokias60',
+			'Nokia Browser'				=> 'nokia',
+			'Safari'					=> 'safari',
+			'Mozilla'					=> 'mozilla',
+		);
+		
+		foreach($browser_list as $strpos => $browser){
+			if(strpos($_SERVER['HTTP_USER_AGENT'], $strpos)){
+				return $browser;
+			}
+		}
+		
+		return false;
+	}
 }

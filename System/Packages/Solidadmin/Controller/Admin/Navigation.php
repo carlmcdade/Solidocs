@@ -38,18 +38,18 @@ class Solidadmin_Controller_Admin_Navigation extends Solidocs_Controller_Action
 		$form->add_element('navigation', array(
 			'type' => 'text',
 			'label' => 'Key (computer readable name)',
-			'helper' => array('form_text')
+			'helper' => array('form/text')
 		))->add_element('name', array(
 			'type' => 'text',
 			'label' => 'Name (human readable name',
-			'helper' => array('form_text')
+			'helper' => array('form/text')
 		))->add_element('locale', array(
 			'type' => 'text',
 			'label' => 'Locale',
-			'helper' => array('form_select', $locales)
+			'helper' => array('form/select', $locales)
 		))->add_element('Create', array(
 			'label' => 'Save',
-			'helper' => array('form_button')
+			'helper' => array('form/button')
 		));
 		
 		if($form->is_posted()){

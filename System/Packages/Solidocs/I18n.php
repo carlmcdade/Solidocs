@@ -109,6 +109,25 @@ class Solidocs_I18n extends Solidocs_Base
 	}
 	
 	/**
+	 * Get locale
+	 *
+	 * @param string
+	 * @return arry
+	 */
+	public function get_locale($locale){
+		return $this->locales[$locale];
+	}
+	
+	/**
+	 * Get locales
+	 *
+	 * @return array
+	 */
+	public function get_locales(){
+		return $this->accepted_locales;
+	}
+	
+	/**
 	 * Date
 	 *
 	 * @param integer
@@ -141,8 +160,8 @@ class Solidocs_I18n extends Solidocs_Base
 	/**
 	 * Load strings
 	 *
-	 * @param string	$file
-	 * @param string	$locale	Optional.
+	 * @param string
+	 * @param string	Optional.
 	 */
 	public function load_strings($file, $locale = null){
 		if($locale == null){
@@ -172,8 +191,9 @@ class Solidocs_I18n extends Solidocs_Base
 	/**
 	 * Translate
 	 *
-	 * @param string	$str
-	 * @param array		$args	Optional.
+	 * @param string
+	 * @param array		Optional.
+	 * @return string
 	 */
 	public function translate($str, $args = array()){
 		if(isset($this->strings[urlencode($str)])){
@@ -182,5 +202,34 @@ class Solidocs_I18n extends Solidocs_Base
 		
 		array_unshift($args, $str);
 		return call_user_func_array('sprintf', $args);
+	}
+	
+	/**
+	 * Conditional translate
+	 *
+	 * @param array
+	 * @param mixed
+	 * @param array		Optional.
+	 * @return string
+	 */
+	public function cond_translate($strs, $cond, $args = array()){
+		if(isset($strs[$cond])){
+			$str = $strs[$cond];
+		}
+		elseif($cond == false AND isset($strs['false'])){
+			$str = $strs['false'];
+		}
+		elseif($cond == true AND isset($strs['true'])){
+			$str = $strs['true'];
+		}
+		elseif(isset($strs['fallback'])){
+			$str = $strs['fallback'];
+		}
+		
+		if(isset($str)){
+			return $this->translate($str, $args);
+		}
+		
+		return false;
 	}
 }

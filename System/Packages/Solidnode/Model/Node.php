@@ -45,12 +45,68 @@ class Solidnode_Model_Node extends Solidocs_Base
 		return $this->db->arr();
 	}
 	
+	
+	/**
+	 * Update
+	 *
+	 * @param integer
+	 * @param array
+	 */
+	public function update($node_id, $node){
+		if(is_array($node['content'])){
+			if(count($node['content']) == 1 AND isset($node['content']['content'])){
+				$node['content'] = $node['content']['content'];
+			}
+			else{
+				$node['content'] = serialize($node['content']);
+			}
+		}
+		
+		$this->db->update_set('node', $node)->where(array(
+			'node_id' => $node_id
+		))->run();
+	}
+	
+	/**
+	 * Create
+	 *
+	 * @param array
+	 */
+	public function create($node){
+		if(is_array($node['content'])){
+			if(count($node['content']) == 1 AND isset($node['content']['content'])){
+				$node['content'] = $node['content']['content'];
+			}
+			else{
+				$node['content'] = serialize($node['content']);
+			}
+		}
+		
+		$this->db->insert_into('node', $node)->run();
+	}
+	
+	/**
+	 * Get types
+	 *
+	 * @return array
+	 */
+	public function get_types(){
+		$this->db->select_from('content_type')->run();
+		
+		return $this->db->arr('content_type');
+	}
+	
 	/**
 	 * Add type
 	 */
 	public function add_type($content_type){
 		$this->db->insert_into('content_type', $content_type)->run();
 	}
+	
+	/**
+	 * Update type
+	 */
+	public function update_type($content_type, $data){}
 	
 	/**
 	 * Delete type
@@ -63,6 +119,26 @@ class Solidnode_Model_Node extends Solidocs_Base
 		$this->db->delete_from('content_type_field')->where(array(
 			'content_type' => $content_type
 		))->run();
+	}
+	
+	/**
+	 * Get type fields
+	 *
+	 * @param string
+	 * @return array
+	 */
+	public function get_type_fields($content_type){
+		$this->db->select_from('content_type_field', 'field,name,helper,type,filters,validators')->where(array(
+			'content_type' => $content_type
+		))->run();
+		
+		$fields = array();
+		
+		while($item = $this->db->fetch_assoc()){
+			$fields[$item['field']] = $item;
+		}
+		
+		return $fields;
 	}
 	
 	/**
@@ -103,72 +179,55 @@ class Solidnode_Model_Node extends Solidocs_Base
 	}
 	
 	/**
-	 * Get type fields
+	 * Get category
 	 *
 	 * @param string
 	 * @return array
 	 */
-	public function get_type_fields($content_type){
-		$this->db->select_from('content_type_field', 'field,name,helper,type,filters,validators')->where(array(
-			'content_type' => $content_type
-		))->run();
-		
-		$fields = array();
-		
-		while($item = $this->db->fetch_assoc()){
-			$fields[$item['field']] = $item;
-		}
-		
-		return $fields;
+	public function get_category($category){
+		return $this->db->select_from('category')->where(array(
+			'category' => $category
+		))->run()->fetch_assoc();
 	}
 	
 	/**
-	 * Get types
+	 * Get categories
 	 *
 	 * @return array
 	 */
-	public function get_types(){
-		$this->db->select_from('content_type')->run();
-		
-		return $this->db->arr('content_type');
+	public function get_categories(){
+		return $this->db->select_from('category')->run()->arr();
 	}
 	
 	/**
-	 * Update
+	 * Add category
 	 *
-	 * @param integer
 	 * @param array
 	 */
-	public function update($node_id, $node){
-		if(is_array($node['content'])){
-			if(count($node['content']) == 1 AND isset($node['content']['content'])){
-				$node['content'] = $node['content']['content'];
-			}
-			else{
-				$node['content'] = serialize($node['content']);
-			}
-		}
-		
-		$this->db->update_set('node', $node)->where(array(
-			'node_id' => $node_id
+	public function add_category($data){
+		$this->db->insert_into('category', $data)->run();
+	}
+	
+	/**
+	 * Update category
+	 *
+	 * @param string
+	 * @param array
+	 */
+	public function update_category($category, $data){
+		$this->db->update_set('category', $data)->where(array(
+			'category' => $this->input->uri_segment('id')
 		))->run();
 	}
 	
 	/**
-	 * Create
+	 * Delete category
 	 *
-	 * @param array
+	 * @param string
 	 */
-	public function create($node){
-		if(is_array($node['content'])){
-			if(count($node['content']) == 1 AND isset($node['content']['content'])){
-				$node['content'] = $node['content']['content'];
-			}
-			else{
-				$node['content'] = serialize($node['content']);
-			}
-		}
-		
-		$this->db->insert_into('node', $node)->run();
+	public function delete_category($category){
+		$this->db->delete_from('category')->where(array(
+			'category' => $this->input->uri_segment('id')
+		))->run();
 	}
 }

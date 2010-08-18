@@ -15,7 +15,7 @@ class Solidadmin_Controller_Admin_Admin extends Solidocs_Controller_Action
 			'validators' => array(
 				'Strlen' => array(2, 64)
 			),
-			'helper' => array('form_text')
+			'helper' => array('form/text')
 		))->add_element('controller', array(
 			'type' => 'text',
 			'label' => 'Controller:',
@@ -23,10 +23,10 @@ class Solidadmin_Controller_Admin_Admin extends Solidocs_Controller_Action
 			'validators' => array(
 				'Strlen' => array(2, 64)
 			),
-			'helper' => array('form_text')
+			'helper' => array('form/text')
 		))->add_element('submit', array(
 			'type' => 'button',
-			'helper' => array('form_button', 'Save item')
+			'helper' => array('form/button', 'Save item')
 		));
 		
 		if($form->is_posted()){

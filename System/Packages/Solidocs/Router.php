@@ -102,12 +102,12 @@ class Solidocs_Router
 	 * @param string
 	 * @param array
 	 */
-	public function set_route($name, $route){
+	public function set_route($route_key, $route){
 		$this->route		= $route;
 		$this->package		= $route['package'];
 		$this->controller	= $route['controller'];
 		$this->action		= $route['action'];
-		$this->route_key	= $name;
+		$this->route_key	= $route_key;
 		
 		// hack to remove segments with numeric keys
 		foreach($this->segment as $key => $val){

@@ -31,7 +31,7 @@ class CLEditor_Helper_Wysiwyg extends Solidocs_Helper
 		// Add the necessary files to the theme
 		$this->theme->set_jquery(true);
 		$this->theme->add_css(PACKAGE . '/CLEditor/Media/jquery.cleditor.css');
-		$this->theme->add_js(PACKAGE . '/CLEditor/Media/jquery.cleditor.js');
+		$this->theme->add_js(PACKAGE . '/CLEditor/Media/jquery.cleditor.min.js');
 		$this->theme->add_script('
 		$(document).ready(function(){
 			cleditor("#wysiwyg", {width:' . $width . ', height:' . $height . '});

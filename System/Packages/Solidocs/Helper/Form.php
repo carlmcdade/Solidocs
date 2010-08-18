@@ -106,7 +106,7 @@ class Solidocs_Helper_Form extends Solidocs_Helper
 	 * @param bool|string	Optional.
 	 * @return string
 	 */
-	public function select($name, $value = false, $options = array()){
+	public function select($name, $value = false, $options = array(), $numeric_values = false){
 		if(is_bool($value) AND $value == true){
 			$value = $value = $this->input->post($name, false);
 		}
@@ -121,6 +121,10 @@ class Solidocs_Helper_Form extends Solidocs_Helper
 			
 			if($value == $key){
 				$selected = ' selected="selected"';
+			}
+			
+			if(!$numeric_values AND is_numeric($key)){
+				$key = $val;
 			}
 			
 			$select .= '<option value="' . $key . '"' . $selected . '>' . $val . '</option>';
@@ -147,38 +151,6 @@ class Solidocs_Helper_Form extends Solidocs_Helper
 		}
 		
 		return '<textarea name="' . $name . '" cols="' . $cols . '" rows="' . $rows . '">' . $value . '</textarea>';
-	}
-	
-	/**
-	 * WYSIWYG
-	 *
-	 * @param string
-	 * @param bool|string	Optional.
-	 * @return string
-	 */
-	public function wysiwyg($name, $value = false){
-		if(is_bool($value) AND $value == true){
-			$value = $value = $this->input->post($name, false);
-		}
-		elseif($value == false){
-			$value = '';
-		}
-		
-		$this->theme->add_js(MEDIA . '/Theme/Admin/SimpleTextEditor.js');
-		$this->theme->add_css(MEDIA . '/Theme/Admin/SimpleTextEditor.css');
-		$this->theme->add_script('
-		$(document).ready(function(){
-			var ste = new SimpleTextEditor("wysiwyg", "ste");
-			ste.path = "' . str_replace(ROOT, '', MEDIA . '/Theme/Admin/') . '";
-			ste.init();
-			
-			$("form").submit(function(){
-				ste.submit();
-			});
-		});
-		');
-		
-		return '<textarea id="wysiwyg" name="' . $name . '">' . $value . '</textarea>';
 	}
 	
 	/**
