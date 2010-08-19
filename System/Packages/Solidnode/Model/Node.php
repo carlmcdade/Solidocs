@@ -45,6 +45,49 @@ class Solidnode_Model_Node extends Solidocs_Base
 		return $this->db->arr();
 	}
 	
+	/**
+	 * Query nodes
+	 *
+	 * @param array
+	 * @return array
+	 */
+	public function query_nodes($args, $limit = null, $fields = ''){
+		$this->db->select_from('node', $fields);
+		
+		foreach($args as $key => $val){
+			switch($key){
+				case 'type':
+					$this->db->where(array('content_type' => $val));
+				break;
+			}
+		}
+		
+		if(!is_null($limit)){
+			$this->db->limit($limit);
+		}
+		
+		$this->db->run();
+		
+		$noes = array();
+		
+		if($this->db->affected_rows()){
+			while($node = $this->db->fetch_assoc()){
+				$node = (object) $node;
+				
+				if(is_serialized($node->content)){
+					$node->content = unserialize($node->content);
+					
+					foreach($node->content as $key => $val){
+						$node->$key = $val;
+					}
+				}
+				
+				$nodes[] = $node;
+			}
+		}
+		
+		return $nodes;
+	}
 	
 	/**
 	 * Update

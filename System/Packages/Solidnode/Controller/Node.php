@@ -33,4 +33,24 @@ class Solidnode_Controller_Node extends Solidocs_Controller_Action
 		$this->theme->add_title($node->title);
 		$this->load->view($node->view, $node);
 	}
+	
+	/**
+	 * Category
+	 */
+	public function do_category(){
+		$args = array(
+			'category'	=> $this->input->uri_segment('category'),
+			'locale'	=> $this->locale
+		);
+		
+		if(!$this->user->in_group('admin')){
+			$args['published'] = 1;
+		}
+		
+		$nodes = $this->model->node->query_nodes($args);
+		
+		$this->load->view('Content_Category', array(
+			'nodes' => $nodes
+		));
+	}
 }
