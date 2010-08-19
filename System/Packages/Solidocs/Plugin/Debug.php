@@ -48,6 +48,8 @@ class Solidocs_Plugin_Debug extends Solidocs_Plugin
 				'Included files'	=> count(get_included_files()),
 				'Locale'			=> $this->locale
 			),
+			'Hooks'				=> debug($this->hook, '', true),
+			'Called hooks'		=> debug($this->called_hook, '', true),
 			'Database queries'	=> debug($this->db->queries, '', true),
 			'URI segments'		=> debug($this->router->segment, '', true),
 			'Errors'			=> debug($this->error->errors, '', true),

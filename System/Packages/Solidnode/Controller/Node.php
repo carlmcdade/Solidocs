@@ -48,9 +48,11 @@ class Solidnode_Controller_Node extends Solidocs_Controller_Action
 		}
 		
 		$nodes = $this->model->node->query_nodes($args);
+		$category = $this->model->node->get_category($this->input->uri_segment('category'));
 		
 		$this->load->view('Content_Category', array(
-			'nodes' => $nodes
+			'nodes' => $nodes,
+			'category' => $category['name']
 		));
 	}
 }

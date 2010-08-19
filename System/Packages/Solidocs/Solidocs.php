@@ -33,11 +33,12 @@ class Solidocs
 				
 		// Setup registry
 		Solidocs::$registry = (object) array(
-			'locale'	=> 'en_GB',
-			'model'		=> (object) array(),
-			'helper'	=> (object) array(),
-			'plugin'	=> (object) array(),
-			'hook'		=> array()
+			'locale'		=> 'en_GB',
+			'model'			=> (object) array(),
+			'helper'		=> (object) array(),
+			'plugin'		=> (object) array(),
+			'hook'			=> array(),
+			'called_hook'	=> array()
 		);
 		
 		// Application instance
@@ -87,6 +88,8 @@ class Solidocs
 	 */
 	public static function do_action($keys, $data = null, $is_filter = false){
 		foreach(explode(',', $keys) as $key){
+			self::$registry->called_hook[] = $key;
+			
 			if(!isset(self::$registry->hook[$key])){
 				continue;
 			}
@@ -100,7 +103,10 @@ class Solidocs
 					}
 				}
 				
-				if(is_array($hook)){
+				if(get_class($hook) == 'Closure'){
+				
+				}
+				elseif(is_array($hook)){
 					if(!is_object($hook[0])){
 						$hook[0] = self::$registry->load->plugin($hook[0]);
 					}

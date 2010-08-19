@@ -24,7 +24,7 @@ class Solidnode_Model_Node extends Solidocs_Base
 			}
 		}
 		
-		return $node;
+		return Solidocs::apply_filter('node', $node);
 	}
 	
 	/**
@@ -42,7 +42,7 @@ class Solidnode_Model_Node extends Solidocs_Base
 		
 		$this->db->order('node_id')->run();
 		
-		return $this->db->arr();
+		return Solidocs::apply_filter('nodes', $this->db->arr());
 	}
 	
 	/**
@@ -58,6 +58,12 @@ class Solidnode_Model_Node extends Solidocs_Base
 			switch($key){
 				case 'type':
 					$this->db->where(array('content_type' => $val));
+				break;
+				case 'category':
+					$this->db->where(array('category' => $val));
+				break;
+				case 'locale':
+					$this->db->where(array('locale' => $val));
 				break;
 			}
 		}
@@ -86,7 +92,7 @@ class Solidnode_Model_Node extends Solidocs_Base
 			}
 		}
 		
-		return $nodes;
+		return Solidocs::apply_filter('nodes', $nodes);
 	}
 	
 	/**
