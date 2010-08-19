@@ -230,7 +230,7 @@ class Solidocs_Form extends Solidocs_Base
 			if(isset($item['label'])){
 				$output .= $this->output->helper('form/label', $item['label']);
 			}
-			
+						
 			if(isset($item['helper'])){
 				$params = $item['helper'];
 				

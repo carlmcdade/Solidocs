@@ -65,7 +65,7 @@ class Solidnode_Form_Edit extends Solidocs_Form
 		))->add_element('published', array(
 			'type' => 'bool',
 			'label' => 'Publish',
-			'helper' => array('form/select', array(0 => 'Not published', 1 => 'Published'))
+			'helper' => array('form/select', array('0' => 'Not published', '1' => 'Published'), true)
 		))->add_element('node_id', array(
 			'type' => 'integer',
 			'helper' => array('form/hidden')
