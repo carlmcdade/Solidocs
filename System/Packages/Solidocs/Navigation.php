@@ -103,8 +103,11 @@ class Solidocs_Navigation extends Solidocs_Base
 		}
 		
 		$library->set_data($this->_data($params[0]));
-		$library->set_args($params[1]);
 		$library->set_active_url($this->router->uri);
+		
+		if(isset($params[1])){
+			$library->set_args($params[1]);
+		}
 		
 		if($get){
 			return $library->render();

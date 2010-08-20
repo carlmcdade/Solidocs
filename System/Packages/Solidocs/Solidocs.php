@@ -103,7 +103,7 @@ class Solidocs
 					}
 				}
 				
-				if(get_class($hook) == 'Closure'){
+				if(is_object($hook) AND get_class($hook) == 'Closure'){
 				
 				}
 				elseif(is_array($hook)){
