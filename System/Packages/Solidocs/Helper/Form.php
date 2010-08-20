@@ -116,7 +116,7 @@ class Solidocs_Helper_Form extends Solidocs_Helper
 	 * @param bool			Optional.
 	 * @return string
 	 */
-	public function select($name, $value = false, $options = array(), $numeric_values = false, $multiple = true){
+	public function select($name, $value = false, $options = array(), $numeric_values = false, $multiple = false){
 		if(is_bool($value) AND $value == true){
 			$value = $this->input->post(trim($name, '[]'), false);
 		}

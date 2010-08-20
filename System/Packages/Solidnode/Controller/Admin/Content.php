@@ -65,6 +65,19 @@ class Solidnode_Controller_Admin_Content extends Solidocs_Controller_Action
 					$this->model->node->create($values);
 				}
 				else{
+					foreach($form->elements as $element_key => $element){
+						if($element['type'] == 'array'){
+							$element_key = trim(str_replace('content[', '', $element_key), ']');
+							
+							foreach($values['content'][$element_key] as $key => $val){
+								if(empty($val)){
+									unset($values['content'][$element_key][$key]);
+								}
+							}
+						}
+					}
+					
+					$form->set_values($values);
 					$this->model->node->update($values['node_id'], $values);
 				}
 			}
