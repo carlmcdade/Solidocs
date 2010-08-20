@@ -32,6 +32,7 @@ define('SYS',		ROOT.	'/System');
 define('APP',		SYS.	'/Application');
 define('PACKAGE',	SYS.	'/Packages');
 define('MEDIA',		SYS.	'/Media');
+define('UPLOAD',	SYS.	'/Upload');
 
 /**
  * Include Solidocs

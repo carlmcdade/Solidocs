@@ -170,7 +170,12 @@ class Solidocs_Output extends Solidocs_Base
 	 * @param string
 	 * @param string	Optional.
 	 */
-	public function add_message($type, $headline, $text = ''){
+	public function add_message($type, $headline = '', $text = ''){
+		if(empty($headline)){
+			$headline = $type;
+			$type = 'info';
+		}
+		
 		$this->messages[] = array(
 			'type' 		=> $type,
 			'headline'	=> $headline,
@@ -320,8 +325,16 @@ class Solidocs_Output extends Solidocs_Base
 				$output .= '
 					<div class="message ' . $message['type'] . '">
 						<span>' . $message['headline'] . '</span>
-						<p>' . $message['text'] . '</p>
-					</div>
+				';
+				
+				if(!empty($message['text'])){
+					$output .= '
+					<p>' . $message['text'] . '</p>
+					';
+				}
+						
+				$output .= '
+				</div>
 				';
 			}
 		}

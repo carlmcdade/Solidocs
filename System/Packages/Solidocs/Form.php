@@ -37,6 +37,11 @@ class Solidocs_Form extends Solidocs_Base
 	public $values = array();
 	
 	/**
+	 * Data form
+	 */
+	public $data_form = false;
+	
+	/**
 	 * To string
 	 *
 	 * @return string
@@ -70,6 +75,13 @@ class Solidocs_Form extends Solidocs_Base
 	 */
 	public function set_method($method){
 		$this->method = $method;
+	}
+	
+	/**
+	 * Set data form
+	 */
+	public function set_data_form($data_form){
+		$this->data_form = $data_form;
 	}
 	
 	/**
@@ -224,7 +236,7 @@ class Solidocs_Form extends Solidocs_Base
 	 * @return string
 	 */
 	public function render(){
-		$output = $this->output->helper('form/starttag', array($this->action, $this->method, $this->name));
+		$output = $this->output->helper('form/starttag', array($this->action, $this->method, $this->name, $this->data_form));
 		
 		foreach($this->elements as $name => $item){
 			if(isset($item['label'])){

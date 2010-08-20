@@ -42,10 +42,11 @@ class Solidnode_Controller_Admin_Type extends Solidocs_Controller_Action
 		}
 		
 		$types = array(
-			''			=> '-',
+			'-'			=> '-',
 			'text'		=> 'Text',
 			'integer'	=> 'Integer',
-			'array'		=> 'Array'
+			'array'		=> 'Array',
+			'file'		=> 'File'
 		);
 		
 		if(isset($_POST['new_field'])){

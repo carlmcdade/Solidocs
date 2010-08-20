@@ -12,6 +12,33 @@
 class Solidocs_Input
 {
 	/**
+	 * Constructor
+	 */
+	public function __construct(){
+		// Fix multidimensional $_FILES and remove empty files
+		if(count($_FILES) !== 0){
+			$files = array();
+			
+			foreach($_FILES as $parent_key => $items){
+				foreach($items as $item => $val){
+					if(is_array($val)){
+						foreach($val as $sub_key => $sub_val){
+							if(!empty($_FILES[$parent_key]['name'][$sub_key])){
+								$files[$parent_key][$sub_key][$item] = $sub_val;	
+							}
+						}
+					}
+					else{
+						$files[$parent_key] = $val;
+					}
+				}
+			}
+			
+			$_FILES = $files;
+		}
+	}
+	
+	/**
 	 * Has
 	 *
 	 * @param array
@@ -101,6 +128,20 @@ class Solidocs_Input
 	}
 	
 	/**
+	 * Has file
+	 *
+	 * @param string	Optional.
+	 * @return bool
+	 */
+	public function has_file($key = ''){
+		if(empty($key)){
+			return (count($_FILES) !== 1);
+		}
+		
+		return $this->_has($_FILES, $key);
+	}
+	
+	/**
 	 * Has uri segment
 	 *
 	 * @param string
@@ -152,6 +193,17 @@ class Solidocs_Input
 	 */
 	public function request($key, $default = null){
 		return $this->_get($_REQUEST, $key, $default);
+	}
+	
+	/**
+	 * File
+	 *
+	 * @param string
+	 * @param mixed		Optional.
+	 * @return array|bool
+	 */
+	public function file($key, $default = null){
+		return $this->_get($_FILES, $key, $default);
 	}
 	
 	/**

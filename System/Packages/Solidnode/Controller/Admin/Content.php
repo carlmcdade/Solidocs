@@ -75,6 +75,27 @@ class Solidnode_Controller_Admin_Content extends Solidocs_Controller_Action
 								}
 							}
 						}
+						elseif($element['type'] == 'file'){
+							if($this->input->has_file($element_key)){
+								$file = $this->input->file($element_key);
+								$destination = UPLOAD . '/' . date('Y') . '/' . date('m') . '/' . date('d') . '/';
+								
+								$this->load->library('File');
+								
+								if(!file_exists($destination)){
+									$this->file->mkdir($destination);
+								}
+								
+								$destination .= $file['name'];
+								
+								if($this->file->upload_file($file['tmp_name'], $destination)){
+									$values['content'][trim(str_replace('content[', '', $element_key), ']')] = str_replace(ROOT, '', $destination);
+								}
+								else{
+									$this->output->add_message('There was a problem uploading the file.');
+								}
+							}
+						}
 					}
 					
 					$form->set_values($values);

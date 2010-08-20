@@ -84,4 +84,18 @@ class Solidocs_File
 	public function chmod($file, $mode){
 		chmod($file, $mode);
 	}
+	
+	/**
+	 * Upload file
+	 *
+	 * @param string
+	 * @param string
+	 */
+	public function upload_file($tmp_name, $destination){
+		if(move_uploaded_file($tmp_name, $destination)){
+			return true;
+		}
+		
+		return false;
+	}
 }

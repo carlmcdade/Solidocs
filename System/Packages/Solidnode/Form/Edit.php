@@ -7,6 +7,7 @@ class Solidnode_Form_Edit extends Solidocs_Form
 	public function init($content_type){
 		$this->set_action($this->router->request_uri);
 		$this->set_method('post');
+		$this->set_data_form(true);
 		
 		if(count($this->i18n->locales) == 0){
 			$locales[$this->i18n->default_locale] = $this->i18n->default_locale;
@@ -65,7 +66,7 @@ class Solidnode_Form_Edit extends Solidocs_Form
 		))->add_element('published', array(
 			'type' => 'bool',
 			'label' => 'Publish',
-			'helper' => array('form/select', array('0' => 'Not published', '1' => 'Published'), true)
+			'helper' => array('form/select', array(0 => 'Not published', 1 => 'Published'), true)
 		))->add_element('node_id', array(
 			'type' => 'integer',
 			'helper' => array('form/hidden')

@@ -14,12 +14,23 @@ class Solidocs_Helper_Form extends Solidocs_Helper
 	/**
 	 * Starttag
 	 *
-	 * @param string	$action	Optional.
-	 * @param string	$method	Optional.
-	 * @param string	$name	Optional.
+	 * @param string	Optional.
+	 * @param string	Optional.
+	 * @param string	Optional.
+	 * @param bool		
 	 */
-	public function starttag($action = '#', $method = 'post', $name = ''){
-		return '<form action="' . $action . '" method="' . $method . '" name="' . $name . '">';
+	public function starttag($action = '#', $method = 'post', $name = '', $data = false){
+		$output = '<form action="' . $action . '" method="' . $method . '"';
+		
+		if(!empty($name)){
+			$output .= ' name="' . $name . '"';
+		}
+		
+		if($data == true){
+			$output .= ' enctype="multipart/form-data"';
+		}
+		
+		return $output . '>';
 	}
 	
 	/**
@@ -59,11 +70,14 @@ class Solidocs_Helper_Form extends Solidocs_Helper
 		if(is_bool($value) AND $value == true){
 			$value = $value = $this->input->post($name, false);
 		}
-		elseif($value == false){
-			$value = '';
+		
+		$output = '<input type="' . $type . '" name="' . $name . '"';
+		
+		if($value !== false){
+			$output .= ' value="' . $value . '"';
 		}
 		
-		return '<input type="' . $type . '" name="' . $name . '" value="' . $value . '" />';
+		return $output .= ' />';
 	}
 	
 	/**
