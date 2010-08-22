@@ -1,16 +1,16 @@
 <?php
+/**
+ * Autoload Plugin
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @package		Dynamic
+ * @author		Karl Roos <karlroos93@gmail.com>
+ * @license		MIT License (http://www.opensource.org/licenses/mit-license.p
+ */
 class Dynamic_Plugin_Autoload extends Solidocs_Plugin
 {
-	/**
-	 * Name
-	 */
-	public static $name = 'Autoload';
-	
-	/**
-	 * Description
-	 */
-	public static $description = 'Autoloads plugins, config and ACL from the database.';
-	
 	/**
 	 * Init
 	 */

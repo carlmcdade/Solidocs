@@ -1,4 +1,14 @@
 <?php
+/**
+ * Node Model
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @package		Node
+ * @author		Karl Roos <karlroos93@gmail.com>
+ * @license		MIT License (http://www.opensource.org/licenses/mit-license.p
+ */
 class Node_Model_Node extends Solidocs_Base
 {
 	/**

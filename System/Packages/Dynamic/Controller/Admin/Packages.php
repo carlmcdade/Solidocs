@@ -1,4 +1,14 @@
 <?php
+/**
+ * Package Management Controller
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @package		Dynamic
+ * @author		Karl Roos <karlroos93@gmail.com>
+ * @license		MIT License (http://www.opensource.org/licenses/mit-license.p
+ */
 class Dynamic_Controller_Admin_Packages extends Solidocs_Controller_Action
 {
 	/**
@@ -16,7 +26,8 @@ class Dynamic_Controller_Admin_Packages extends Solidocs_Controller_Action
 		
 		foreach($this->file->dir(PACKAGE) as $package){
 			if($this->config->file_exists(PACKAGE . '/' . $package . '/Package')){
-				$packages[$package] = $this->config->load_file(PACKAGE . '/' . $package . '/Package', true);
+				$package_ini = $this->config->load_file(PACKAGE . '/' . $package . '/Package', true);
+				$packages[$package] = $package_ini['Package'];
 			}
 			else{
 				$packages[$package] = array(

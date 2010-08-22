@@ -1,4 +1,14 @@
 <?php
+/**
+ * Plugins Management Controller
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @package		Dynamic
+ * @author		Karl Roos <karlroos93@gmail.com>
+ * @license		MIT License (http://www.opensource.org/licenses/mit-license.p
+ */
 class Dynamic_Controller_Admin_Plugins extends Solidocs_Controller_Action
 {
 	/**
@@ -7,40 +17,42 @@ class Dynamic_Controller_Admin_Plugins extends Solidocs_Controller_Action
 	public function do_index(){
 		$this->load->library('File');
 		
-		$db_plugins = $this->db->select_from('plugin')->run()->arr('class');
-		
-		$plugins = array();
+		$db_plugins	= $this->db->select_from('plugin')->run()->arr('class');
+		$plugins	= array();
 		
 		foreach($this->file->dir(PACKAGE) as $package){
-			if(file_exists(PACKAGE . '/' . $package . '/Plugin')){
-				foreach($this->file->dir(PACKAGE . '/' . $package . '/Plugin') as $plugin){
-					include(PACKAGE . '/' . $package . '/Plugin');
-					$class = $package . '_Plugin_' . trim($plugin, '.php');
-					$from_config = false;
-					
-					if(!isset($db_plugins[$class])){
-						$this->db->insert_into('plugin', array(
-							'class' => $class,
-							'autoload' => false
-						))->run();
+			if($this->config->file_exists(PACKAGE . '/' . $package . '/Package')){
+				$package_ini	= $this->config->load_file(PACKAGE . '/' . $package . '/Package', true);
+				$from_config	= false;
+				
+				if(isset($package_ini['Plugin'])){
+					foreach($package_ini['Plugin'] as $key => $val){
+						$class = $package . '_Plugin_' . $key;
 						
-						$autoload = false;
+						if(!isset($db_plugins[$class])){
+							$this->db->insert_into('plugin', array(
+								'class' => $class,
+								'autoload' => false
+							))->run();
+							
+							$autoload = false;
+						}
+						else{
+							$autoload = $db_plugins[$class]['autoload'];
+						}
+						
+						if(in_array($class, $this->config->get('Autoload.plugins'))){
+							$from_config = true;
+						}
+						
+						$plugins[$class] = array(
+							'package'		=> $package,
+							'name'			=> $val['name'],
+							'description'	=> $val['description'],
+							'autoload'		=> $autoload,
+							'from_config'	=> $from_config
+						);
 					}
-					else{
-						$autoload = $db_plugins[$class]['autoload'];
-					}
-					
-					if(in_array($class, $this->config->get('Autoload.plugins'))){
-						$from_config = true;
-					}
-					
-					$plugins[$class] = array(
-						'package' => $package,
-						'name' => $class::$name,
-						'description' => $class::$description,
-						'autoload' => $autoload,
-						'from_config' => $from_config
-					);
 				}
 			}
 		}
