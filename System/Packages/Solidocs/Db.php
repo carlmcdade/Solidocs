@@ -89,10 +89,25 @@ class Solidocs_Db
 	/**
 	 * Connect
 	 *
+	 * @param string	Optional.
+	 * @param string	Optional.
+	 * @param string	Optional.
 	 * @return bool
 	 */
-	public function connect(){
-		$this->link = mysql_connect($this->server, $this->user, $this->password);
+	public function connect($server = '', $user = '', $password = ''){
+		if(empty($server)){
+			$server = $this->server;
+		}
+		
+		if(empty($user)){
+			$user = $this->user;
+		}
+		
+		if(empty($password)){
+			$password = $this->password;
+		}
+		
+		$this->link = mysql_connect($server, $user, $password);
 		
 		if(!is_resource($this->link)){
 			throw new Exception(mysql_error());
@@ -102,10 +117,15 @@ class Solidocs_Db
 	/**
 	 * Select db
 	 *
+	 * @param string
 	 * @return bool
 	 */
-	public function select_db(){
-		if(!mysql_select_db($this->database, $this->link)){
+	public function select_db($database){
+		if(empty($database)){
+			$database = $this->database;
+		}
+		
+		if(!mysql_select_db($database, $this->link)){
 			throw new Exception(mysql_error());
 		}
 	}
