@@ -96,7 +96,7 @@ class Solidocs_Helper_Form extends Solidocs_Helper
 	 *
 	 * @param string
 	 */
-	public function file($name){
+	public function file($name, $value = ''){
 		return $this->input($name, false, 'file');
 	}
 	

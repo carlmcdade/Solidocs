@@ -189,9 +189,10 @@ class Solidocs_Load extends Solidocs_Base
 	 * Plugin
 	 *
 	 * @param string
+	 * @param array		Optional.
 	 * @return object
 	 */
-	public function plugin($class){
+	public function plugin($class, $config = array()){
 		$search = $this->search($class);
 		
 		if(is_array($search)){
@@ -203,7 +204,13 @@ class Solidocs_Load extends Solidocs_Base
 				include_once($search['path']);
 			}
 			
-			Solidocs::$registry->plugin->$search['slug'] = new $search['class'];
+			$_config = $this->config->get($class);
+			
+			if(is_array($_config)){
+				$config = array_merge($_config, $config);
+			}
+			
+			Solidocs::$registry->plugin->$search['slug'] = new $search['class']($config);
 			
 			return Solidocs::$registry->plugin->$search['slug'];
 		}

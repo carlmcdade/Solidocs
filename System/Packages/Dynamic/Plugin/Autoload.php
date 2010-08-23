@@ -12,12 +12,35 @@
 class Dynamic_Plugin_Autoload extends Solidocs_Plugin
 {
 	/**
+	 * Load config
+	 */
+	public $load_config = true;
+	
+	/** 
+	 * Load plugins
+	 */
+	public $load_plugins = true;
+	
+	/**
+	 * Load acl
+	 */
+	public $load_acl = true;
+	
+	/**
 	 * Init
 	 */
 	public function init(){
-		Solidocs::add_action('post_libraries', array($this, 'init_config'));
-		Solidocs::add_action('post_libraries', array($this, 'init_plugins'));
-		Solidocs::add_action('post_libraries', array($this, 'init_acl'));
+		if($this->load_config){
+			Solidocs::add_action('post_libraries', array($this, 'init_config'));
+		}
+		
+		if($this->load_plugins){
+			Solidocs::add_action('post_libraries', array($this, 'init_plugins'));
+		}
+		
+		if($this->load_acl){
+			Solidocs::add_action('post_libraries', array($this, 'init_acl'));
+		}
 	}
 	
 	/**
