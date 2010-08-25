@@ -15,7 +15,7 @@ class Admin_Controller_Admin_Navigation extends Solidocs_Controller_Action
 	 * Init
 	 */
 	public function init(){
-		$this->theme->add_css(PACKAGE . '/Solidadmin/Media/navigation.css');
+		$this->theme->add_css(PACKAGE . '/Admin/Media/navigation.css');
 	}
 	
 	/**
