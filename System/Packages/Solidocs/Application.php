@@ -141,6 +141,7 @@ class Solidocs_Application extends Solidocs_Base
 	 * Execute
 	 */
 	public function execute(){
+		// Route, set output type and dispatch
 		$this->router->route();
 		$this->output->set_type($this->router->output_type);
 		$this->dispatch($this->router->package, $this->router->controller, $this->router->action);
@@ -161,10 +162,12 @@ class Solidocs_Application extends Solidocs_Base
 	 * @param string	Optional.
 	 */
 	public function dispatch($package, $controller, $action = 'index'){
+		// Load package if the package isn't "application"
 		if(strtolower($package) !== 'application'){
 			$this->load->package($package);
 		}
 		
+		// Load controller and dispatch
 		$this->controller = $this->load->controller($controller, $package);
 		$this->controller->dispatch_action($action);
 	}
@@ -180,11 +183,11 @@ class Solidocs_Application extends Solidocs_Base
 			$this->dispatch('Application', 'Error', '404');
 		}
 		else{
-			$this->dispatch('Application', 'Error', '500');
-			
 			if(APPLICATION_ENV == 'development'){
 				die('<pre>' . $e . '</pre>');
 			}
+			
+			$this->dispatch('Application', 'Error', '500');
 		}
 	}
 }

@@ -47,6 +47,19 @@ class Solidocs_Output extends Solidocs_Base
 	public $messages = array();
 	
 	/**
+	 * Init
+	 */
+	public function init(){
+		if(isset($this->session->messages)){
+			foreach($this->session->messages as $message){
+				$this->add_message($message['type'], $message['headline'], $message['text']);
+			}
+		}
+		
+		unset($this->session->messages);
+	}
+	
+	/**
 	 * Call magic method
 	 *
 	 * @param string
@@ -164,10 +177,38 @@ class Solidocs_Output extends Solidocs_Base
 	}
 	
 	/**
+	 * Add flash message
+	 *
+	 * @param string
+	 * @param string	Optional.
+	 * @param string	Optional.
+	 */
+	public function add_flash_message($type, $headline = '', $text = ''){
+		if(empty($headline)){
+			$headline = $type;
+			$type = 'info';
+		}
+		
+		if(!isset($this->session->messages)){
+			$this->session->messages = array();
+		}
+		
+		$messages = (array) $this->session->messages;
+		
+		$messages[] = array(
+			'type' 		=> $type,
+			'headline'	=> $headline,
+			'text'		=> $text
+		);
+		
+		$this->session->messages = $messages;
+	}
+	
+	/**
 	 * Add message
 	 *
 	 * @param string
-	 * @param string
+	 * @param string	Optional.
 	 * @param string	Optional.
 	 */
 	public function add_message($type, $headline = '', $text = ''){

@@ -16,7 +16,7 @@ class Solidocs_Session
 	 */
 	public function __construct(){
 		foreach($_SESSION as $key => $val){
-			if(!is_string($val)){
+			if(!is_array($val) AND !is_string($val)){
 				$val = (object) $val;
 			}
 			
@@ -34,6 +34,12 @@ class Solidocs_Session
 			}
 			
 			$_SESSION[$key] = $val;
+		}
+		
+		foreach($_SESSION as $key => $val){
+			if(!isset($this->{$key})){
+				unset($_SESSION[$key]);
+			}
 		}
 	}
 	

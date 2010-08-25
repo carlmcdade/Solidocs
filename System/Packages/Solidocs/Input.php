@@ -28,9 +28,10 @@ class Solidocs_Input
 							}
 						}
 					}
-					else{
-						$files[$parent_key] = $val;
-					}
+				}
+				
+				if(!isset($files[$parent_key])){
+					$files[$parent_key] = $items;
 				}
 			}
 			

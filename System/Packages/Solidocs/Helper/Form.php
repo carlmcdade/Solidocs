@@ -152,7 +152,7 @@ class Solidocs_Helper_Form extends Solidocs_Helper
 				$selected = ' selected="selected"';
 			}
 			
-			if(!$numeric_values AND is_numeric($key)){
+			if($numeric_values == true AND is_numeric($key)){
 				$key = $val;
 			}
 			

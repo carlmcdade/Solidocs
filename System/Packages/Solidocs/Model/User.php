@@ -23,8 +23,8 @@ class Solidocs_Model_User extends Solidocs_Base
 		if(isset($this->session->user)){
 			$this->user	= &$this->session->user;
 			
-			if(!is_array($this->user->group)){
-				$this->user->group = explode(',', $this->user->group);
+			if(!is_array($this->user['group'])){
+				$this->user['group'] = explode(',', $this->user['group']);
 			}
 		}
 	}
@@ -82,6 +82,6 @@ class Solidocs_Model_User extends Solidocs_Base
 			return false;
 		}
 		
-		return in_array($group, $this->user->group);
+		return in_array($group, $this->user['group']);
 	}
 }
