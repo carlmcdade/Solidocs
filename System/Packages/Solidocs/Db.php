@@ -120,7 +120,7 @@ class Solidocs_Db
 	 * @param string
 	 * @return bool
 	 */
-	public function select_db($database){
+	public function select_db($database = ''){
 		if(empty($database)){
 			$database = $this->database;
 		}

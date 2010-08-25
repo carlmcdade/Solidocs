@@ -16,6 +16,9 @@
 		<label>Length (s)</label>
 		<?php echo $this->form()->text('length');?>
 		
+		<label>Caption</label>
+		<?php echo $this->form()->text('caption');?>
+		
 		<label>Save</label>
 		<?php echo $this->form()->button('Save');?>
 		

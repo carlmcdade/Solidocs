@@ -47,8 +47,7 @@ function parse_args($defaults, $args){
  * @param double
  * @return float
  */
-function microtime_since($start)
-{
+function microtime_since($start){
 	$start	= explode(' ',$start);
 	$stop	= explode(' ',microtime());
 	
@@ -61,8 +60,7 @@ function microtime_since($start)
  * @param mixed
  * @return boolean 
  */
-function is_serialized($string)
-{
+function is_serialized($string){
 	$string = trim($string);
 	
 	if(!is_array($string) AND !empty($string) AND preg_match('/^(i|s|a|o|d)(.*);/si', $string)){
