@@ -16,6 +16,8 @@ class Media_Controller_Admin_Media extends Solidocs_Controller_Action
 	 */
 	public function init(){
 		$this->load->model('Media');
+		
+		$this->theme->add_title('Media');
 	}
 	
 	/**
@@ -42,15 +44,32 @@ class Media_Controller_Admin_Media extends Solidocs_Controller_Action
 			    $this->file->mkdir($destination);
 			}
 			
-			$destination .= $file['name'];
+			$destination	.= $file['name'];
+			$type			= explode('/', $file['type']);
+			$type			= $type[0];
+			$width			= $this->input->post('width');
+			$height			= $this->input->post('height');
 			
 			$this->file->upload_file($file['tmp_name'], $destination);
 			
+			
+			if($type == 'image'){
+				$this->load->library('Image');
+				
+				$this->image->create_file($destination);
+				
+				$width	= $this->image->get_width();
+				$height = $this->image->get_height();
+				
+				$this->image->clean();
+			}
+			
 			$this->model->media->add_media(array(
 				'path' 		=> str_replace(ROOT, '', $destination),
-				'type'		=> 'image',
-				'height'	=> $this->input->post('height'),
-				'width'		=> $this->input->post('width'),
+				'type'		=> $type,
+				'mime'		=> $file['type'],
+				'height'	=> $height,
+				'width'		=> $width,
 				'length'	=> $this->input->post('length'),
 				'time'		=> time()
 			));

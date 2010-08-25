@@ -57,14 +57,19 @@ class Solidocs_Theme extends Solidocs_Base
 	public $title_parts = array();
 	
 	/**
-	 * Title separator
+	 * Title default
 	 */
-	public $title_separator = ' - ';
+	public $title_default = '';
 	
 	/**
-	 * Title base after
+	 * Title separator
 	 */
-	public $title_base_after = false;
+	public $title_separator;
+	
+	/**
+	 * Title reverse
+	 */
+	public $title_reverse = true;
 	
 	/**
 	 * Head jquery
@@ -268,33 +273,39 @@ class Solidocs_Theme extends Solidocs_Base
 	 * @param bool			Optional.
 	 * @return string
 	 */
-	public function title($title_base = null, $title_parts = null, $title_separator = ' - ', $title_base_after = false){
-		if($this->title_base !== null){
+	public function title($title_base = null, $title_parts = null, $title_default = '', $title_separator = ' - ', $title_reverse = null){
+		if($title_base == null){
 			$title_base = $this->title_base;
 		}
 		
-		if(count($this->title_parts) !== 0){
+		if($this->title_separator !== null){
+			$title_separator = $this->title_separator;
+		}
+		
+		if($title_parts == null){
 			$title_parts = $this->title_parts;
 		}
 		
-		if(!is_array($title_parts)){
-			if(!empty($title_parts)){
-				$title_parts = array($title_parts);
+		if(count($title_parts) == 0){
+			if($this->title_default !== ''){
+				$title_default = $this->title_default;
 			}
-			else{
-				$title_parts = array();
+			
+			if(strlen($title_default) !== 0){
+				$title_parts[] = $title_default;
 			}
 		}
 		
-		if($this->title_separator == null){
-			$title_separator = $this->title_separator;
-		}		
-		
-		if($this->title_base_after == false AND $title_base_after == false){
+		if(!empty($title_base)){
 			array_unshift($title_parts, $title_base);
 		}
-		else{
-			$title_parts[] = $title_base;
+		
+		if($title_reverse == null){
+			$title_reverse = $this->title_reverse;
+		}
+		
+		if($title_reverse){
+			$title_parts = array_reverse($title_parts);
 		}
 		
 		return implode($title_separator, $title_parts);		
@@ -415,7 +426,7 @@ class Solidocs_Theme extends Solidocs_Base
 		foreach($args as $item => $flag){
 			if($flag == true){
 				if($item == 'title'){
-					$output .= $this->title();
+					$output .= '<title>' . $this->title() . '</title>';
 					continue;
 				}
 				

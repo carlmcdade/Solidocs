@@ -3,13 +3,10 @@
 <head>
 
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title><?php echo $this->title('Solidocs', 'PHP Framework', ' | ', true);?></title>
 	<?php
 	$this->add_css(THEME . '/style.css');
 	
-	echo $this->head(array(
-		'title' => false
-	));
+	echo $this->head();
 	?>
 	
 </head>

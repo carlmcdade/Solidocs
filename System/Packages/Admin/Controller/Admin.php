@@ -22,7 +22,9 @@ class Admin_Controller_Admin extends Solidocs_Controller_Action
 				
 		if($this->acl->has_access($this, 'init')){
 			$this->load->model('Admin');
-			$this->theme->set_theme('Admin');	
+			$this->theme->set_theme('Admin');
+			
+			$this->theme->add_title('Admin');
 		}
 		else{
 			$this->output->add_flash_message('error', 'Please sign in to access this page.');
