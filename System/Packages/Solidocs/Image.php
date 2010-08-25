@@ -139,9 +139,21 @@ class Solidocs_Image
 	 * @param integer
 	 */
 	public function resize($width, $height){
+		$this->crop(0, 0, $width, $height);
+	}
+	
+	/**
+	 * Crop
+	 *
+	 * @param integer
+	 * @param integer
+	 * @param integer
+	 * @param integer
+	 */
+	public function crop($x, $y, $width, $height){
 		$tmp_canvas = imagecreatetruecolor($width, $height);
 		
-		imagecopyresampled($tmp_canvas, $this->image_canvas, 0, 0, 0, 0, $width, $height, $this->width, $this->height);
+		imagecopyresampled($tmp_canvas, $this->image_canvas, 0, 0, $x, $y, $width, $height, $this->width, $this->height);
 		
 		$this->image_canvas	= $tmp_canvas;
 		$this->width		= $width;
