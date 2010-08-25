@@ -22,13 +22,18 @@ class Application_Controller_User extends Solidocs_Controller_Action
 			
 			$this->load->library('Auth');	
 			
-			if($form->is_valid() AND $this->auth->auth('default', $form->get_values())){
+			if($form->is_valid()){
+				$this->auth->auth('default', $form->get_values());
+				
 				if($this->auth->is_authed()){
 					$this->redirect($this->input->get('redirect', '/'));
 				}
+				else{
+					$this->output->add_message('error', 'Your credentials were not accepted - please try again', 'Either your e-mail or password were wrong.');
+				}
 			}
 			else{
-				$this->output->add_message('error', 'Your credentials were not accepted - please try again', 'Either your e-mail or password were wrong.');
+				$this->output->add_message('error', 'Your password must be at least 6 letters.');
 			}
 		}
 		
