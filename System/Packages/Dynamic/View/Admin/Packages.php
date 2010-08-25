@@ -6,7 +6,7 @@
 		
 		<tr>
 			<th>Name</th>
-			<th>Description</th>
+			<th width="200">Description</th>
 			<th>Version</th>
 			<th>URL</th>
 			<th>Actions</th>
@@ -23,9 +23,11 @@
 			<td><?php echo $package['version'];?></td>
 			<td><a href="<?php echo $package['url'];?>"><?php echo $package['url'];?></a></td>
 			<td>
+				<?php if($package['package_model']):?>
 				<a href="/admin/packages/install/<?php echo $folder;?>">Install</a> | 
 				<a href="/admin/packages/uninstall/<?php echo $folder;?>">Uninstall</a> |
 				<a href="/admin/packages/reinstall/<?php echo $folder;?>">Reinstall</a>
+				<?php endif;?>
 			</td>
 		</tr>
 		<?php endforeach;?>

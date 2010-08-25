@@ -25,16 +25,24 @@ class Dynamic_Controller_Admin_Packages extends Solidocs_Controller_Action
 		$packages = array();
 		
 		foreach($this->file->dir(PACKAGE) as $package){
+			$package_model = false;
+			
+			if(file_exists(PACKAGE . '/' . $package . '/Model/Package.php')){
+				$package_model = true;
+			}
+			
 			if($this->config->file_exists(PACKAGE . '/' . $package . '/Package')){
 				$package_ini = $this->config->load_file(PACKAGE . '/' . $package . '/Package', true);
 				$packages[$package] = $package_ini['Package'];
+				$packages[$package]['package_model'] = $package_model;
 			}
 			else{
 				$packages[$package] = array(
-					'name' => $package,
-					'version' => 0,
-					'url' => '',
-					'description' => ''
+					'name'			=> $package,
+					'version'		=> 0,
+					'url'			=> '',
+					'description'	=> '',
+					'package_model'	=> $package_model
 				);
 			}
 		}

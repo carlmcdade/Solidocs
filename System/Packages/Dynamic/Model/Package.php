@@ -48,7 +48,7 @@ class Dynamic_Model_Package extends Solidocs_Base
 		// Default plugin
 		$this->db->insert_into('plugin', array(
 			'class' => 'Solidocs_Plugin_Debug',
-			'autoload' => true
+			'autoload' => false
 		))->run();
 	}
 	
@@ -56,8 +56,8 @@ class Dynamic_Model_Package extends Solidocs_Base
 	 * Uninstall
 	 */
 	public function uninstall(){
-		$this->db->sql('DROP TABLE `plugin`')->run();
-		$this->db->sql('DROP TABLE `config`')->run();
-		$this->db->sql('DROP TABLE `acl`')->run();
+		$this->db->sql('DROP TABLE IF EXISTS `plugin`')->run();
+		$this->db->sql('DROP TABLE IF EXISTS `config`')->run();
+		$this->db->sql('DROP TABLE IF EXISTS `acl`')->run();
 	}
 }
