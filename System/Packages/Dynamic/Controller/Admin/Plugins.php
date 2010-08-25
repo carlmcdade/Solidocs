@@ -20,6 +20,10 @@ class Dynamic_Controller_Admin_Plugins extends Solidocs_Controller_Action
 		$db_plugins	= $this->db->select_from('plugin')->run()->arr('class');
 		$plugins	= array();
 		
+		if(!in_array('Dynamic_Plugin_Autoload', $this->config->get('Autoload.plugins'))){
+			$this->output->add_message('info', 'Plugins are not activated', 'The "Dynamic_Plugin_Autoload" has not yet been activated from your Application.ini, therefore no dynamic plugins will work.');
+		}
+		
 		foreach($this->file->dir(PACKAGE) as $package){
 			if($this->config->file_exists(PACKAGE . '/' . $package . '/Package')){
 				$package_ini	= $this->config->load_file(PACKAGE . '/' . $package . '/Package', true);
