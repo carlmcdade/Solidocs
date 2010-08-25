@@ -24,6 +24,7 @@ class Application_Controller_Install extends Solidocs_Controller_Action
 	public function do_index(){
 		if($this->input->has_get('install')){
 			$packages = array(
+				'Admin',
 				'Dynamic'
 			);
 			
