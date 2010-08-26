@@ -21,24 +21,31 @@ class Solidocs_Application extends Solidocs_Base
 	 */
 	public function init(){
 		try{
-			// Setup core and plugins
+			// Setup core, plugins and router
 			$this->setup_core();
 			$this->setup_plugins();
+			$this->setup_router();
 			
 			// Setup libraries
 			Solidocs::do_action('pre_libraries');
 			$this->setup_libraries();
 			Solidocs::do_action('post_libraries');
 			
-			// Configure
-			Solidocs::do_action('pre_config');
-			$this->setup_configure();
-			Solidocs::do_action('post_config,post_setup');
-			
-			// Execute
-			Solidocs::do_action('pre_execute');
-			$this->execute();
-			Solidocs::do_action('post_execute');
+			// Check in cache
+			if($this->cache->exists($this->router->request_uri)){
+				$this->render($this->cache->get($this->router->request_uri));
+			}
+			else{
+				// Configure
+				Solidocs::do_action('pre_config');
+				$this->setup_configure();
+				Solidocs::do_action('post_config,post_setup');
+				
+				// Execute
+				Solidocs::do_action('pre_execute');
+				$this->execute();
+				Solidocs::do_action('post_execute');
+			}
 		}
 		catch(Exception $e){
 			$this->dispatch_exception($e);
@@ -105,6 +112,13 @@ class Solidocs_Application extends Solidocs_Base
 	}
 	
 	/**
+	 * Setup router
+	 */
+	public function setup_router(){
+		$this->load->library('Router');
+	}
+	
+	/**
 	 * Setup libraries
 	 */
 	public function setup_libraries(){
@@ -150,8 +164,19 @@ class Solidocs_Application extends Solidocs_Base
 	/**
 	 * Render
 	 */
-	public function render(){
-		echo Solidocs::apply_filter('render', $this->output->render());
+	public function render($output = ''){
+		// Retrieve output if it wasn't given
+		if(empty($output)){
+			$output = $this->output->render();
+			
+			// Cache output
+			if($this->cache->cache_page()){
+				$this->cache->store($this->router->request_uri, $output);		
+			}
+		}
+		
+		// Display and apply filter
+		echo Solidocs::apply_filter('render', $output);
 	}
 	
 	/**
