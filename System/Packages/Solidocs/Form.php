@@ -108,7 +108,12 @@ class Solidocs_Form extends Solidocs_Base
 	 * @return bool
 	 */
 	public function is_posted(){
-		return ($this->input->has_request());
+		if($this->method == 'post'){
+			return $this->input->has_post();
+		}
+		else{
+			return $this->input->has_get();
+		}
 	}
 	
 	/**
