@@ -304,6 +304,7 @@ class Solidocs_Output extends Solidocs_Base
 	 * Render
 	 */
 	public function render(){
+		// Prepare for each type
 		switch($this->get_type()){
 			case 'html':
 				$this->set_header('Content-type: text/html; charset=utf-8');
@@ -325,17 +326,25 @@ class Solidocs_Output extends Solidocs_Base
 			break;
 		}
 		
+		// Check for headers
 		if(headers_sent()){
 			throw new Exception('Headers have already been sent');
 		}
 		else{
+			// Set headers
 			foreach($this->get_headers() as $header){
 				header($header);
 			}
 		}
 		
+		// Command line
+		if(COMMAND_LINE){
+			die('Command line');
+		}
+		
 		ob_start();
 		
+		// The rendering
 		if(is_object($this->theme) AND $this->use_theme()){
 			$this->theme->prepare();
 			$this->render_content(true);
@@ -349,6 +358,7 @@ class Solidocs_Output extends Solidocs_Base
 			echo $this->render_content();
 		}
 		
+		// Return the output
 		return ob_get_clean();
 	}
 	

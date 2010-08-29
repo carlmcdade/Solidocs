@@ -1,5 +1,18 @@
 <?php
 /**
+ * Solidocs Index
+ *
+ * The entry point of the application. All requests goes through this file.
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @package		Solidocs
+ * @author		Karl Roos <karlroos93@gmail.com>
+ * @license		MIT License (http://www.opensource.org/licenses/mit-license.p
+ */
+ 
+/**
  * Error reporting
  */
 error_reporting(E_ALL | E_NOTICE | E_STRICT);
@@ -27,7 +40,7 @@ defined('APPLICATION_ENV') || define('APPLICATION_ENV', (getenv('APPLICATION_ENV
 /**
  * Path constants
  */
-define('ROOT',		getcwd());
+define('ROOT',		dirname(__FILE__));
 define('SYS',		ROOT.	'/System');
 define('APP',		SYS.	'/Application');
 define('PACKAGE',	SYS.	'/Packages');
@@ -42,4 +55,21 @@ include(PACKAGE . '/Solidocs/Solidocs.php');
 /**
  * Start Solidocs
  */
-Solidocs::start();
+Solidocs::setup();
+
+/**
+ * Command line
+ */
+if(isset($argv)){
+	define('COMMAND_LINE', true);
+	
+	Solidocs::$registry->argv = $argv;
+}
+else{
+	define('COMMAND_LINE', false);
+}
+
+/**
+ * Start application
+ */
+Solidocs::application();

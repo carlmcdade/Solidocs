@@ -87,6 +87,10 @@ class Solidocs_Application extends Solidocs_Base
 			ini_set('display_errors', 0);
 		}
 		
+		if(COMMAND_LINE){
+			$config[] = APP . '/Config/Application.cl';
+		}
+		
 		// Set up core libraries
 		Solidocs::$registry->config	= new Solidocs_Config($config);
 		Solidocs::$registry->error	= new Solidocs_Error;

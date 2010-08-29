@@ -22,15 +22,9 @@ class Solidocs
 	public static $application;
 	
 	/**
-	 * Start
+	 * Setup
 	 */
-	public static function start(){
-		// Include Solidocs Functions, Base and Application classes
-		include(PACKAGE . '/Solidocs/Functions.php');
-		include(PACKAGE . '/Solidocs/Base.php');
-		include(PACKAGE . '/Solidocs/Application.php');
-		include(APP		. '/Application.php');
-				
+	public static function setup(){		
 		// Setup registry
 		Solidocs::$registry = (object) array(
 			'locale'		=> 'en_GB',
@@ -40,6 +34,17 @@ class Solidocs
 			'hook'			=> array(),
 			'called_hook'	=> array()
 		);
+	}
+	
+	/**
+	 * Application
+	 */
+	public static function application(){
+		// Include Solidocs Functions, Base and Application classes
+		include(PACKAGE . '/Solidocs/Functions.php');
+		include(PACKAGE . '/Solidocs/Base.php');
+		include(PACKAGE . '/Solidocs/Application.php');
+		include(APP		. '/Application.php');
 		
 		// Application instance
 		self::$application = new Application_Application;

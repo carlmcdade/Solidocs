@@ -110,7 +110,7 @@ class Solidocs_Db
 		$this->link = mysql_connect($server, $user, $password);
 		
 		if(!is_resource($this->link)){
-			throw new Exception(mysql_error());
+			throw new Exception('Could not connect to "' . $server . '"');
 		}
 	}
 	
