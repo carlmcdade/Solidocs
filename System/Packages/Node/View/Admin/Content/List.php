@@ -27,9 +27,9 @@
 			<td><?php echo $node['locale'];?></td>
 			<td>
 				<?php if($node['published']):?>
-				Published
+				Published &#8250; <a href="/admin/content/unpublish/<?php echo $node['node_id'];?>">Unpublish</a>
 				<?php else:?>
-				Not published
+				Not published &#8250; <a href="/admin/content/publish/<?php echo $node['node_id'];?>">Publish</a>
 				<?php endif;?>
 			</td>
 			<td>

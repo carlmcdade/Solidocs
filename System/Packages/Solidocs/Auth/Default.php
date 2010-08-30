@@ -23,19 +23,15 @@ class Solidocs_Auth_Default extends Solidocs_Auth_Auth
 			return false;
 		}
 		
-		$this->db->select_from('user', 'salt')->where(array(
-			'email' => $email
-		))->run();
+		$salt = $this->user->get_salt($email);
 		
-		if(!$this->db->affected_rows()){
+		if($salt == false){
 			return false;
 		}
 		
-		$salt = $this->db->one();
-		
 		$this->db->select_from('user')->where(array(
 			'email' => $email,
-			'password' => $this->auth->password($password, $salt)
+			'password' => $this->user->password($password, $salt)
 		))->run();
 		
 		if($this->db->affected_rows() == 1){

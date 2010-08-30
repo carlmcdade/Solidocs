@@ -73,6 +73,7 @@ class Node_Controller_Admin_Content extends Solidocs_Controller_Action
 					}
 					
 					$this->model->node->create($values);
+					$this->output->add_message('success', 'The node was successfully created.');
 				}
 				else{
 					foreach($form->elements as $element_key => $element){
@@ -110,6 +111,7 @@ class Node_Controller_Admin_Content extends Solidocs_Controller_Action
 					
 					$form->set_values($values);
 					$this->model->node->update($values['node_id'], $values);
+					$this->output->add_message('success', 'The node was successfully updated.');
 				}
 			}
 		}
@@ -129,5 +131,42 @@ class Node_Controller_Admin_Content extends Solidocs_Controller_Action
 		$this->load->view('Admin_Content_Create', array(
 			'content_types' => $this->model->node->get_types()
 		));
+	}
+	
+	/**
+	 * Delete
+	 */
+	public function do_delete(){
+		$this->model->node->delete($this->input->uri_segment('id'));
+		
+		$this->output->add_flash_message('success', 'The node was successfully deleted');
+		
+		$this->redirect('/admin/content');
+	}
+	
+	/**
+	 * Unpublish
+	 */
+	public function do_unpublish(){
+		$this->model->node->update($this->input->uri_segment('id'), array(
+			'published' => 0
+		));
+		
+		$this->output->add_flash_message('The node is not published anymore');
+		
+		$this->redirect('/admin/content');
+	}
+	
+	/**
+	 * Publish
+	 */
+	public function do_publish(){
+		$this->model->node->update($this->input->uri_segment('id'), array(
+			'published' => 1
+		));
+		
+		$this->output->add_flash_message('success', 'The node is now published');
+		
+		$this->redirect('/admin/content');
 	}
 }

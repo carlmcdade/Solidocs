@@ -145,6 +145,17 @@ class Node_Model_Node extends Solidocs_Base
 	}
 	
 	/**
+	 * Delete
+	 *
+	 * @param integer
+	 */
+	public function delete($node_id){
+		$this->db->delete_from('node')->where(array(
+			'node_id' => $node_id
+		))->run();
+	}
+	
+	/**
 	 * Get types
 	 *
 	 * @return array

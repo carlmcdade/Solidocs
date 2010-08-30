@@ -76,6 +76,7 @@ class Dynamic_Controller_Admin_Plugins extends Solidocs_Controller_Action
 			'class' => $this->input->uri_segment('id')
 		))->run();
 		
+		$this->output->add_flash_message('The plugin was activated');
 		$this->redirect('/admin/plugins');
 	}
 	
@@ -89,6 +90,7 @@ class Dynamic_Controller_Admin_Plugins extends Solidocs_Controller_Action
 			'class' => $this->input->uri_segment('id')
 		))->run();
 		
+		$this->output->add_flash_message('The plugin was deactivated');
 		$this->redirect('/admin/plugins');
 	}
 }

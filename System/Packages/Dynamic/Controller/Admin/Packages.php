@@ -66,7 +66,8 @@ class Dynamic_Controller_Admin_Packages extends Solidocs_Controller_Action
 			}
 		}
 		
-		$this->forward('index');
+		$this->output->add_flash_message('success', 'The package was successfully installed');
+		$this->redirect('/admin/packages');
 	}
 	
 	/**
@@ -83,7 +84,8 @@ class Dynamic_Controller_Admin_Packages extends Solidocs_Controller_Action
 			}
 		}
 		
-		$this->forward('index');
+		$this->output->add_flash_message('success', 'The package was successfully uninstalled');
+		$this->redirect('/admin/packages');
 	}
 	
 	/**
@@ -104,6 +106,7 @@ class Dynamic_Controller_Admin_Packages extends Solidocs_Controller_Action
 			}
 		}
 		
-		$this->forward('index');
+		$this->output->add_flash_message('success', 'The package was successfully reinstalled');
+		$this->redirect('/admin/packages');
 	}
 }

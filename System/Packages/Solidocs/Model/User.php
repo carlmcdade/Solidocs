@@ -39,39 +39,6 @@ class Solidocs_Model_User extends Solidocs_Base
 	}
 	
 	/**
-	 * Auth
-	 *
-	 * @param string
-	 * @param string
-	 * @return bool
-	 */
-	public function auth($user, $password){
-		$this->db->select_from('user')->where_or(array(
-			array(
-				'email'		=> $user,
-				'password'	=> $password
-			),
-			array(
-				'username'	=> $user,
-				'password'	=> $password
-			)
-		))->limit(1)->run();
-		
-		if($this->db->affected_rows() !== 0){
-			$array = $this->db->fetch_assoc();
-			unset($array['password']);
-			
-			$this->session->user			= $array;
-			$this->session->user['group']	= explode(',', $this->session->user['group']);
-			$this->user						= &$this->session->user;
-			
-			return true;
-		}
-		
-		return false;
-	}
-	
-	/**
 	 * In group
 	 *
 	 * @param integer

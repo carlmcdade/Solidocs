@@ -31,4 +31,42 @@ class Solidocs_User extends Solidocs_Base
 		
 		return call_user_func_array(array($this->model->user, $method), $params);
 	}
+	
+	/**
+	 * Password
+	 *
+	 * @param string
+	 * @param string
+	 * @return string
+	 */
+	public function password($password, $salt){
+		return md5(sha1($password . $salt));
+	}
+	
+	/**
+	 * Generate salt
+	 *
+	 * @return string
+	 */
+	public function generate_salt(){
+		return md5(uniqid());
+	}
+	
+	/**
+	 * Get salt
+	 *
+	 * @param string
+	 * @return string|salt
+	 */
+	public function get_salt($email){
+		$this->db->select_from('user', 'salt')->where(array(
+			'email' => $email
+		))->run();
+		
+		if(!$this->db->affected_rows()){
+			return false;
+		}
+		
+		return $this->db->one();
+	}
 }

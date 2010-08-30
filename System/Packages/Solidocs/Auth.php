@@ -65,15 +65,4 @@ class Solidocs_Auth extends Solidocs_Base
 		
 		return false;
 	}
-	
-	/**
-	 * Password
-	 *
-	 * @param string
-	 * @param string
-	 * @return string
-	 */
-	public function password($password, $salt){
-		return md5(sha1($password . $salt));
-	}
 }
