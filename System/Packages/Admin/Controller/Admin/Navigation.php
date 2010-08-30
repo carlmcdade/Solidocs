@@ -45,13 +45,9 @@ class Admin_Controller_Admin_Navigation extends Solidocs_Controller_Action
 		$form = new Solidocs_Form;
 		$form->set_method('post');
 		$form->set_action($this->router->uri);
-		$form->add_element('navigation', array(
+		$form->add_element('name', array(
 			'type' => 'text',
-			'label' => 'Key (computer readable name)',
-			'helper' => array('form/text')
-		))->add_element('name', array(
-			'type' => 'text',
-			'label' => 'Name (human readable name',
+			'label' => 'Name',
 			'helper' => array('form/text')
 		))->add_element('locale', array(
 			'type' => 'text',
@@ -64,7 +60,15 @@ class Admin_Controller_Admin_Navigation extends Solidocs_Controller_Action
 		
 		if($form->is_posted()){
 			if($form->is_valid()){
-				$this->db->insert_into('navigation', $form->get_values())->run();
+				$values = $form->get_values();
+				
+				$this->load->library('Text');
+				
+				$values['navigation'] = $this->text->slug($values['name']);
+				
+				$this->db->insert_into('navigation', $values)->run();
+				
+				$this->output->add_flash_message('success', 'Created the navigation "' . $values['name'] . '"');
 				
 				$this->redirect('/admin/navigation/edit/' . $form->get_value('navigation'));
 			}
@@ -85,11 +89,15 @@ class Admin_Controller_Admin_Navigation extends Solidocs_Controller_Action
 					'navigation_item_id' => $id
 				))->run();
 			}
+			
+			$this->output->add_message('Updated the menu items');
 		}
 		
 		if($this->input->has_post('new_item')){
 			$item = $_POST['new_item'];
 			$item['key'] = $this->input->uri_segment('id');
+			
+			$this->output->add_message('Created the new menu item');
 			
 			$this->db->insert_into('navigation_item', $item)->run();
 		}
@@ -124,6 +132,8 @@ class Admin_Controller_Admin_Navigation extends Solidocs_Controller_Action
 			'navigation' => $this->input->uri_segment('id')
 		))->run();
 		
+		$this->output->add_flash_message('succcess', 'The navigation was successfully deleted');
+		
 		$this->redirect('/admin/navigation');
 	}
 	
@@ -134,6 +144,8 @@ class Admin_Controller_Admin_Navigation extends Solidocs_Controller_Action
 		$this->db->delete_from('navigation_item')->where(array(
 			'navigation_item_id' => $this->input->uri_segment('id')
 		))->run();
+		
+		$this->output->add_flash_message('success', 'The item was successfully deleted');
 		
 		$this->redirect($this->input->get('redirect'));
 	}
