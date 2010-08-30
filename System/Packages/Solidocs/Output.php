@@ -337,11 +337,6 @@ class Solidocs_Output extends Solidocs_Base
 			}
 		}
 		
-		// Command line
-		if(COMMAND_LINE){
-			die('Command line');
-		}
-		
 		ob_start();
 		
 		// The rendering

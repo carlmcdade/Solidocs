@@ -55,21 +55,4 @@ include(PACKAGE . '/Solidocs/Solidocs.php');
 /**
  * Start Solidocs
  */
-Solidocs::setup();
-
-/**
- * Command line
- */
-if(isset($argv)){
-	define('COMMAND_LINE', true);
-	
-	Solidocs::$registry->argv = $argv;
-}
-else{
-	define('COMMAND_LINE', false);
-}
-
-/**
- * Start application
- */
-Solidocs::application();
+Solidocs::start();
