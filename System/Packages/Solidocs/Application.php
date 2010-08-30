@@ -21,8 +21,9 @@ class Solidocs_Application extends Solidocs_Base
 	 */
 	public function init(){
 		try{
-			// Setup core, plugins and router
+			// Setup core, database, plugins and router
 			$this->setup_core();
+			$this->setup_database();
 			$this->setup_plugins();
 			$this->setup_router();
 			
@@ -93,8 +94,12 @@ class Solidocs_Application extends Solidocs_Base
 		Solidocs::$registry->load	= new Solidocs_Load;
 		Solidocs::apply_config($this->error, $this->config->get('Error'));
 		Solidocs::apply_config($this->load, $this->config->get('Load'));
-		
-		// Setup database
+	}
+	
+	/**
+	 * Setup db
+	 */
+	public function setup_database(){
 		$this->load->library('Db');
 		$this->db->connect();
 		$this->db->select_db();
@@ -116,19 +121,7 @@ class Solidocs_Application extends Solidocs_Base
 	 */
 	public function setup_router(){
 		$this->load->library('Router');
-	}
-	
-	/**
-	 * Setup libraries
-	 */
-	public function setup_libraries(){
-		$this->load->library($this->config->get('Autoload.libraries'));
-	}
-	
-	/**
-	 * Setup configure
-	 */
-	public function setup_configure(){
+		
 		// Load production routes
 		$routes = $this->config->load_file(APP . '/Config/Routes', true);
 		
@@ -146,8 +139,22 @@ class Solidocs_Application extends Solidocs_Base
 			}
 		}
 		
-		// Set routes and view handler
+		// Set routes
 		$this->router->set_routes($routes);
+	}
+	
+	/**
+	 * Setup libraries
+	 */
+	public function setup_libraries(){
+		$this->load->library($this->config->get('Autoload.libraries'));
+	}
+	
+	/**
+	 * Setup configure
+	 */
+	public function setup_configure(){
+		// Set view handler
 		$this->load->set_view_handler($this->output);
 	}
 	
