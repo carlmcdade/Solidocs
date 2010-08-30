@@ -1,5 +1,7 @@
 System/Cache/*
+System/Upload/*
 System/Application/Config/Application.development.ini
 System/Application/Config/Routes.development.ini
 System/Application/Controller/Test.php
 System/Application/View/Test.php
+.htaccess
