@@ -38,9 +38,9 @@ class Solidocs_Application extends Solidocs_Base
 			}
 			else{
 				// Configure
-				Solidocs::do_action('pre_config');
+				Solidocs::do_action('pre_configure');
 				$this->setup_configure();
-				Solidocs::do_action('post_config,post_setup');
+				Solidocs::do_action('post_configure,post_setup');
 				
 				// Execute
 				Solidocs::do_action('pre_execute');
