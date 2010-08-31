@@ -150,16 +150,18 @@ class Solidocs_Load extends Solidocs_Base
 			$search = $this->search($library);
 			
 			if(is_array($search)){
-				$config = array();
-				
-				if(is_object($this->config)){
-					$config = $this->config->get($library);
-				}
-				
-				Solidocs::$registry->$search['slug'] = new $search['class']($config);
-				
-				if(is_array($config)){
-					Solidocs::apply_config(Solidocs::$registry->$search['slug'], $config);
+				if(!isset(Solidocs::$registry->$search['slug'])){
+					$config = array();
+					
+					if(is_object($this->config)){
+						$config = $this->config->get($library);
+					}
+					
+					Solidocs::$registry->$search['slug'] = new $search['class']($config);
+					
+					if(is_array($config)){
+						Solidocs::apply_config(Solidocs::$registry->$search['slug'], $config);
+					}
 				}
 			}
 			else{
