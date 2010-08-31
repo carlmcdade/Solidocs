@@ -46,15 +46,6 @@ class Solidocs_Navigation extends Solidocs_Base
 		    	if(is_array($children)){
 		    		$data[$key]['children'] = $children;
 		    	}
-		    	
-		    	$this->db->select_from('navigation_item')->where(array(
-		    		'key' => $navigation_key,
-		    		'parent_id' => $val['navigation_item_id']
-		    	))->order('weight')->run();
-		    	
-		    	if($this->db->affected_rows()){
-		    		$data[$key]['children'] = $this->db->arr();
-		    	}
 		    }
 		    
 		    return $data;

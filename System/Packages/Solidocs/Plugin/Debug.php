@@ -32,11 +32,13 @@ class Solidocs_Plugin_Debug extends Solidocs_Plugin
 		
 		$array = array(
 			'General'	=> array(
-				'URI'				=> $this->router->request_uri,
-				'Time to generate'	=> microtime_since(STARTTIME),
-				'Memory usage'		=> round(memory_get_usage() / 1024 / 1024, 5) . ' MB',
-				'Included files'	=> count(get_included_files()),
-				'Locale'			=> $this->locale
+				'Request URI'			=> $this->router->request_uri,
+				'URI'					=> $this->router->uri,
+				'Time to generate'		=> microtime_since(STARTTIME),
+				'Memory usage'			=> round(memory_get_usage() / 1024 / 1024, 5) . ' MB',
+				'Included files'		=> count(get_included_files()),
+				'Database queries'	=> count($this->db->queries),
+				'Locale'				=> $this->locale
 			),
 			'Hooks'				=> debug($this->hook, '', true),
 			'Called hooks'		=> debug($this->called_hook, '', true),
