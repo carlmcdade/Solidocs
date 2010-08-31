@@ -10,8 +10,8 @@
 		<?php echo $this->form()->text('new_item[url]');?>
 		<label>Parent</label>
 		<?php echo $this->form()->select('new_item[parent_id]', 0, $parents);?>
-		<label>Order</label>
-		<?php echo $this->form()->text('new_item[order]', 999);?>
+		<label>Weight</label>
+		<?php echo $this->form()->text('new_item[weight]', 0);?>
 		<?php echo $this->form()->button('Save');?>
 		
 	</form>
@@ -28,7 +28,7 @@
 		echo $this->form()->text('item[' . $item['navigation_item_id'] . '][title]', $item['title']);
 		echo $this->form()->text('item[' . $item['navigation_item_id'] . '][url]', $item['url']);
 		echo $this->form()->select('item[' . $item['navigation_item_id'] . '][parent_id]', $item['parent_id'], $parents, false);
-		echo $this->form()->text('item[' . $item['navigation_item_id'] . '][order]', $item['order']);
+		echo $this->form()->text('item[' . $item['navigation_item_id'] . '][weight]', $item['weight']);
 		?>
 		<a href="/admin/navigation/delete_item/<?php echo $item['navigation_item_id'];?>/?redirect=<?php echo $this->router->uri;?>">Delete item</a>
 		<?php if(isset($item['children'])){
@@ -39,7 +39,7 @@
 				echo $this->form()->text('item[' . $child_item['navigation_item_id'] . '][title]', $child_item['title']);
 				echo $this->form()->text('item[' . $child_item['navigation_item_id'] . '][url]', $child_item['url']);
 				echo $this->form()->select('item[' . $child_item['navigation_item_id'] . '][parent_id]', $child_item['parent_id'], $parents, false);
-				echo $this->form()->text('item[' . $child_item['navigation_item_id'] . '][order]', $child_item['order']);
+				echo $this->form()->text('item[' . $child_item['navigation_item_id'] . '][weight]', $child_item['weight']);
 				echo '<a href="/admin/navigation/delete_item/' . $item['navigation_item_id'] . '/?redirect=' . $this->router->uri . '">Delete</a></li>';
 			}
 			
