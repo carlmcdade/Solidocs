@@ -33,7 +33,7 @@ class Solidocs_Application extends Solidocs_Base
 			Solidocs::do_action('post_libraries');
 			
 			// Check in cache
-			if($this->cache->exists($this->router->request_uri)){
+			if(isset($this->cache) AND $this->cache->exists($this->router->request_uri)){
 				$this->render($this->cache->get($this->router->request_uri));
 			}
 			else{
@@ -177,7 +177,7 @@ class Solidocs_Application extends Solidocs_Base
 			$output = $this->output->render();
 			
 			// Cache output
-			if($this->cache->cache_page()){
+			if(isset($this->cache) AND $this->cache->cache_page()){
 				$this->cache->store($this->router->request_uri, $output);		
 			}
 		}
