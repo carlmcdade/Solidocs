@@ -28,6 +28,7 @@ class Dynamic_Controller_Admin_Plugins extends Solidocs_Controller_Action
 			if($this->config->file_exists(PACKAGE . '/' . $package . '/Package')){
 				$package_ini	= $this->config->load_file(PACKAGE . '/' . $package . '/Package', true);
 				$from_config	= false;
+				$version		= $package_ini['Package']['version'];
 				
 				if(isset($package_ini['Plugin'])){
 					foreach($package_ini['Plugin'] as $key => $val){
@@ -54,7 +55,8 @@ class Dynamic_Controller_Admin_Plugins extends Solidocs_Controller_Action
 							'name'			=> $val['name'],
 							'description'	=> $val['description'],
 							'autoload'		=> $autoload,
-							'from_config'	=> $from_config
+							'from_config'	=> $from_config,
+							'version'		=> $version
 						);
 					}
 				}

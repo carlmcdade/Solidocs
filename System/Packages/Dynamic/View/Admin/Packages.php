@@ -5,11 +5,11 @@
 	<thead>
 		
 		<tr>
-			<th>Name</th>
-			<th width="200">Description</th>
+			<th width="100">Name</th>
+			<th>Description</th>
 			<th>Version</th>
 			<th>URL</th>
-			<th>Actions</th>
+			<th width="160">Actions</th>
 		</tr>
 		
 	</thead>

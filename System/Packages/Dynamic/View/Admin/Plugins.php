@@ -5,9 +5,9 @@
 	<thead>
 		
 		<tr>
-			<th>Plugin</th>
+			<th width="200">Plugin</th>
 			<th>Description</th>
-			<th>Actions</th>
+			<th width="120">Actions</th>
 		</tr>
 		
 	</thead>
@@ -16,7 +16,7 @@
 		
 		<?php foreach($plugins as $class => $plugin):?>
 		<tr>
-			<td><?php echo $plugin['name'];?> <span class="discrete">(<?php echo $plugin['package'];?>)</span></td>
+			<td><?php echo $plugin['name'];?> <span class="discrete">(<?php echo $plugin['package'] . ' ' . $plugin['version'];?>)</span></td>
 			<td><?php echo $plugin['description'];?></td>
 			<td>
 			<?php if($plugin['from_config']):?>
