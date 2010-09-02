@@ -562,14 +562,9 @@ class Solidocs_Db
 			$args[$key] = $this->escape($val);
 		}
 		
-		if($having){
-			$this->first_having($separator);
-		}
-		else{
-			$this->first_where($separator);
-		}
-	
-		$this->query .= ' ' . $in . '(' . implode(',', $args) . ') ';
+		$this->first_where($separator);
+		
+		$this->query .= ' ' . $field . ' ' . $in . '("' . implode('","', $args) . '") ';
 		
 		return $this;
 	}
