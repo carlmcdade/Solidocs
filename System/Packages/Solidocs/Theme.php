@@ -188,6 +188,8 @@ class Solidocs_Theme extends Solidocs_Base
 			}
 		}
 		
+		Solidocs::do_action('pre_theme_render');
+		
 		foreach($this->theme_files as $file){
 			if(isset($theme_file)){
 				continue;
@@ -204,7 +206,10 @@ class Solidocs_Theme extends Solidocs_Base
 		
 		ob_start();
 		include($theme_file);
-		return ob_get_clean();
+		
+		Solidocs::do_action('post_theme_render');
+		
+		return Solidocs::apply_filter('theme_render', ob_get_clean());
 	}
 	
 	/**

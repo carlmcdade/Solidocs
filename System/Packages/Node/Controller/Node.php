@@ -40,6 +40,9 @@ class Node_Controller_Node extends Solidocs_Controller_Action
 			$this->i18n->set_locale($node->locale);
 		}
 		
+		Solidocs::do_action('node_page', $node);
+		
+		$this->theme->set_layout($node->layout);
 		$this->theme->add_title($node->title);
 		$this->load->view($node->view, $node);
 	}

@@ -103,6 +103,8 @@ class Solidocs_Application extends Solidocs_Base
 		$this->load->library('Db');
 		$this->db->connect();
 		$this->db->select_db();
+		
+		$this->db->sql('SET NAMES utf8')->run();
 	}
 	
 	/**

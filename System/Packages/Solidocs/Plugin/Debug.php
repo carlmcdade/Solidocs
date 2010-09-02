@@ -16,6 +16,55 @@ class Solidocs_Plugin_Debug extends Solidocs_Plugin
 	 */
 	public function init(){
 		Solidocs::add_filter('render', array($this, 'debug_bar'));
+		
+		$this->theme->set_jquery(true);
+		$this->theme->add_script('
+		$(document).ready(function(){
+			
+			$("#debug_box ul li a").click(function(){
+				
+				if($(this).hasClass("active")){
+					$(this).removeClass("active").siblings().hide();
+				}
+				else{
+					$("#debug_box ul li a").removeClass("active").siblings().hide();
+					$(this).addClass("active").siblings().show();
+				}
+			});
+			
+		});
+		');
+		$this->theme->add_style('
+		#debug_box
+		{position: fixed; bottom: 0; left: 0; width: 100%; height: 25px; background: #444; border-top: 1px solid #333;}
+		
+		#debug_box ul
+		{margin-left: 10px;}
+		
+		#debug_box ul li
+		{display: inline; position: relative;}
+		
+		#debug_box ul li a
+		{display: block; float: left; height: 25px; line-height: 25px; padding: 0 10px; font-size: 10px; background: #ccc; color: #222; border: 1px solid #666; border-top: 0; border-bottom: 0; margin-right: 10px;}
+		
+		#debug_box ul li div
+		{position: absolute; bottom: 1px; left: 0; background: #ccc; border: 1px solid #666; border-bottom: 0; display: none; max-width: 900px; max-height: 600px; overflow: auto; font-size: 10px;}
+		
+		#debug_box ul li div.item
+		{padding: 5px;}
+		
+		#debug_box ul li div table
+		{width: 500px;}
+		
+		#debug_box ul li div table tr td
+		{padding: 5px;}
+		
+		#debug_box ul li div table tr td:first-child
+		{font-weight: bold; padding-right: 20px;}
+		
+		#debug_box ul li div table tr:nth-child(even) td
+		{background: #ddd;}
+		');
 	}
 	
 	/**
@@ -56,54 +105,6 @@ class Solidocs_Plugin_Debug extends Solidocs_Plugin
 		);
 
 		$debug = '
-		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js"></script>
-		<script type="text/javascript">
-		$(document).ready(function(){
-			
-			$("#debug_box ul li a").click(function(){
-				
-				if($(this).hasClass("active")){
-					$(this).removeClass("active").siblings().hide();
-				}
-				else{
-					$("#debug_box ul li a").removeClass("active").siblings().hide();
-					$(this).addClass("active").siblings().show();
-				}
-			});
-			
-		});
-		</script>
-		<style type="text/css">
-		#debug_box
-		{position: fixed; bottom: 0; left: 0; width: 100%; height: 25px; background: #444; border-top: 1px solid #333;}
-		
-		#debug_box ul
-		{margin-left: 10px;}
-		
-		#debug_box ul li
-		{display: inline; position: relative;}
-		
-		#debug_box ul li a
-		{display: block; float: left; height: 25px; line-height: 25px; padding: 0 10px; font-size: 10px; background: #ccc; color: #222; border: 1px solid #666; border-top: 0; border-bottom: 0; margin-right: 10px;}
-		
-		#debug_box ul li div
-		{position: absolute; bottom: 1px; left: 0; background: #ccc; border: 1px solid #666; border-bottom: 0; display: none; max-width: 900px; max-height: 600px; overflow: auto; font-size: 10px;}
-		
-		#debug_box ul li div.item
-		{padding: 5px;}
-		
-		#debug_box ul li div table
-		{width: 500px;}
-		
-		#debug_box ul li div table tr td
-		{padding: 5px;}
-		
-		#debug_box ul li div table tr td:first-child
-		{font-weight: bold; padding-right: 20px;}
-		
-		#debug_box ul li div table tr:nth-child(even) td
-		{background: #ddd;}
-		</style>
 		<div id="debug_box"><ul>';
 
 		foreach($array as $section => $parts){
