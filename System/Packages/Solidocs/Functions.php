@@ -17,7 +17,7 @@
  * @param string	Optional.
  */
 function debug($var, $label = null, $return = false){
-	$str = '<pre><b>' . $label . '</b>' . str_replace(ROOT, '', print_r($var, true)) . '</pre>';
+	$str = '<pre><b>' . $label . '</b>' . htmlentities(str_replace(ROOT, '', print_r($var, true))) . '</pre>';
 	
 	if($return){
 		return $str;

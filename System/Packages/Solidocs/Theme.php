@@ -234,6 +234,11 @@ class Solidocs_Theme extends Solidocs_Base
 	 * @param string
 	 */
 	public function render_region($region){
+		if(!isset($this->regions[$region])){
+			throw new Exception('The region "' . $region . '" is not defined');
+			return false;
+		}
+		
 		if(is_array($this->region_items[$region])){
 			foreach(Solidocs::apply_filter('region.' . $region, $this->region_items[$region]) as $content){
 				echo $content;
@@ -347,7 +352,9 @@ class Solidocs_Theme extends Solidocs_Base
 	 * @param string
 	 */
 	public function add_js($src){
-		$this->js[] = $src;
+		if(!in_array($src, $this->js)){
+			$this->js[] = $src;
+		}
 	}
 	
 	/**
@@ -367,7 +374,9 @@ class Solidocs_Theme extends Solidocs_Base
 	 * @param string
 	 */
 	public function add_css($href){
-		$this->css[] = $href;
+		if(!in_array($href, $this->css)){
+			$this->css[] = $href;
+		}
 	}
 	
 	/**

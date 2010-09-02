@@ -1,11 +1,15 @@
-<div id="left_sidebar">
+<div id="main" class="column">
 
-	<?php $this->render_region('left_sidebar');?>
+	<div id="left_sidebar">
 	
-</div>
-<div id="content">
+		<?php $this->render_region('left_sidebar');?>
+		
+	</div>
+	<div id="content">
+		
+		<?php $this->render_content();?>
 	
-	<?php $this->render_content();?>
+	</div>
+	<div class="clear"></div>
 
 </div>
-<div class="clear"></div>
