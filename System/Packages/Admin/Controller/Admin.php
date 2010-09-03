@@ -20,13 +20,7 @@ class Admin_Controller_Admin extends Solidocs_Controller_Action
 			'redirect' => $this->router->request_uri
 		)));
 				
-		if($this->acl->has_access($this, 'init')){
-			$this->load->model('Admin');
-			$this->theme->set_theme('Admin');
-			
-			$this->theme->add_title('Admin');
-		}
-		else{
+		if(!$this->acl->has_access($this, 'init')){
 			$this->output->add_flash_message('error', 'Please sign in to access this page.');
 		}
 	}
@@ -35,6 +29,9 @@ class Admin_Controller_Admin extends Solidocs_Controller_Action
 	 * Index
 	 */
 	public function do_index(){
+		$this->load->model('Admin');
+		$this->theme->add_title('Admin');
+		
 		$item = $this->model->admin->get_item($this->input->uri_segment('item'));
 		
 		if(!is_array($item)){
@@ -43,5 +40,7 @@ class Admin_Controller_Admin extends Solidocs_Controller_Action
 		
 		$controller = $this->load->controller($item['controller']);
 		$controller->dispatch_action($this->input->uri_segment('action'));
+		
+		$this->theme->set_theme('Admin');
 	}
 }
