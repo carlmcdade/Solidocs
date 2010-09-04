@@ -9,7 +9,7 @@
  * @author		Karl Roos <karlroos93@gmail.com>
  * @license		MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-class Node_Plugin_Region extends Solidocs_Plugin
+class Dynamic_Plugin_Region extends Solidocs_Plugin
 {
 	/**
 	 * Init
@@ -24,7 +24,9 @@ class Node_Plugin_Region extends Solidocs_Plugin
 	public function populate_regions(){
 		$regions = $this->theme->layouts[$this->theme->layout]['regions'];
 		
-		$this->db->select_from('region_item')->where_in('region', $regions)->order('weight')->run();
+		$this->db->select_from('region_item')->where_in('region', $regions)->where(array(
+			'locale' => $this->locale
+		))->order('weight')->run();
 		
 		while($item = $this->db->fetch_assoc()){
 			$config = array();
