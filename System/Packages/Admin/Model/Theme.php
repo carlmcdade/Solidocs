@@ -24,14 +24,34 @@ class Admin_Model_Theme extends Solidocs_Base
 	 * Get region items
 	 *
 	 * @param string
+	 * @param string	Optional.
 	 * @return array
 	 */
-	public function get_region_items($region){
+	public function get_region_items($region, $locale = null){
+		if($locale == null){
+			$locale = $this->locale;
+		}
+		
 		$this->db->select_from('region_item')->where(array(
-			'region' => $region
+			'region'	=> $region,
+			'locale'	=> $locale
 		))->order('weight')->run();
 		
 		return $this->db->arr();
+	}
+	
+	/**
+	 * Get region item
+	 *
+	 * @param integer
+	 * @return array
+	 */
+	public function get_region_item($region_item_id){
+		$this->db->select_from('region_item')->where(array(
+			'region_item_id' => $region_item_id
+		))->run();
+		
+		return $this->db->fetch_assoc();
 	}
 	
 	/**
@@ -62,10 +82,11 @@ class Admin_Model_Theme extends Solidocs_Base
 	 * Add widget
 	 *
 	 * @param string
+	 * @param string
 	 * @param array
 	 * @param array
 	 */
-	public function add_widget($region, $widget, $config = null){
+	public function add_widget($region, $locale, $widget, $config = null){
 		if($config == null){
 			$default_config = $this->get_widget($widget['widget']);
 			$default_config = $default_config['default_config'];
@@ -79,6 +100,7 @@ class Admin_Model_Theme extends Solidocs_Base
 		$data = $widget;
 		$data['region'] = $region;
 		$data['config'] = $config;
+		$data['locale'] = $locale;
 		
 		$this->db->insert_into('region_item', $data)->run();
 	}
