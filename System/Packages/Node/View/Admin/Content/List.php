@@ -8,10 +8,10 @@
 			<th>ID</th>
 			<th>Title</th>
 			<th>URI</th>
-			<th>Content type</th>
+			<th width="100">Content type</th>
 			<th>Locale</th>
-			<th>Status</th>
-			<th>Actions</th>
+			<th width="130">Status</th>
+			<th width="100">Actions</th>
 		</tr>
 	
 	</thead>

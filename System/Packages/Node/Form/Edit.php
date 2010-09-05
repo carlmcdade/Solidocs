@@ -15,6 +15,14 @@ class Node_Form_Edit extends Solidocs_Form
 	 * Init
 	 */
 	public function init($content_type){
+		$this->load->model('Theme');
+		
+		$layouts = array();
+		
+		foreach($this->model->theme->get_layouts() as $key => $layout){
+			$layouts[$key] = $layout['name'];
+		}
+		
 		$this->set_action($this->router->request_uri);
 		$this->set_method('post');
 		$this->set_data_form(true);
@@ -69,7 +77,11 @@ class Node_Form_Edit extends Solidocs_Form
 			$this->add_element('content[' . $name . ']', $element);
 		}
 		
-		$this->add_element('view', array(
+		$this->add_element('layout', array(
+			'type' => 'text',
+			'label' => 'Layout',
+			'helper' => array('form/select', $layouts)
+		))->add_element('view', array(
 			'type' => 'text',
 			'label' => 'View',
 			'helper' => array('form/text')

@@ -12,6 +12,15 @@
 class Admin_Model_Theme extends Solidocs_Base
 {
 	/**
+	 * Get layouts
+	 */
+	public function get_layouts(){
+		$theme_ini = $this->config->load_file(MEDIA . '/Theme/' . $this->theme->theme . '/theme', true);
+		
+		return $theme_ini['layouts'];
+	}
+	
+	/**
 	 * Get regions
 	 */
 	public function get_regions(){
