@@ -128,6 +128,40 @@ class Admin_Model_Theme extends Solidocs_Base
 	}
 	
 	/**
+	 * Install widget
+	 *
+	 * @param string
+	 * @param string
+	 */
+	public function install_widget($name, $class){
+		$data['name'] = $name;
+		$data['widget'] = $class;
+		
+		$search = $this->load->search($class);
+		
+		if($search !== false){
+			include($search['path']);
+			
+			$widget = new $class;
+			
+			$data['default_config'] = serialize($widget->fields);
+			
+			$this->db->insert_into('widget', $data)->run();
+		}
+	}
+	
+	/**
+	 * Uninstall widget
+	 *
+	 * @param string
+	 */
+	public function uninstall_widget($widget){
+		$this->db->delete_from('widget')->where(array(
+			'widget' => $widget
+		))->run();
+	}
+	
+	/**
 	 * Delete region item
 	 *
 	 * @param integer
