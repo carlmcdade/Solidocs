@@ -86,7 +86,13 @@ class Solidocs_Cache extends Solidocs_Base
 	 * @param string
 	 */
 	public function get($key){
-		return $this->instance->get($this->_key($key));
+		$val = $this->instance->get($this->_key($key));
+		
+		if(is_serialized($val)){
+			$val = unserialize($val);
+		}
+		
+		return $val;
 	}
 	
 	/**
@@ -97,6 +103,10 @@ class Solidocs_Cache extends Solidocs_Base
 	 * @param integer	Optional.
 	 */
 	public function store($key, $val, $expire = 600){
+		if(is_array($val)){
+			$val = serialize($val);
+		}
+		
 		return $this->instance->store($this->_key($key), $val, $expire);
 	}
 	
