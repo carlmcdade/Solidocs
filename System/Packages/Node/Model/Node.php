@@ -59,6 +59,8 @@ class Node_Model_Node extends Solidocs_Base
 	 * Query nodes
 	 *
 	 * @param array
+	 * @param integer		Optional.
+	 * @param string|array	Optional.
 	 * @return array
 	 */
 	public function query_nodes($args, $limit = null, $fields = ''){
@@ -93,7 +95,7 @@ class Node_Model_Node extends Solidocs_Base
 		
 		$this->db->run();
 		
-		$noes = array();
+		$nodes = array();
 		
 		if($this->db->affected_rows()){
 			while($node = $this->db->fetch_assoc()){
