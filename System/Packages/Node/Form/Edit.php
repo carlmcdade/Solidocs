@@ -77,7 +77,19 @@ class Node_Form_Edit extends Solidocs_Form
 			$this->add_element('content[' . $name . ']', $element);
 		}
 		
-		$this->add_element('layout', array(
+		$this->add_element('tags', array(
+			'type' => 'text',
+			'label' => 'Tags',
+			'helper' => array('form/text')
+		))->add_element('description', array(
+			'type' => 'text',
+			'label' => 'Description',
+			'helper' => array('form/text')
+		))->add_element('view', array(
+			'type' => 'text',
+			'label' => 'View',
+			'helper' => array('form/text')
+		))->add_element('layout', array(
 			'type' => 'text',
 			'label' => 'Layout',
 			'helper' => array('form/select', $layouts)

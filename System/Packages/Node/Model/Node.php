@@ -75,6 +75,15 @@ class Node_Model_Node extends Solidocs_Base
 				case 'locale':
 					$this->db->where(array('locale' => $val));
 				break;
+				case 'tags':
+					$tags = array();
+					
+					foreach($val as $val){
+						$tags[] = 'LIKE %' . $val . '%';
+					}
+					
+					$this->db->where_or(array('tags' => $tags));
+				break;
 			}
 		}
 		

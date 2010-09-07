@@ -66,11 +66,6 @@ class Solidocs_Db
 	 */
 	public $first_where = true;
 	
-	/** 
-	 * First having
-	 */
-	public $first_having = true;
-	
 	/**
 	 * Queries
 	 */
@@ -471,22 +466,6 @@ class Solidocs_Db
 	}
 	
 	/**
-	 * First having
-	 *
-	 * @param string
-	 */
-	public function first_having($separator = 'AND'){
-		if($this->first_having){
-			$this->query .= 'HAVING ';
-		}
-		else{
-			$this->query .= $separator . ' ';
-		}
-		
-		$this->first_where = false;
-	}
-	
-	/**
 	 * Where
 	 *
 	 * @param array
@@ -495,46 +474,31 @@ class Solidocs_Db
 	 * @param bool		Optional.
 	 * @return object
 	 */
-	public function where($args, $separator = 'AND', $block_separator = 'AND', $having = false){
-		if($having){
-			$this->first_having($separator);
-		}
-		else{
+	public function where($args, $separator = 'AND', $block_separator = 'AND', $is_block = false){
+		if(!$is_block){
 			$this->first_where($separator);
 		}
 		
 		foreach($args as $key => $val){
 			$val = $this->escape($val);
 			
-			$comparison = '=';
-			
 			if(is_array($val)){
 				$this->query .= '(';
 				
-				foreach($val as $key => $val){
-					$val = $this->escape($val);
-					
-					if(substr($val, 0, 5) == 'LIKE '){
-						$comparison = 'LIKE';
-						$val		= substr($val, 5);
-					}
-					
-					$this->query .= $this->_fields($key) . ' ' . $comparison . ' "' . $val . '" ' . $block_separator . ' ';
+				foreach($val as $block_val){
+					$this->query .= $this->_fields($key) . ' ' . $this->_comparison_val($block_val) . ' ' . $block_separator . ' ';
 				}
 				
-				$this->query = trim($this->query, ' ' . $block_separator . ' ') . ') ' . $separator . ' ';
+				$this->query = trim($this->query, $block_separator . ' ');
+				
+				$this->query .= ')';
 			}
 			else{
-				if(substr($val, 0, 5) == 'LIKE '){
-					$comparison = 'LIKE';
-					$val		= substr($val, 5);
-				}
-				
-				$this->query .= $this->_fields($key) . ' ' . $comparison . ' "' . $val . '" ' . $separator . ' ';
+				$this->query .= $this->_fields($key) . ' ' . $this->_comparison_val($val) . ' ' . $separator . ' ';
 			}
 		}
 		
-		$this->query = substr($this->query, 0, strlen($this->query) - (strlen($separator) + 2));
+		$this->query = trim($this->query, $separator . ' ');
 		
 		return $this;
 	}
@@ -581,15 +545,19 @@ class Solidocs_Db
 	}
 	
 	/**
-	 * Having
+	 * Comparison val
 	 *
-	 * @param array
-	 * @param string	Optional.
-	 * @param string	Optional.
-	 * @return object
+	 * @param string
 	 */
-	public function having($args, $separator = 'AND', $block_separator = 'AND'){
-		return $this->where($args, $separator, $block_separator, true);
+	public function _comparison_val($val){
+		$comparison = '=';
+		
+		if(substr($val, 0, 4) == 'LIKE'){
+			$comparison = 'LIKE';
+			$val		= substr($val, 5);
+		}
+		
+		return $comparison . ' "' . $val . '"';
 	}
 	
 	/**
