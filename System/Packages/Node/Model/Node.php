@@ -71,12 +71,15 @@ class Node_Model_Node extends Solidocs_Base
 				case 'type':
 					$this->db->where(array('content_type' => $val));
 				break;
+				
 				case 'category':
 					$this->db->where(array('category' => $val));
 				break;
+				
 				case 'locale':
 					$this->db->where(array('locale' => $val));
 				break;
+				
 				case 'tags':
 					$tags = array();
 					
@@ -85,6 +88,14 @@ class Node_Model_Node extends Solidocs_Base
 					}
 					
 					$this->db->where_or(array('tags' => $tags));
+				break;
+				
+				case 'published':
+					$this->db->where(array('published' => $val));
+				break;
+				
+				case 'id':
+					$this->db->where(array('node_id' => $val));
 				break;
 			}
 		}
