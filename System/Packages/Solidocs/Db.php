@@ -479,26 +479,34 @@ class Solidocs_Db
 			$this->first_where($separator);
 		}
 		
+		$last_is_array = false;
+		
 		foreach($args as $key => $val){
 			$val = $this->escape($val);
 			
 			if(is_array($val)){
+				$last_is_array = true;
+				
 				$this->query .= '(';
 				
 				foreach($val as $block_val){
 					$this->query .= $this->_fields($key) . ' ' . $this->_comparison_val($block_val) . ' ' . $block_separator . ' ';
 				}
 				
-				$this->query = trim($this->query, $block_separator . ' ');
+				$this->query = substr($this->query, 0, strlen($this->query) - strlen($block_separator) - 1);
 				
 				$this->query .= ')';
 			}
 			else{
+				$last_is_array = false;
+				
 				$this->query .= $this->_fields($key) . ' ' . $this->_comparison_val($val) . ' ' . $separator . ' ';
 			}
 		}
 		
-		$this->query = trim($this->query, $separator . ' ');
+		if(!$last_is_array){
+			$this->query = substr($this->query, 0, strlen($this->query) - strlen($separator) - 1);
+		}
 		
 		return $this;
 	}

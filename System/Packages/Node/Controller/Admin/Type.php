@@ -56,7 +56,8 @@ class Node_Controller_Admin_Type extends Solidocs_Controller_Action
 			'text'		=> 'Text',
 			'integer'	=> 'Integer',
 			'array'		=> 'Array',
-			'file'		=> 'File'
+			'file'		=> 'File',
+			'bool'		=> 'Boolean'
 		);
 		
 		if(isset($_POST['new_field'])){

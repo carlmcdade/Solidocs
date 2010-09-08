@@ -30,4 +30,14 @@ class Solidocs_Helper_Xform extends Solidocs_Helper
 		
 		return $output;
 	}
+	
+	/**
+	 * Select bool
+	 *
+	 * @param string
+	 * @param value
+	 */
+	public function select_bool($name, $value = false){
+		return $this->output->helper('form')->select($name, $value, array('false', 'true'), false);
+	}
 }
