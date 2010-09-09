@@ -87,7 +87,7 @@ class Node_Model_Node extends Solidocs_Base
 						$tags[] = 'LIKE %' . $val . '%';
 					}
 					
-					$this->db->where_or(array('tags' => $tags));
+					$this->db->where(array('tags' => $tags));
 				break;
 				
 				case 'published':
@@ -120,7 +120,19 @@ class Node_Model_Node extends Solidocs_Base
 					}
 				}
 				
-				$nodes[] = $node;
+				$match = true;
+				
+				if(isset($args['content'])){
+					foreach($args['content'] as $key => $val){
+						if($node->content[$key] !== $val){
+							$match = false;
+						}
+					}
+				}
+				
+				if($match){
+					$nodes[] = $node;
+				}
 			}
 		}
 		
