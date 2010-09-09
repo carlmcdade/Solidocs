@@ -58,6 +58,22 @@ class Admin_Model_Package extends Solidocs_Base
 			array(
 				'item' => 'media',
 				'controller' => 'Admin_Media'
+			),
+			array(
+				'item' => 'user',
+				'controller' => 'Admin_User'
+			),
+			array(
+				'item' => 'theme',
+				'controller' => 'Admin_Theme'
+			),
+			array(
+				'item' => 'group',
+				'controller' => 'Admin_Group'
+			),
+			array(
+				'item' => 'region',
+				'controller' => 'Admin_Region'
 			)
 		);
 		
