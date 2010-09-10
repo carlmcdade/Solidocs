@@ -32,6 +32,13 @@ class Solidocs_Plugin_Debug extends Solidocs_Plugin
 				}
 			});
 			
+			$("#debug_box ul li a.close").click(function(){
+				
+				$("#debug_box").remove();
+				return false;
+				
+			});
+			
 		});
 		');
 		$this->theme->add_style('
@@ -81,13 +88,13 @@ class Solidocs_Plugin_Debug extends Solidocs_Plugin
 		
 		$array = array(
 			'General'	=> array(
-				'Request URI'			=> $this->router->request_uri,
-				'URI'					=> $this->router->uri,
-				'Time to generate'		=> microtime_since(STARTTIME),
-				'Memory usage'			=> round(memory_get_usage() / 1024 / 1024, 5) . ' MB',
-				'Included files'		=> count(get_included_files()),
+				'Request URI'		=> $this->router->request_uri,
+				'URI'				=> $this->router->uri,
+				'Time to generate'	=> microtime_since(STARTTIME),
+				'Memory usage'		=> round(memory_get_usage() / 1024 / 1024, 5) . ' MB',
+				'Included files'	=> count(get_included_files()),
 				'Database queries'	=> count($this->db->queries),
-				'Locale'				=> $this->locale
+				'Locale'			=> $this->locale
 			),
 			'Hooks'				=> debug($this->hook, '', true),
 			'Called hooks'		=> debug($this->called_hook, '', true),
@@ -125,6 +132,8 @@ class Solidocs_Plugin_Debug extends Solidocs_Plugin
 			
 			$debug .= '<a href="#">' . $section . '</a></li>';
 		}
+		
+		$debug .= '<li><a href="#" class="close">Close</a></li>';
 		
 		if(preg_match('/<\/body>/', $output, $matches)){
 			$output = str_replace('</body>', $debug . '</body>', $output);
