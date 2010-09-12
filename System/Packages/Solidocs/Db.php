@@ -527,16 +527,17 @@ class Solidocs_Db
 	 *
 	 * @param string
 	 * @param array
+	 * @param string
 	 * @return object
 	 */
-	public function where_in($field, $args, $in = 'IN'){
+	public function where_in($field, $args, $separator = 'AND'){
 		foreach($args as $key => $val){
 			$args[$key] = $this->escape($val);
 		}
 		
 		$this->first_where($separator);
 		
-		$this->query .= ' ' . $field . ' ' . $in . '("' . implode('","', $args) . '") ';
+		$this->query .= ' ' . $field . ' IN ("' . implode('","', $args) . '") ';
 		
 		return $this;
 	}
