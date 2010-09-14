@@ -24,15 +24,16 @@ class Application_Controller_Install extends Solidocs_Controller_Action
 	public function do_index(){
 		if($this->input->has_get('install')){
 			$packages = array(
+				'Solidocs',
 				'Admin',
 				'Dynamic'
 			);
 			
 			foreach($packages as $package){
-				$this->load->model('Package', $package);
+				$model = $this->load->get_model('Package', $package);
 				
-				$this->model->package->uninstall();
-				$this->model->package->install();
+				$model->uninstall();
+				$model->install();
 			}
 			
 			$this->output->add_message('success', 'The packages were successfully installed');

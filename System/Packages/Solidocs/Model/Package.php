@@ -1,6 +1,19 @@
 <?php
+/**
+ * Solidocs Package Installer
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @package		Dynamic
+ * @author		Karl Roos <karlroos93@gmail.com>
+ * @license		MIT License (http://www.opensource.org/licenses/mit-license.p
+ */
 class Solidocs_Model_Package extends Solidocs_Base
 {
+	/**
+	 * Install
+	 */
 	public function install(){
 		// navigation table
 		$this->db->sql('
@@ -19,8 +32,8 @@ class Solidocs_Model_Package extends Solidocs_Base
 		  `locale` char(5) COLLATE utf8_bin NOT NULL DEFAULT "en_GB",
 		  `title` varchar(128) COLLATE utf8_bin NOT NULL,
 		  `url` varchar(128) COLLATE utf8_bin NOT NULL,
-		  `parent_id` int(11) NOT NULL DEFAULT '0',
-		  `weight` int(2) NOT NULL DEFAULT '0',
+		  `parent_id` int(11) NOT NULL DEFAULT \'0\',
+		  `weight` int(2) NOT NULL DEFAULT \'0\',
 		  PRIMARY KEY (`navigation_item_id`),
 		  KEY `key` (`key`),
 		  KEY `order` (`weight`),
@@ -40,7 +53,7 @@ class Solidocs_Model_Package extends Solidocs_Base
 				'key'		=> 'main_menu',
 				'locale'	=> 'en_GB',
 				'title'		=> 'Home',
-				'uri'		=> '/',
+				'url'		=> '/',
 				'parent_id'	=> 0,
 				'weight'	=> 0
 			),
@@ -48,9 +61,9 @@ class Solidocs_Model_Package extends Solidocs_Base
 				'key'		=> 'main_menu',
 				'locale'	=> 'en_GB',
 				'title'		=> 'About',
-				'uri'		=> '/about',
+				'url'		=> '/about',
 				'parent_id'	=> 0,
-				'weight'	=> 0
+				'weight'	=> 1
 			)
 		);
 		
@@ -59,6 +72,9 @@ class Solidocs_Model_Package extends Solidocs_Base
 		}
 	}
 	
+	/**
+	 * Uninstall
+	 */
 	public function uninstall(){
 		$this->db->sql('DROP TABLE IF EXISTS `navigation`')->run();
 		$this->db->sql('DROP TABLE IF EXISTS `navigation_item`')->run();

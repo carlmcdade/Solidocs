@@ -606,4 +606,21 @@ class Solidocs_Db
 		
 		return implode(',', $fields);
 	}
+	
+	/**
+	 * Get tables
+	 *
+	 * @return array
+	 */
+	public function get_tables(){
+		$this->sql('SHOW TABLES IN `' . $this->database . '`')->run();
+		
+		$tables = array();
+		
+		while($item = $this->fetch_assoc()){
+			$tables[] = $item['Tables_in_' . $this->database];
+		}
+		
+		return $tables;
+	}
 }

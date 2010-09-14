@@ -244,6 +244,28 @@ class Solidocs_Load extends Solidocs_Base
 	}
 	
 	/**
+	 * Get model
+	 *
+	 * @param string
+	 * @param string	Optional.
+	 */
+	public function get_model($class, $package = null){
+		$search = $this->search($class, 'Model', $package);
+		
+		if(is_array($search)){
+			if(isset(Solidocs::$registry->model->$search['slug'])){
+				return true;
+			}
+			
+			include_once($search['path']);
+			return new $search['class'];
+		}
+		else{
+			throw new Exception('Model "' . $class . '" could not be loaded');
+		}
+	}
+	
+	/**
 	 * Helper
 	 *
 	 * @param string
