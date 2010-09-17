@@ -211,6 +211,14 @@ class Admin_Model_Package extends Solidocs_Base
 			array(
 				'key'		=> 'admin_menu',
 				'locale'	=> 'en_GB',
+				'title'		=> 'Settings',
+				'url'		=> '/admin/theme/settings',
+				'parent_id'	=> $theme_parent_id,
+				'weight'	=> 1
+			),
+			array(
+				'key'		=> 'admin_menu',
+				'locale'	=> 'en_GB',
 				'title'		=> 'Groups',
 				'url'		=> '/admin/group',
 				'parent_id'	=> $users_parent_id,

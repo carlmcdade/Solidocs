@@ -45,7 +45,7 @@ class Dynamic_Controller_Admin_Theme extends Solidocs_Controller_Action
 			}
 		}
 		
-		$this->load->view('Admin_Theme', array(
+		$this->load->view('Admin_Theme_List', array(
 			'themes'	=> $themes
 		));
 	}
@@ -61,5 +61,27 @@ class Dynamic_Controller_Admin_Theme extends Solidocs_Controller_Action
 		$this->output->add_flash_message('success', 'The theme has been set');
 		
 		$this->redirect('/admin/theme');
+	}
+	
+	/**
+	 * Settings
+	 */
+	public function do_settings(){
+		$this->load->model('Dynamic');
+		
+		if($this->input->has_post('title_base')){
+			$this->model->dynamic->set_config('Theme.title_base', $this->input->post('title_base'));
+			$this->model->dynamic->set_config('Theme.title_separator', $this->input->post('title_separator'));
+		
+			$this->output->add_flash_message('success', 'Saved the new settings');
+			$this->redirect('/admin/theme/settings');
+		}
+		
+		$data = array(
+			'title_base'		=> $this->theme->title_base,
+			'title_separator'	=> $this->theme->title_separator
+		);
+		
+		$this->load->view('Admin_Theme_Settings', $data);
 	}
 }
