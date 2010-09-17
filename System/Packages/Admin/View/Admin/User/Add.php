@@ -12,7 +12,7 @@
 		echo $this->form()->password('password');
 		
 		echo $this->form()->label('Group');
-		echo $this->form()->text('group');
+		echo $this->form()->select('group', false, $groups, false, true);
 		
 		echo $this->form()->label('Save');
 		echo $this->form()->button('Save');
