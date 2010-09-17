@@ -115,6 +115,27 @@ a:hover
 {border-color: #34a1ff; background: #dbe8ff;}
 
 /**
+ * Theme list
+ */
+.theme_list
+{padding-top: 10px;}
+
+.theme_list > div
+{width: 231px; padding: 150px 10px 10px 10px; margin: 0 0 10px 10px; float: left; border: 1px solid #ccc;}
+
+.theme_list > div:hover
+{border-color: #aaa;}
+
+.theme_list > div p
+{padding: 10px 0 0 0;}
+
+.theme_list > div a
+{display: block; margin: 10px auto 0 auto; padding: 10px; width: 100px; background: #ddd; text-align: center; -moz-border-radius: 10px; -webkit-border-radius: 10px;	border: 1px solid #ccc;}
+
+.theme_list > div.active
+{border-color: #007fc3;}
+
+/**
  * Classes
  */
 .discrete
