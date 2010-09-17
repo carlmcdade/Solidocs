@@ -235,6 +235,14 @@ class Admin_Model_Package extends Solidocs_Base
 			array(
 				'key'		=> 'admin_menu',
 				'locale'	=> 'en_GB',
+				'title'		=> 'Add group',
+				'url'		=> '/admin/group/add',
+				'parent_id'	=> $users_parent_id,
+				'weight'	=> 2
+			),
+			array(
+				'key'		=> 'admin_menu',
+				'locale'	=> 'en_GB',
 				'title'		=> 'Create',
 				'url'		=> '/admin/navigation/create',
 				'parent_id'	=> $navigation_parent_id,

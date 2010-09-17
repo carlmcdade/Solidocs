@@ -21,4 +21,38 @@ class Admin_Controller_Admin_Group extends Solidocs_Controller_Action
 			'groups' => $this->db->arr()
 		));
 	}
+	
+	/**
+	 * Add
+	 */
+	public function do_add(){
+		if($this->input->has_post('name')){
+			$this->load->library('Text');
+			
+			$this->db->insert_into('group', array(
+				'group'			=> $this->text->slug($this->input->post('name')),
+				'name'			=> $this->input->post('name'),
+				'description'	=> $this->input->post('description')
+			))->run();
+			
+			$this->output->add_flash_message('success', 'The group was successfully added');
+			
+			$this->redirect('/admin/group');
+		}
+		
+		$this->load->view('Admin_Group_Add');
+	}
+	
+	/**
+	 * Delete
+	 */
+	public function do_delete(){
+		$this->db->delete_from('group')->where(array(
+			'group' => $this->input->uri_segment('id')
+		))->run();
+		
+		$this->output->add_flash_message('success', 'The group was successfully deleted');
+		
+		$this->redirect('/admin/group');
+	}
 }
