@@ -29,7 +29,7 @@ class Solidocs_Auth_Default extends Solidocs_Auth_Auth
 			return false;
 		}
 		
-		$this->db->select_from('user')->where(array(
+		$this->db->select_from('user', 'user_id,email,group')->where(array(
 			'email' => $email,
 			'password' => $this->user->password($password, $salt)
 		))->run();

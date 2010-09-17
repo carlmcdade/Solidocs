@@ -172,6 +172,8 @@ class Solidocs_Application extends Solidocs_Base
 	
 	/**
 	 * Render
+	 *
+	 * @param string	Optional.
 	 */
 	public function render($output = ''){
 		// Retrieve output if it wasn't given
