@@ -9,7 +9,7 @@
  * @author		Karl Roos <karlroos93@gmail.com>
  * @license		MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-class Admin_Controller_Admin_Region extends Solidocs_Controller_Action
+class Dynamic_Controller_Admin_Region extends Solidocs_Controller_Action
 {
 	/**
 	 * Init

@@ -10,9 +10,15 @@
 	<li>Solidocs</li>
 </ul>
 
-<form action="/install/" method="get">
+<form action="/install/?install=true" method="post">
 	
-	<button name="install" value="true" type="submit">Install Solidocs</button>
+	<label>Admin E-mail</label>
+	<input type="text" name="email" />
+	
+	<label>Admin Password</label>
+	<input type="text" name="password" />
+	
+	<button type="submit">Install Solidocs</button>
 	
 </form>
 

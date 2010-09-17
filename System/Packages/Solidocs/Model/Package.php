@@ -15,6 +15,50 @@ class Solidocs_Model_Package extends Solidocs_Base
 	 * Install
 	 */
 	public function install(){
+		// user table
+		$this->db->sql('
+		CREATE TABLE IF NOT EXISTS `user` (
+		  `user_id` int(11) NOT NULL AUTO_INCREMENT,
+		  `email` varchar(128) COLLATE utf8_bin NOT NULL,
+		  `password` varchar(32) COLLATE utf8_bin NOT NULL,
+		  `salt` varchar(32) COLLATE utf8_bin NOT NULL,
+		  `group` varchar(256) COLLATE utf8_bin NOT NULL DEFAULT \'user\',
+		  PRIMARY KEY (`user_id`),
+		  UNIQUE KEY `email` (`email`),
+		  KEY `password` (`password`)
+		) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;')->run();
+		
+		// group table
+		$this->db->sql('
+		CREATE TABLE IF NOT EXISTS `group` (
+		  `group` varchar(32) COLLATE utf8_bin NOT NULL,
+		  `name` varchar(32) COLLATE utf8_bin NOT NULL,
+		  `description` varchar(256) COLLATE utf8_bin NOT NULL,
+		  UNIQUE KEY `group` (`group`)
+		) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;')->run();
+		
+		$this->db->insert_into('group', array(
+			'group'			=> 'admin',
+			'name'			=> 'Admin',
+			'description'	=> 'The administrators group, this group can do everything.'
+		))->run();
+		
+		$this->db->insert_into('group', array(
+			'group'			=> 'user',
+			'name'			=> 'User',
+			'description'	=> 'Regular users on the site.'
+		))->run();
+		
+		// insert default user
+		$salt = $this->user->generate_salt();
+		
+		$this->db->insert_into('user', array(
+			'email'		=> $this->input->post('email'),
+			'password'	=> $this->user->password($this->input->post('password'), $salt),
+			'salt'		=> $salt,
+			'group'		=> 'user,admin'
+		))->run();
+		
 		// navigation table
 		$this->db->sql('
 		CREATE TABLE IF NOT EXISTS `navigation` (
@@ -38,7 +82,7 @@ class Solidocs_Model_Package extends Solidocs_Base
 		  KEY `key` (`key`),
 		  KEY `order` (`weight`),
 		  KEY `parent_id` (`parent_id`)
-		) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin')->run();
+		) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;')->run();
 		
 		// main menu
 		$this->db->insert_into('navigation', array(
@@ -76,6 +120,8 @@ class Solidocs_Model_Package extends Solidocs_Base
 	 * Uninstall
 	 */
 	public function uninstall(){
+		$this->db->sql('DROP TABLE IF EXISTS `user`')->run();
+		$this->db->sql('DROP TABLE IF EXISTS `group`')->run();
 		$this->db->sql('DROP TABLE IF EXISTS `navigation`')->run();
 		$this->db->sql('DROP TABLE IF EXISTS `navigation_item`')->run();
 	}

@@ -22,13 +22,24 @@ class Application_Controller_Install extends Solidocs_Controller_Action
 	 * Index
 	 */
 	public function do_index(){
-		if($this->input->has_get('install')){
-			$packages = array(
-				'Solidocs',
-				'Admin',
-				'Dynamic'
-			);
+		$packages = array(
+			'Solidocs',
+			'Admin',
+			'Node',
+			'Dynamic',
+			'Media',
+			'CKEditor'
+		);
 			
+		if($this->input->has_get('uninstall')){
+			foreach($packages as $package){
+				$model = $this->load->get_model('Package', $package);
+				
+				$model->uninstall();
+			}
+		}
+		
+		if($this->input->has_get('install')){
 			foreach($packages as $package){
 				$model = $this->load->get_model('Package', $package);
 				
