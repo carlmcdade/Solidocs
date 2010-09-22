@@ -105,7 +105,12 @@ class Solidocs_Load extends Solidocs_Base
 		$packages['Package']	= PACKAGE;
 				
 		if(is_string($package) AND !empty($package)){
-			$packages = array($package => $packages[$package]);
+			if(!isset($packages[$package])){
+				throw new Exception('The specified package is not allowed to be loaded from.');
+			}
+			else{
+				$packages = array($package => $packages[$package]);
+			}
 		}
 						
 		foreach($packages as $package => $path){

@@ -565,6 +565,9 @@ class Solidocs_Db
 			$comparison = 'LIKE';
 			$val		= substr($val, 5);
 		}
+		elseif(substr($val, 0, 1) == '>' OR substr($val, 0, 1) == '<'){
+			return substr($val, 0, 1) . ' ' . substr($val, 2);
+		}
 		
 		return $comparison . ' "' . $val . '"';
 	}
