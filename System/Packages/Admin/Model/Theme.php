@@ -153,7 +153,11 @@ class Admin_Model_Theme extends Solidocs_Base
 			
 			$widget = new $class;
 			
-			$data['default_config'] = serialize($widget->fields);
+			foreach($widget->fields as $field){
+				$data['default_config'][$field] = $field;
+			}
+			
+			$data['default_config'] = $data['default_config'];
 			
 			$this->db->insert_into('widget', $data)->run();
 		}

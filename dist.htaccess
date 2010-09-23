@@ -1,3 +1,8 @@
+<FilesMatch "\.(htaccess|htpasswd|ini|log|sh|inc|bak)$">
+Order Allow,Deny
+Deny from all
+</FilesMatch>
+
 setenv APPLICATION_ENV development
 
 RewriteEngine on
