@@ -69,15 +69,33 @@ class Node_Controller_Admin_Type extends Solidocs_Controller_Action
 		}
 		
 		if($this->input->has_post()){
+			$default_view	= $_POST['default_view'];
+			$default_uri	= $_POST['default_uri'];
+			
+			unset($_POST['default_view'], $_POST['default_uri']);
+			
+			$this->db->update_set('content_type', array(
+				'default_view'	=> $default_view,
+				'default_uri'	=> $default_uri
+			))->where(array(
+				'content_type'	=> $this->input->uri_segment('id')
+			))->run();
+			
 			foreach($_POST as $field => $data){
 				$this->model->node->update_type_field($this->input->uri_segment('id'), $field, $data);
 			}
 		}
 		
+		$content_type = $this->db->select_from('content_type')->where(array(
+			'content_type' => $this->input->uri_segment('id')
+		))->run()->fetch_assoc();
+		
 		$this->load->view('Admin_Content_TypeEdit', array(
-			'fields' => $this->model->node->get_type_fields($this->input->uri_segment('id')),
-			'helpers' => $helpers,
-			'types' => $types
+			'fields'		=> $this->model->node->get_type_fields($this->input->uri_segment('id')),
+			'helpers'		=> $helpers,
+			'types'			=> $types,
+			'default_view'	=> $content_type['default_view'],
+			'default_uri'	=> $content_type['default_uri']
 		));
 	}
 	

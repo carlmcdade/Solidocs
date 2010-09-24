@@ -52,15 +52,19 @@ class Node_Model_Package extends Solidocs_Base
 		// content_type table
 		$this->db->sql('
 		CREATE TABLE IF NOT EXISTS `content_type` (
-		  `content_type` varchar(32) COLLATE utf8_bin NOT NULL,
-		  `name` varchar(32) COLLATE utf8_bin NOT NULL,
-		  `description` varchar(256) COLLATE utf8_bin NOT NULL,
+		  `content_type` varchar(32) collate utf8_bin NOT NULL,
+		  `name` varchar(32) collate utf8_bin NOT NULL,
+		  `default_view` varchar(128) collate utf8_bin NOT NULL,
+		  `default_uri` varchar(128) collate utf8_bin NOT NULL,
+		  `description` varchar(256) collate utf8_bin NOT NULL,
 		  UNIQUE KEY `content_type` (`content_type`)
 		) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;')->run();
 		
 		$this->db->insert_into('content_type', array(
 			'content_type'	=> 'page',
 			'name'			=> 'Page',
+			'default_view'	=> 'Content_Page',
+			'default_uri'	=> '/:title',
 			'description'	=> 'A regular page'
 		))->run();
 		

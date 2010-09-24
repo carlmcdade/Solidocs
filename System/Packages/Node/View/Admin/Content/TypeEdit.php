@@ -46,6 +46,18 @@
 
 </table>
 
+<div class="form vertical">
+	
+	<?php
+	echo $this->form()->label('Default view');
+	echo $this->form()->text('default_view', $default_view);
+	
+	echo $this->form()->label('Default URI (:title will be replaced with a slug of the node title)');
+	echo $this->form()->text('default_uri', $default_uri);
+	?>
+	
+</div>
+
 <p>
 	<button type="submit">Save</button>
 </p>

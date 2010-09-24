@@ -50,11 +50,21 @@ class Solidocs_Model_Package extends Solidocs_Base
 		))->run();
 		
 		// insert default user
-		$salt = $this->user->generate_salt();
+		$salt		= $this->user->generate_salt();
+		$email		= 'admin@example.com';
+		$password	= 'password';
+		
+		if($this->input->has_post('email')){
+			$email = $this->input->post('email');
+		}
+		
+		if($this->input->has_post('password')){
+			$password = $this->input->post('password');
+		}
 		
 		$this->db->insert_into('user', array(
-			'email'		=> $this->input->post('email'),
-			'password'	=> $this->user->password($this->input->post('password'), $salt),
+			'email'		=> $email,
+			'password'	=> $this->user->password(, $salt),
 			'salt'		=> $salt,
 			'group'		=> 'user,admin'
 		))->run();

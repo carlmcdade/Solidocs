@@ -34,12 +34,18 @@ class Node_Controller_Admin_Content extends Solidocs_Controller_Action
 		$node_id = $this->input->uri_segment('id', 0);
 		
 		if($node_id == 0){
-			$content_type = $this->model->node->get_type_fields($this->input->get('content_type', 'page'));
+			$content_type = $this->db->select_from('content_type')->where(array(
+				'content_type' => $this->input->get('content_type', 'page')
+			))->run()->fetch_assoc();
+			
+			$content_type_fields = $this->model->node->get_type_fields($this->input->get('content_type', 'page'));
 			$node = array(
-				'node_id' => 0
+				'node_id'	=> 0,
+				'view'		=> $content_type['default_view'],
+				'uri'		=> $content_type['default_uri']
 			);
 			
-			foreach($content_type as $field => $properties){
+			foreach($content_type_fields as $field => $properties){
 				$node[$field] = '';
 			}
 		}
@@ -47,7 +53,8 @@ class Node_Controller_Admin_Content extends Solidocs_Controller_Action
 			$node = $this->model->node->get_node(array(
 				'node_id' => $node_id
 			));
-			$content_type = $this->model->node->get_type_fields($node->content_type);
+			
+			$content_type_fields = $this->model->node->get_type_fields($node->content_type);
 		}
 		
 		if(!is_array($node->content)){
@@ -55,15 +62,19 @@ class Node_Controller_Admin_Content extends Solidocs_Controller_Action
 		}
 		
 		$form = new Node_Form_Edit(false);
-		$form->init($content_type);
+		$form->init($content_type_fields);
 		
 		if($form->is_posted() AND $this->input->has_post()){
 			$form->set_values($_POST);
+			
+			$this->load->library('Text');
 			
 			if($form->is_valid()){
 				$form->process_values();
 				
 				$values = $form->get_values();
+				
+				$values['uri'] = str_replace(':title', $this->text->slug($values['title']), $values['uri']);
 				
 				if($values['node_id'] == 0 OR empty($values['node_id'])){
 					unset($values['node_id']);
@@ -73,7 +84,9 @@ class Node_Controller_Admin_Content extends Solidocs_Controller_Action
 					}
 					
 					$this->model->node->create($values);
-					$this->output->add_message('success', 'The node was successfully created.');
+					$this->output->add_flash_message('success', 'The node was successfully created.');
+					
+					$this->redirect('/admin/content/edit/' . $this->db->insert_id());
 				}
 				else{
 					foreach($form->elements as $element_key => $element){
