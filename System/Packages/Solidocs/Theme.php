@@ -7,7 +7,7 @@
  *
  * @package		Solidocs
  * @author		Karl Roos <karlroos93@gmail.com>
- * @license		MIT License (http://www.opensource.org/licenses/mit-license.p
+ * @license		MIT License (http://www.opensource.org/licenses/mit-license.php
  */
 class Solidocs_Theme extends Solidocs_Base
 {
@@ -176,6 +176,7 @@ class Solidocs_Theme extends Solidocs_Base
 	 * Prepare
 	 */
 	public function prepare(){
+		// Prepare the theme constants
 		define('THEME', MEDIA . '/Theme/' . $this->theme);
 		define('THEME_WWW', str_replace(ROOT, '', THEME));
 	}
@@ -186,6 +187,7 @@ class Solidocs_Theme extends Solidocs_Base
 	 * @return string
 	 */
 	public function render(){
+		// Check for theme.ini
 		if($this->config->file_exists(THEME . '/theme')){
 			$config = $this->config->load_file(THEME . '/theme', true);
 			
@@ -200,6 +202,7 @@ class Solidocs_Theme extends Solidocs_Base
 		
 		Solidocs::do_action('pre_theme_render');
 		
+		// Loop possible theme files
 		foreach($this->theme_files as $file){
 			if(isset($theme_file)){
 				continue;
@@ -210,6 +213,7 @@ class Solidocs_Theme extends Solidocs_Base
 			}
 		}
 		
+		// No theme file found
 		if(!isset($theme_file)){
 			throw new Exception('No theme file could be found in "' . THEME . '".');
 		}
@@ -228,10 +232,12 @@ class Solidocs_Theme extends Solidocs_Base
 	public function render_layout(){
 		$layout_file = THEME . '/' . $this->layout . '.layout.php';
 		
+		// Check for layout file
 		if(file_exists($layout_file)){	
 			include($layout_file);
 		}
 		else{
+			// Display the content and wrap in a div
 			echo '<div id="content">' . $this->output->render_content(true) . '</div>';
 		}
 	}
@@ -249,12 +255,14 @@ class Solidocs_Theme extends Solidocs_Base
 	 * @param string
 	 */
 	public function render_region($region){
+		// Check if the region exists
 		if(!isset($this->regions[$region])){
 			throw new Exception('The region "' . $region . '" is not defined');
 			return false;
 		}
 		
 		if(is_array($this->region_items[$region])){
+			// Loop region items and display
 			foreach(Solidocs::apply_filter('region.' . $region, $this->region_items[$region]) as $content){
 				echo $content;
 			}
@@ -294,6 +302,7 @@ class Solidocs_Theme extends Solidocs_Base
 	 * @return string
 	 */
 	public function title($title_base = null, $title_parts = null, $title_default = '', $title_separator = ' - ', $title_reverse = null){
+		// Retrieve properties from this object if they arn't passed with the method
 		if($title_base == null){
 			$title_base = $this->title_base;
 		}
@@ -306,28 +315,33 @@ class Solidocs_Theme extends Solidocs_Base
 			$title_parts = $this->title_parts;
 		}
 		
+		if($title_reverse == null){
+			$title_reverse = $this->title_reverse;
+		}
+		
+		// Check if there arn't any title parts
 		if(count($title_parts) == 0){
 			if($this->title_default !== ''){
 				$title_default = $this->title_default;
 			}
 			
+			// Add default title if it isn't empty
 			if(strlen($title_default) !== 0){
 				$title_parts[] = $title_default;
 			}
 		}
 		
+		// Check if there's a title base
 		if(!empty($title_base)){
 			array_unshift($title_parts, $title_base);
 		}
 		
-		if($title_reverse == null){
-			$title_reverse = $this->title_reverse;
-		}
-		
+		// Reverse title?
 		if($title_reverse){
 			$title_parts = array_reverse($title_parts);
 		}
 		
+		// Assemble the title
 		return implode($title_separator, $title_parts);		
 	}
 	
