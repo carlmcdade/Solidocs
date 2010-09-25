@@ -70,16 +70,19 @@ class Dynamic_Controller_Admin_Theme extends Solidocs_Controller_Action
 		$this->load->model('Dynamic');
 		
 		if($this->input->has_post('title_base')){
-			$this->model->dynamic->set_config('Theme.title_base', $this->input->post('title_base'));
-			$this->model->dynamic->set_config('Theme.title_separator', $this->input->post('title_separator'));
+			foreach($_POST as $key => $val){
+				$this->model->dynamic->set_config('Theme.' . $key, $val);
+			}
 		
 			$this->output->add_flash_message('success', 'Saved the new settings');
 			$this->redirect('/admin/theme/settings');
 		}
 		
 		$data = array(
-			'title_base'		=> $this->theme->title_base,
-			'title_separator'	=> $this->theme->title_separator
+			'title_base'			=> $this->theme->title_base,
+			'title_separator'		=> $this->theme->title_separator,
+			'default_description'	=> $this->theme->default_description,
+			'default_keywords'		=> $this->theme->default_keywords
 		);
 		
 		$this->load->view('Admin_Theme_Settings', $data);

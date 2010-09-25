@@ -72,6 +72,16 @@ class Solidocs_Theme extends Solidocs_Base
 	public $title_reverse = true;
 	
 	/**
+	 * Default description
+	 */
+	public $default_description = '';
+	
+	/**
+	 * Default keywords
+	 */
+	public $default_keywords = '';
+	
+	/**
 	 * Head jquery
 	 */
 	public $head_jquery = false;
@@ -421,36 +431,57 @@ class Solidocs_Theme extends Solidocs_Base
 	 * @return string
 	 */
 	public function head($args = array(), $return = false){
-		$defaults = array(
+		// Arguments
+		$args = array_merge(array(
 			'title'		=> true,
 			'meta'		=> true,
 			'js'		=> true,
 			'script'	=> true,
 			'css'		=> true,
 			'style'		=> true
-		);
+		), $args);
 		
+		// Head jQuery
 		if($this->head_jquery){
 			array_unshift($this->js, 'http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js');
 		}
 		
-		$args	= array_merge($defaults, $args);
+		// Default meta description
+		if(!empty($this->default_description)){
+			if(!isset($this->meta['description'])){
+				$this->add_meta('description', $this->default_description);
+			}
+		}
+		
+		// Default meta keywords
+		if(!empty($this->default_keywords)){
+			if(!isset($this->meta['keywords'])){
+				$this->add_meta('keywords', $this->default_keywords);
+			}
+		}
+		
 		$output	= '';
 		
+		// Loop through the arguments
 		foreach($args as $item => $flag){
 			if($flag == true){
+				// Title
 				if($item == 'title'){
 					$output .= '<title>' . $this->title() . '</title>';
 					continue;
 				}
 				
+				// Empty
 				if(count($this->$item) == 0){
 					continue;
 				}
 				
+				// Loop items
 				foreach($this->$item as $key => $val){
+					// Remove the ROOT path from the value
 					$val = str_replace(ROOT, '', $val);
 					
+					// Render item
 					switch($item){
 						case 'meta':
 							$output .= '<meta name="' . $key . '" content="' . $val . '" />' . "\n";
@@ -476,6 +507,7 @@ class Solidocs_Theme extends Solidocs_Base
 			}
 		}
 		
+		// Display output
 		if($return){
 			return $output;
 		}

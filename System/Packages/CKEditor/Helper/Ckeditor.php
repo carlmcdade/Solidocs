@@ -43,6 +43,6 @@ class CKEditor_Helper_Ckeditor extends Solidocs_Helper
 		#');
 		
 		// Render the textarea
-		return '<textarea class="ckeditor" name="' . $name . '" cols="' . $cols . '" rows="' . $rows . '">' . $value . '</textarea>';
+		return '<textarea class="ckeditor" name="' . $name . '" cols="' . $cols . '" rows="' . $rows . '">' . stripslashes($value) . '</textarea>';
 	}
 }

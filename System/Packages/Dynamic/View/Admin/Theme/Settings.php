@@ -3,15 +3,23 @@
 <form action="/admin/theme/settings" method="post">
 
 	<div class="form vertical">
-	
-		<label>Title base</label>
-		<input type="text" name="title_base" value="{title_base}" />
 		
-		<label>Title separator</label>
-		<input type="text" name="title_separator" value="{title_separator}" />
+		<?php
+		echo $this->form()->label('Title base');
+		echo $this->form()->text('title_base', $title_base);
 		
-		<label>Save</label>
-		<button type="submit">Save</button>
+		echo $this->form()->label('Title separator');
+		echo $this->form()->text('title_separator', $title_separator);
+		
+		echo $this->form()->label('Default meta description');
+		echo $this->form()->text('default_description', $default_description);
+		
+		echo $this->form()->label('Default meta keywords');
+		echo $this->form()->text('default_keywords', $default_keywords);
+		
+		echo $this->form()->label('Save');
+		echo $this->form()->button('Save');
+		?>
 		
 	</div>
 
