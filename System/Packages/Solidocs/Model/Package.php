@@ -62,6 +62,8 @@ class Solidocs_Model_Package extends Solidocs_Base
 			$password = $this->input->post('password');
 		}
 		
+		$this->output->add_flash_message('info', 'You can now sign in with the following credentials:', 'E-mail: ' . $email . ', Password: ' . $password);
+		
 		$this->db->insert_into('user', array(
 			'email'		=> $email,
 			'password'	=> $this->user->password(, $salt),

@@ -44,7 +44,7 @@ class Node_Form_Edit extends Solidocs_Form
 			'helper' => array('form/text')
 		))->add_element('uri', array(
 			'type' => 'text',
-			'label' => 'URI',
+			'label' => 'URI (:title will be replaced with a slug of the title)',
 			'helper' => array('form/text')
 		))->add_element('locale', array(
 			'type' => 'text',
@@ -77,6 +77,8 @@ class Node_Form_Edit extends Solidocs_Form
 			$this->add_element('content[' . $name . ']', $element);
 		}
 		
+		$this->load->model('Content');
+		
 		$this->add_element('tags', array(
 			'type' => 'text',
 			'label' => 'Tags',
@@ -85,10 +87,6 @@ class Node_Form_Edit extends Solidocs_Form
 			'type' => 'text',
 			'label' => 'Description',
 			'helper' => array('form/text')
-		))->add_element('view', array(
-			'type' => 'text',
-			'label' => 'View',
-			'helper' => array('form/text')
 		))->add_element('layout', array(
 			'type' => 'text',
 			'label' => 'Layout',
@@ -96,7 +94,7 @@ class Node_Form_Edit extends Solidocs_Form
 		))->add_element('view', array(
 			'type' => 'text',
 			'label' => 'View',
-			'helper' => array('form/text')
+			'helper' => array('form/select', $this->model->content->get_views(array('Admin')))
 		))->add_element('published', array(
 			'type' => 'bool',
 			'label' => 'Publish',
