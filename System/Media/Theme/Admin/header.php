@@ -4,6 +4,8 @@
 
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<?php
+	$this->set_jquery(true);
+	$this->add_js(THEME_WWW . '/script.js');
 	$this->add_css(THEME_WWW . '/style.css');
 	echo $this->head();
 	?>
