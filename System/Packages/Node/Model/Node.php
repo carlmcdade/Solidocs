@@ -30,7 +30,12 @@ class Node_Model_Node extends Solidocs_Base
 			$node->content = unserialize($node->content);
 			
 			foreach($node->content as $key => $val){
-				$node->$key = $val;
+				if(!is_array($val)){
+					$node->$key = stripslashes($val);
+				}
+				else{
+					$node->$key = $val;
+				}
 			}
 		}
 		

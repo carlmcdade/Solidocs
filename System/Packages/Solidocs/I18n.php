@@ -7,7 +7,7 @@
  *
  * @package		Solidocs
  * @author		Karl Roos <karlroos93@gmail.com>
- * @license		MIT License (http://www.opensource.org/licenses/mit-license.p
+ * @license		MIT License (http://www.opensource.org/licenses/mit-license.php
  */
 class Solidocs_I18n extends Solidocs_Base
 {
@@ -19,7 +19,7 @@ class Solidocs_I18n extends Solidocs_Base
 	/**
 	 * Time format
 	 */
-	public $time_format = 'H:i:is';
+	public $time_format = 'H:i:s';
 	
 	/**
 	 * Timezone
