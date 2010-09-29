@@ -20,6 +20,9 @@ class Solidocs_Application extends Solidocs_Base
 	 * Init
 	 */
 	public function init(){
+		// Error handler
+		set_error_handler(array($this, 'error_handler'));
+		
 		try{
 			// Setup core, database, plugins and router
 			$this->setup_core();
@@ -69,19 +72,14 @@ class Solidocs_Application extends Solidocs_Base
 	 */
 	public function setup_core(){
 		// Include core
-		include(PACKAGE . '/Solidocs/Error.php');
 		include(PACKAGE . '/Solidocs/Config.php');
 		include(PACKAGE . '/Solidocs/Load.php');
 		
 		// Default config
 		$config = array(APP . '/Config/Application');
 		
-		// Staging and development config
-		if(APPLICATION_ENV == 'staging'){
-			$config[] = APP . '/Config/Application.staging';
-		}
-		elseif(APPLICATION_ENV == 'development'){
-			$config[] = APP . '/Config/Application.staging';
+		// Development config
+		if(APPLICATION_ENV == 'development' AND file_exists(APP . '/Config/Application.development.ini')){
 			$config[] = APP . '/Config/Application.development';
 		}
 		else{
@@ -90,10 +88,8 @@ class Solidocs_Application extends Solidocs_Base
 		
 		// Set up core libraries
 		Solidocs::$registry->config	= new Solidocs_Config($config);
-		Solidocs::$registry->error	= new Solidocs_Error;
 		Solidocs::$registry->load	= new Solidocs_Load;
-		Solidocs::apply_config($this->error, $this->config->get('Error'));
-		Solidocs::apply_config($this->load, $this->config->get('Load'));
+		Solidocs::apply_config($this->load,	$this->config->get('Load'));
 	}
 	
 	/**
@@ -127,18 +123,9 @@ class Solidocs_Application extends Solidocs_Base
 		// Load production routes
 		$routes = $this->config->load_file(APP . '/Config/Routes', true);
 		
-		// Staging routes
-		if(APPLICATION_ENV == 'staging' OR APPLICATION_ENV == 'development'){
-			if($this->config->file_exists(APP . '/Config/Routes.staging')){
-				$routes = array_merge($routes, $this->config->load_file(APP . '/Config/Routes.staging', true));	
-			}
-		}
-		
 		// Development routes
-		if(APPLICATION_ENV == 'development'){
-			if($this->config->file_exists(APP . '/Config/Routes.development')){
-				$routes = array_merge($routes, $this->config->load_file(APP . '/Config/Routes.development', true));
-			}
+		if(APPLICATION_ENV == 'development' AND $this->config->file_exists(APP . '/Config/Routes.development')){
+			$routes = array_merge($routes, $this->config->load_file(APP . '/Config/Routes.development', true));
 		}
 		
 		// Set routes
@@ -225,5 +212,25 @@ class Solidocs_Application extends Solidocs_Base
 			
 			$this->dispatch('Application', 'Error', '500');
 		}
+	}
+	
+	/**
+	 * Error handler
+	 *
+	 * @param integer
+	 * @param string
+	 * @param string
+	 * @param integer
+	 */
+	public function error_handler($errno, $string, $file, $line){
+		$string	= str_replace(ROOT, '', strip_tags($string));
+		$file	= str_replace(ROOT, '', $file);
+		
+		Solidocs::$registry->errors[] = array(
+			'errno'		=> $errno,
+			'string'	=> $string,
+			'file'		=> $file,
+			'line'		=> $line
+		);
 	}
 }
