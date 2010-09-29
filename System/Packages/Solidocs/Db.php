@@ -7,7 +7,7 @@
  *
  * @package		Solidocs
  * @author		Karl Roos <karlroos93@gmail.com>
- * @license		MIT License (http://www.opensource.org/licenses/mit-license.p
+ * @license		MIT License (http://www.opensource.org/licenses/mit-license.php
  */
 class Solidocs_Db
 {
@@ -147,9 +147,11 @@ class Solidocs_Db
 	 * @return string|array
 	 */
 	public function escape($input){
+		// Escape array
 		if(is_array($input)){
 			$output = array();
 			
+			// Loop
 			foreach($input as $key => $val){
 				if(is_array($val)){
 					$output[$key] = $this->escape($val);
@@ -162,6 +164,7 @@ class Solidocs_Db
 			return $output;
 		}
 		
+		// Escape string
 		return mysql_real_escape_string($input);
 	}
 	
@@ -171,6 +174,7 @@ class Solidocs_Db
 	 * @return object
 	 */
 	public function run(){
+		// Setup all the variables
 		$this->last_success		= $this->query($this->query);
 		$this->affected_rows	= mysql_affected_rows($this->link);
 		$this->insert_id		= mysql_insert_id($this->link);
@@ -178,10 +182,12 @@ class Solidocs_Db
 		$this->first_where		= true;
 		$this->last_query		= $this->query;
 		
+		// Affected rows
 		if($this->affected_rows < 0){
 			$this->affected_rows = 0;
 		}
 		
+		// Success
 		if(!$this->last_success){
 			$success = 'no';
 		}
@@ -189,12 +195,14 @@ class Solidocs_Db
 			$success = 'yes';
 		}
 		
+		// Log
 		$this->queries[] = array(
 			'query'		=> $this->query,
 			'success'	=> $success,
 			'rows'		=> $this->affected_rows
 		);
 		
+		// Empty query
 		$this->query = '';
 		
 		return $this;
@@ -247,7 +255,9 @@ class Solidocs_Db
 	public function arr($key = '', $unset = false){
 		$arr = array();
 		
+		// Loop
 		while($item = $this->fetch_assoc()){
+			// Numeric key
 			if(is_numeric($key)){
 				if(!isset($i)){
 					$i = $key;
@@ -258,6 +268,7 @@ class Solidocs_Db
 				$i++;
 			}
 			elseif(!empty($key)){
+				// Field key
 				$arr[$item[$key]] = $item;
 				
 				if($unset){
@@ -265,6 +276,7 @@ class Solidocs_Db
 				}
 			}
 			else{
+				// No spcified key
 				$arr[] = $item;
 			}
 		}
@@ -335,11 +347,13 @@ class Solidocs_Db
 	 */
 	public function insert_into($table, $data, $escape = true){
 		if($escape){
+			// Loop and escape
 			foreach($data as $key => $val){
 				$data[$key] = $this->escape($val);
 			}
 		}
 		
+		// Add to query
 		$this->query .= 'INSERT INTO ' . $this->_table($table) . ' (`' . implode('`,`', array_keys($data)) . '`) VALUES("' . implode('","', $data) . '")';
 		
 		return $this;
@@ -356,14 +370,17 @@ class Solidocs_Db
 	public function update_set($table, $data, $escape = true){
 		$this->query .= 'UPDATE ' . $this->_table($table) . ' SET ';
 		
+		// Loop data
 		foreach($data as $key => $val){
 			if($escape){
 				$val = $this->escape($val);
 			}
 			
+			// Add to query
 			$this->query .= '`' . $key . '` = "' . $val . '", ';
 		}
 		
+		// Trim last comma
 		$this->query = trim($this->query, ', ') . ' ';
 		
 		return $this;
@@ -481,30 +498,38 @@ class Solidocs_Db
 		
 		$last_is_array = false;
 		
+		// Loop args
 		foreach($args as $key => $val){
 			$val = $this->escape($val);
 			
+			// Array with conditions
 			if(is_array($val)){
 				$last_is_array = true;
 				
+				// Wrap with parenthesis
 				$this->query .= '(';
 				
+				// Loop and add
 				foreach($val as $block_val){
 					$this->query .= $this->_fields($key) . ' ' . $this->_comparison_val($block_val) . ' ' . $block_separator . ' ';
 				}
 				
+				// Remove the last piece of the query
 				$this->query = substr($this->query, 0, strlen($this->query) - strlen($block_separator) - 1);
 				
+				// End wrap
 				$this->query .= ')';
 			}
 			else{
 				$last_is_array = false;
 				
+				// Add regular condition
 				$this->query .= $this->_fields($key) . ' ' . $this->_comparison_val($val) . ' ' . $separator . ' ';
 			}
 		}
 		
 		if(!$last_is_array){
+			// Remove the last part if the last argument was an array
 			$this->query = substr($this->query, 0, strlen($this->query) - strlen($separator) - 1);
 		}
 		
@@ -561,11 +586,13 @@ class Solidocs_Db
 	public function _comparison_val($val){
 		$comparison = '=';
 		
+		// Like
 		if(substr($val, 0, 4) == 'LIKE'){
 			$comparison = 'LIKE';
 			$val		= substr($val, 5);
 		}
 		elseif(substr($val, 0, 1) == '>' OR substr($val, 0, 1) == '<'){
+			// Comparison operators
 			return substr($val, 0, 1) . ' ' . substr($val, 2);
 		}
 		
@@ -593,20 +620,24 @@ class Solidocs_Db
 	 * @return string
 	 */
 	public function _fields($fields){
+		// All fields
 		if($fields == '*' OR empty($fields)){
 			return '*';
 		}
 		
+		// Array of fields
 		if(!is_array($fields)){
 			$fields = explode(',', $fields);
 		}
 		
+		// Fields without dots
 		if(!strpos(implode('', $fields), '.')){
 			foreach($fields as $key => $val){
 				$fields[$key] = '`' . $val . '`';
 			}
 		}
 		
+		// Return comma separated fields
 		return implode(',', $fields);
 	}
 	
@@ -616,10 +647,12 @@ class Solidocs_Db
 	 * @return array
 	 */
 	public function get_tables(){
+		// Get tables
 		$this->sql('SHOW TABLES IN `' . $this->database . '`')->run();
 		
 		$tables = array();
 		
+		// Loop and add table to array
 		while($item = $this->fetch_assoc()){
 			$tables[] = $item['Tables_in_' . $this->database];
 		}
