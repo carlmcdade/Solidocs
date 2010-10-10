@@ -326,7 +326,7 @@ class Solidocs_Load extends Solidocs_Base
 	 * @param array
 	 */
 	public function models($models){
-		if(!is_array($libraries)){
+		if(!is_array($models)){
 			return false;
 		}
 		

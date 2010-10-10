@@ -7,7 +7,7 @@
  *
  * @package		Solidocs
  * @author		Karl Roos <karlroos93@gmail.com>
- * @license		MIT License (http://www.opensource.org/licenses/mit-license.p
+ * @license		MIT License (http://www.opensource.org/licenses/mit-license.php
  */
 class Solidocs_Service_Gravatar extends Solidocs_Base
 {
