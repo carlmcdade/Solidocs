@@ -7,7 +7,7 @@
  *
  * @package		Solidocs
  * @author		Karl Roos <karlroos93@gmail.com>
- * @license		MIT License (http://www.opensource.org/licenses/mit-license.p
+ * @license		MIT License (http://www.opensource.org/licenses/mit-license.php
  */
 class Solidocs_Application extends Solidocs_Base
 {
@@ -34,6 +34,11 @@ class Solidocs_Application extends Solidocs_Base
 			Solidocs::do_action('pre_libraries');
 			$this->setup_libraries();
 			Solidocs::do_action('post_libraries');
+			
+			// Setup models
+			Solidocs::do_action('pre_models');
+			$this->setup_models();
+			Solidocs::do_action('post_models');
 			
 			// Check in cache
 			if(isset($this->cache) AND $this->cache->exists($this->router->request_uri)){
@@ -136,7 +141,14 @@ class Solidocs_Application extends Solidocs_Base
 	 * Setup libraries
 	 */
 	public function setup_libraries(){
-		$this->load->library($this->config->get('Autoload.libraries'));
+		$this->load->libraries($this->config->get('Autoload.libraries'));
+	}
+	
+	/**
+	 * Setup models
+	 */
+	public function setup_models(){
+		$this->load->models($this->config->get('Autoload.models'));
 	}
 	
 	/**

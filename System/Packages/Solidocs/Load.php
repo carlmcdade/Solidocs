@@ -7,7 +7,7 @@
  *
  * @package		Solidocs
  * @author		Karl Roos <karlroos93@gmail.com>
- * @license		MIT License (http://www.opensource.org/licenses/mit-license.p
+ * @license		MIT License (http://www.opensource.org/licenses/mit-license.php
  */
 class Solidocs_Load extends Solidocs_Base
 {
@@ -146,49 +146,26 @@ class Solidocs_Load extends Solidocs_Base
 	 *
 	 * @param string|array
 	 */
-	public function library($libraries){
-		if(!is_array($libraries)){
-			$libraries = explode(',', $libraries);
-		}
-		
-		foreach($libraries as $library){
-			$search = $this->search($library);
-			
-			if(is_array($search)){
-				if(!isset(Solidocs::$registry->$search['slug'])){
-					$config = array();
-					
-					if(is_object($this->config)){
-						$config = $this->config->get($library);
-					}
-					
-					Solidocs::$registry->$search['slug'] = new $search['class']($config);
-					
-					if(is_array($config)){
-						Solidocs::apply_config(Solidocs::$registry->$search['slug'], $config);
-					}
-				}
-			}
-			else{
-				throw new Exception('The library "' . $library . '" could not be loaded');
-			}
-		}
-	}
-	
-	/**
-	 * Get library
-	 *
-	 * @param string
-	 * @return object
-	 */
-	public function get_library($library){
+	public function library($library){
 		$search = $this->search($library);
-		
+			
 		if(is_array($search)){
-			return new $search['class'];
+		    if(!isset(Solidocs::$registry->$search['slug'])){
+		    	$config = array();
+		    	
+		    	if(is_object($this->config)){
+		    		$config = $this->config->get($library);
+		    	}
+		    	
+		    	Solidocs::$registry->$search['slug'] = new $search['class']($config);
+		    	
+		    	if(is_array($config)){
+		    		Solidocs::apply_config(Solidocs::$registry->$search['slug'], $config);
+		    	}
+		    }
 		}
 		else{
-			throw new Exception('The library "' . $library . '" could not be loaded');
+		    throw new Exception('The library "' . $library . '" could not be loaded');
 		}
 	}
 	
@@ -247,29 +224,7 @@ class Solidocs_Load extends Solidocs_Base
 			throw new Exception('Model "' . $class . '" could not be loaded');
 		}
 	}
-	
-	/**
-	 * Get model
-	 *
-	 * @param string
-	 * @param string	Optional.
-	 */
-	public function get_model($class, $package = null){
-		$search = $this->search($class, 'Model', $package);
 		
-		if(is_array($search)){
-			if(isset(Solidocs::$registry->model->$search['slug'])){
-				return true;
-			}
-			
-			include_once($search['path']);
-			return new $search['class'];
-		}
-		else{
-			throw new Exception('Model "' . $class . '" could not be loaded');
-		}
-	}
-	
 	/**
 	 * Helper
 	 *
@@ -347,6 +302,80 @@ class Solidocs_Load extends Solidocs_Base
 		}
 		else{
 			throw new Exception('View "' . $view . '" could not be loaded');
+		}
+	}
+	
+	/**
+	 * Libraries
+	 *
+	 * @param array
+	 */
+	public function libraries($libraries){
+		if(!is_array($libraries)){
+			return false;
+		}
+		
+		foreach($libraries as $library){
+			$this->library($library);
+		}
+	}
+	
+	/**
+	 * Models
+	 *
+	 * @param array
+	 */
+	public function models($models){
+		if(!is_array($libraries)){
+			return false;
+		}
+		
+		foreach($models as $model){
+			if(isset($model['package'])){
+				$this->model($model['model'], $model['package']);
+			}
+			else{
+				$this->model($model);
+			}
+		}
+	}
+	
+	/**
+	 * Get library
+	 *
+	 * @param string
+	 * @return object
+	 */
+	public function get_library($library){
+		$search = $this->search($library);
+		
+		if(is_array($search)){
+			return new $search['class'];
+		}
+		else{
+			throw new Exception('The library "' . $library . '" could not be loaded');
+		}
+	}
+	
+	/**
+	 * Get model
+	 *
+	 * @param string
+	 * @param string	Optional.
+	 */
+	public function get_model($class, $package = null){
+		$search = $this->search($class, 'Model', $package);
+		
+		if(is_array($search)){
+			if(isset(Solidocs::$registry->model->$search['slug'])){
+				return true;
+			}
+			
+			include_once($search['path']);
+			return new $search['class'];
+		}
+		else{
+			throw new Exception('Model "' . $class . '" could not be loaded');
 		}
 	}
 	
