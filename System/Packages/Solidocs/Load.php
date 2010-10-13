@@ -331,7 +331,7 @@ class Solidocs_Load extends Solidocs_Base
 		}
 		
 		foreach($models as $model){
-			if(isset($model['package'])){
+			if(is_array($model) AND isset($model['package'])){
 				$this->model($model['model'], $model['package']);
 			}
 			else{
