@@ -320,8 +320,12 @@ class Solidocs_Db
 	 * @param string	Optional.
 	 * @return object
 	 */
-	public function select_from($table, $fields = '*'){
-		$this->query .= 'SELECT ' . $this->_fields($fields) . ' FROM ' . $this->_table($table) . ' ';
+	public function select_from($table, $fields = '*', $before = ''){
+		if(!empty($before)){
+			$before = ' ' . $before;
+		}
+		
+		$this->query .= 'SELECT ' . $before . $this->_fields($fields) . ' FROM ' . $this->_table($table) . ' ';
 		
 		return $this;
 	}
