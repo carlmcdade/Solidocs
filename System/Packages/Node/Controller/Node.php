@@ -7,7 +7,7 @@
  *
  * @package		Node
  * @author		Karl Roos <karlroos93@gmail.com>
- * @license		MIT License (http://www.opensource.org/licenses/mit-license.p
+ * @license		MIT License (http://www.opensource.org/licenses/mit-license.php
  */
 class Node_Controller_Node extends Solidocs_Controller_Action
 {
@@ -41,6 +41,9 @@ class Node_Controller_Node extends Solidocs_Controller_Action
 		}
 		
 		Solidocs::do_action('node_page', $node);
+		
+		$this->theme->add_meta('keywords', $node->tags);
+		$this->theme->add_meta('description', $node->description);
 		
 		$this->theme->set_layout($node->layout);
 		$this->theme->add_title($node->title);

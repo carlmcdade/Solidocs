@@ -462,14 +462,14 @@ class Solidocs_Theme extends Solidocs_Base
 		
 		// Default meta description
 		if(!empty($this->default_description)){
-			if(!isset($this->meta['description'])){
+			if(!isset($this->meta['description']) OR empty($this->meta['description'])){
 				$this->add_meta('description', $this->default_description);
 			}
 		}
 		
 		// Default meta keywords
 		if(!empty($this->default_keywords)){
-			if(!isset($this->meta['keywords'])){
+			if(!isset($this->meta['keywords']) OR empty($this->meta['keywords'])){
 				$this->add_meta('keywords', $this->default_keywords);
 			}
 		}

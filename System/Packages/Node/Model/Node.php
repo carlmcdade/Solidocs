@@ -7,7 +7,7 @@
  *
  * @package		Node
  * @author		Karl Roos <karlroos93@gmail.com>
- * @license		MIT License (http://www.opensource.org/licenses/mit-license.p
+ * @license		MIT License (http://www.opensource.org/licenses/mit-license.php
  */
 class Node_Model_Node extends Solidocs_Base
 {
@@ -24,20 +24,7 @@ class Node_Model_Node extends Solidocs_Base
 			return false;
 		}
 		
-		$node = (object) $this->db->fetch_assoc();
-		
-		if(is_serialized($node->content)){
-			$node->content = unserialize($node->content);
-			
-			foreach($node->content as $key => $val){
-				if(!is_array($val)){
-					$node->$key = stripslashes($val);
-				}
-				else{
-					$node->$key = $val;
-				}
-			}
-		}
+		$node = $this->process_node($this->db->fetch_assoc());
 		
 		return Solidocs::apply_filter('node', $node);
 	}
@@ -57,7 +44,13 @@ class Node_Model_Node extends Solidocs_Base
 		
 		$this->db->order('node_id')->run();
 		
-		return Solidocs::apply_filter('nodes', $this->db->arr());
+		$nodes = array();
+		
+		while($node = $this->db->fetch_assoc()){
+			$nodes[] = $this->process_node($node);
+		}
+		
+		return Solidocs::apply_filter('nodes', $nodes);
 	}
 	
 	/**
@@ -115,15 +108,7 @@ class Node_Model_Node extends Solidocs_Base
 		
 		if($this->db->affected_rows()){
 			while($node = $this->db->fetch_assoc()){
-				$node = (object) $node;
-				
-				if(is_serialized($node->content)){
-					$node->content = unserialize($node->content);
-					
-					foreach($node->content as $key => $val){
-						$node->$key = $val;
-					}
-				}
+				$node = $this->process_node($node);
 				
 				$match = true;
 				
@@ -142,6 +127,31 @@ class Node_Model_Node extends Solidocs_Base
 		}
 		
 		return Solidocs::apply_filter('nodes', $nodes);
+	}
+	
+	/**
+	 * Process node
+	 *
+	 * @param array
+	 * @return object
+	 */
+	public function process_node($node){
+		$node = (object) $node;
+		
+		if(is_serialized($node->content)){
+			$node->content = unserialize($node->content);
+			
+			foreach($node->content as $key => $val){
+				if(!is_array($val)){
+					$node->$key = stripslashes($val);
+				}
+				else{
+					$node->$key = $val;
+				}
+			}
+		}
+		
+		return $node;
 	}
 	
 	/**
