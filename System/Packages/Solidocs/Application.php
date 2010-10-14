@@ -67,7 +67,8 @@ class Solidocs_Application extends Solidocs_Base
 			Solidocs::do_action('post_render');
 		}
 		catch(Exception $e){
-			ob_clean();
+			ob_end_clean();
+			
 			$this->dispatch_exception($e);
 		}
 	}
@@ -235,14 +236,19 @@ class Solidocs_Application extends Solidocs_Base
 	 * @param integer
 	 */
 	public function error_handler($errno, $string, $file, $line){
+		// Fix variables
 		$string	= str_replace(ROOT, '', strip_tags($string));
 		$file	= str_replace(ROOT, '', $file);
 		
+		// Log
 		Solidocs::$registry->errors[] = array(
 			'errno'		=> $errno,
 			'string'	=> $string,
 			'file'		=> $file,
 			'line'		=> $line
 		);
+		
+		// Throw exception
+		throw new Exception($string . ' in <strong>' . $file . '</strong> on line <strong>' . $line . '</strong>');
 	}
 }
