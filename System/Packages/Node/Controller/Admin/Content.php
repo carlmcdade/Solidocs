@@ -62,7 +62,8 @@ class Node_Controller_Admin_Content extends Solidocs_Controller_Action
 		}
 		
 		$form = new Node_Form_Edit(false);
-		$form->init($content_type_fields);
+		$form->set_content_type($content_type_fields);
+		$form->init();
 		
 		if($form->is_posted() AND $this->input->has_post()){
 			$form->set_values($_POST);

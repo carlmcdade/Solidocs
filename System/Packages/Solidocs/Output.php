@@ -75,7 +75,7 @@ class Solidocs_Output extends Solidocs_Base
 	 * @param string
 	 * @param array
 	 */
-	public function helper($method, $params){
+	public function helper($method, $params = ''){
 		if(!is_array($params) AND !empty($params)){
 			$params = array($params);
 		}

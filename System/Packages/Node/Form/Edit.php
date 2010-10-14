@@ -12,9 +12,25 @@
 class Node_Form_Edit extends Solidocs_Form
 {
 	/**
+	 * Content type
+	 */
+	public $content_type;
+
+	/**
+	 * Set content type
+	 *
+	 * @param bool|array
+	 */
+	public function set_content_type($content_type){
+		$this->content_type = $content_type;
+	}
+	
+	/**
 	 * Init
 	 */
-	public function init($content_type){
+	public function init(){
+		$content_type = $this->content_type;
+		
 		$this->load->model('Theme');
 		
 		$layouts = array();

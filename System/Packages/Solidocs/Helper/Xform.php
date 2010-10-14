@@ -18,6 +18,8 @@ class Solidocs_Helper_Xform extends Solidocs_Helper
 	 * @param array|bool
 	 */
 	public function item_list($name, $values = false, $extra = 5){
+		$output = '';
+		
 		if(is_array($values)){
 			foreach($values as $value){
 				$output .= $this->output->helper('form')->text($name . '[]', $value) . '<br />';
