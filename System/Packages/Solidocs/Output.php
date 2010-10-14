@@ -341,15 +341,19 @@ class Solidocs_Output extends Solidocs_Base
 		
 		// The rendering
 		if(is_object($this->theme) AND $this->use_theme()){
+			// Prepare theme and render views
 			$this->theme->prepare();
 			$this->render_content(true);
 			
+			// Render theme
 			echo $this->theme->render();
 		}
 		elseif($this->get_type() !== 'html'){
+			// Render data
 			echo $this->render_data($this->get_type(), $this->get_data());
 		}
 		else{
+			// Render plain content
 			echo $this->render_content();
 		}
 		
