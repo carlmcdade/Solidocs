@@ -62,4 +62,21 @@ class Node_Model_Content extends Solidocs_Base
 		
 		return $new_views;
 	}
+	
+	/**
+	 * Get categories
+	 *
+	 * @return array
+	 */
+	public function get_categories(){
+		$this->db->select_from('category')->run();
+		
+		$categories = array();
+		
+		while($item = $this->db->fetch_assoc()){
+			$categories[$item['category']] = $item['name'];
+		}
+		
+		return $categories;
+	}
 }

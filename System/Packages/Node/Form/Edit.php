@@ -95,7 +95,13 @@ class Node_Form_Edit extends Solidocs_Form
 		
 		$this->load->model('Content');
 		
-		$this->add_element('tags', array(
+		$categories = array_merge(array('' => 'Choose'), $this->model->content->get_categories());
+		
+		$this->add_element('category', array(
+			'type' => 'text',
+			'label' => 'Category',
+			'helper' => array('form/select', $categories)
+		))->add_element('tags', array(
 			'type' => 'text',
 			'label' => 'Tags',
 			'helper' => array('form/text')

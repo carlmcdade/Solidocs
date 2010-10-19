@@ -223,7 +223,7 @@ class Solidocs_Router
 			$values = array();
 		}
 		
-		if(is_array($defaults)){
+		if(isset($defaults) AND is_array($defaults)){
 			$values = array_merge($defaults, $values);
 		}
 		
